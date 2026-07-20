@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eiris - Premium Auto Accessories</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg bg-night-blue navbar-dark sticky-top shadow-sm py-3 border-bottom animate-slide-down" style="border-color: var(--eiris-night-blue-shadow) !important;">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold fs-3 text-sand-tan" href="index.html">
+                <div class="hover-rotate me-2">
+                    <i class="bi bi-car-front-fill" style="color: var(--eiris-sand-tan); font-size: 2rem;"></i>
+                </div>
+                <span style="letter-spacing: 1px;">Eiris</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#basic-navbar-nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="basic-navbar-nav">
+                <ul class="navbar-nav me-auto ms-4">
+                    <li class="nav-item">
+                        <a class="nav-link fs-5 text-white position-relative hover-underline" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fs-5 text-white position-relative hover-underline" href="agency-login.html">Agency Login</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-outline-light btn-secondary-custom ms-2 rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#adminLoginModal">
+                        Admin Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section py-5 min-vh-100 d-flex align-items-center">
+        <div class="container position-relative" style="z-index: 1;">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0 animate-slide-right">
+                    <span class="badge mb-3 p-2 rounded-pill bg-sand-tan px-3 text-night-blue-shadow shadow-sm" style="background-color: var(--eiris-sand-tan) !important;">
+                        New Arrival 2026
+                    </span>
+                    <h1 class="display-3 fw-bold mb-4">
+                        Light Up Your World with 
+                        <span class="text-sand-tan position-relative d-inline-block">
+                            Eiris
+                            <div class="position-absolute bottom-0 start-0 bg-sand-tan w-100 animate-expand-width" style="height: 4px; border-radius: 2px; opacity: 0.5;"></div>
+                        </span>
+                    </h1>
+                    <p class="lead mb-4 opacity-75 pe-lg-5 fs-4">
+                        Discover our premium range of Car Accessories, LED Lights, and Smart Home solutions. Designed for performance, built for life.
+                    </p>
+                    <div class="d-flex gap-3 mt-5">
+                        <button class="btn btn-lg btn-secondary-custom rounded-pill px-4 py-3 shadow-custom d-flex align-items-center">
+                            Shop Now <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                        <button class="btn btn-lg btn-outline-light rounded-pill px-4 py-3">
+                            View Catalog
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 animate-pop-in-rotate position-relative">
+                    <div class="glass-panel p-2 shadow-custom overflow-hidden" style="border-radius: 24px;">
+                        <!-- Adjusted the path for static HTML (assuming eiris-app/public structure initially) -->
+                        <div class="bg-dark rounded d-flex align-items-center justify-content-center text-muted" style="width: 100%; height: 450px;">
+                            <i class="bi bi-image" style="font-size: 4rem;"></i>
+                            <span class="ms-3">Featured Image (LED Headlight)</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating Elements -->
+                    <div class="position-absolute bg-sand-tan rounded-circle d-flex align-items-center justify-content-center shadow animate-float-1" style="width: 80px; height: 80px; top: -20px; right: -20px;">
+                        <i class="bi bi-star-fill text-night-blue-shadow" style="font-size: 2rem;"></i>
+                    </div>
+                    
+                    <div class="position-absolute bg-white rounded p-3 shadow-custom d-flex align-items-center gap-3 animate-float-2" style="bottom: -30px; left: -30px;">
+                        <div class="bg-night-blue rounded-circle p-2 text-sand-tan d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="bi bi-lightning-fill"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold text-night-blue-shadow">High Performance</div>
+                            <div class="small text-muted">Premium Quality Guaranteed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5 bg-white position-relative">
+        <div class="container py-5">
+            <div class="row g-4">
+                <!-- Feature 1 -->
+                <div class="col-md-4">
+                    <div class="text-center p-5 border rounded-4 h-100 shadow-sm bg-light feature-card animate-fade-in-up delay-100">
+                        <div class="mb-4">
+                            <i class="bi bi-star-fill text-sand-tan" style="font-size: 40px;"></i>
+                        </div>
+                        <h4 class="fw-bold text-night-blue-shadow mb-3">Premium Quality</h4>
+                        <p class="text-muted mb-0">Sourced from the best manufacturers ensuring top-notch durability.</p>
+                    </div>
+                </div>
+                <!-- Feature 2 -->
+                <div class="col-md-4">
+                    <div class="text-center p-5 border rounded-4 h-100 shadow-sm bg-light feature-card animate-fade-in-up delay-200">
+                        <div class="mb-4">
+                            <i class="bi bi-shield-fill-check text-sand-tan" style="font-size: 40px;"></i>
+                        </div>
+                        <h4 class="fw-bold text-night-blue-shadow mb-3">Trusted Warranty</h4>
+                        <p class="text-muted mb-0">100% replacement guarantee on selected lighting products.</p>
+                    </div>
+                </div>
+                <!-- Feature 3 -->
+                <div class="col-md-4">
+                    <div class="text-center p-5 border rounded-4 h-100 shadow-sm bg-light feature-card animate-fade-in-up delay-300">
+                        <div class="mb-4">
+                            <i class="bi bi-lightning-fill text-sand-tan" style="font-size: 40px;"></i>
+                        </div>
+                        <h4 class="fw-bold text-night-blue-shadow mb-3">Energy Efficient</h4>
+                        <p class="text-muted mb-0">Save up to 80% on electricity bills with our LED solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-5 position-relative" style="background-color: var(--eiris-light);">
+        <div class="container py-5">
+            <div class="text-center mb-5 animate-fade-in-up delay-100">
+                <h2 class="display-4 fw-bold text-night-blue-shadow">Our Products</h2>
+                <div class="mx-auto bg-sand-tan mt-3" style="width: 100px; height: 6px; border-radius: 3px;"></div>
+                <p class="text-muted mt-4 fs-5 mx-auto" style="max-width: 600px;">
+                    Explore our wide range of premium quality products designed for durability and performance.
+                </p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Product 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="h-100 animate-fade-in-up delay-200">
+                        <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                            <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                <div class="d-flex h-100 justify-content-center align-items-center text-muted">No Image</div>
+                                <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">Lighting</span>
+                            </div>
+                            <div class="card-body d-flex flex-column p-4">
+                                <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">LED Headlight X1</h5>
+                                <p class="card-text text-muted small flex-grow-1">Premium quality product from Eiris. Durable and reliable.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fw-bold fs-5 text-sand-tan-shadow">₹1299</span>
+                                    <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="h-100 animate-fade-in-up delay-300">
+                        <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                            <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                <div class="d-flex h-100 justify-content-center align-items-center text-muted">No Image</div>
+                                <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">Accessories</span>
+                            </div>
+                            <div class="card-body d-flex flex-column p-4">
+                                <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">Premium Floor Mats</h5>
+                                <p class="card-text text-muted small flex-grow-1">Premium quality product from Eiris. Durable and reliable.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fw-bold fs-5 text-sand-tan-shadow">₹899</span>
+                                    <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="h-100 animate-fade-in-up delay-400">
+                        <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                            <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                <div class="d-flex h-100 justify-content-center align-items-center text-muted">No Image</div>
+                                <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">Smart Home</span>
+                            </div>
+                            <div class="card-body d-flex flex-column p-4">
+                                <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">Smart Fan Regulator</h5>
+                                <p class="card-text text-muted small flex-grow-1">Premium quality product from Eiris. Durable and reliable.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fw-bold fs-5 text-sand-tan-shadow">₹499</span>
+                                    <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5 pt-4">
+                <button class="btn btn-lg btn-primary-custom rounded-pill px-5 py-3 fs-5 shadow-custom">
+                    View All Products
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-night-blue-shadow text-white pt-5 pb-3" style="background-color: var(--eiris-night-blue-shadow);">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h4 class="text-sand-tan fw-bold mb-3">Eiris</h4>
+                    <p class="text-light opacity-75">
+                        Premium automotive and lighting solutions. 
+                        Bringing you the best quality car accessories, LED lights, and fan regulators.
+                    </p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3 text-sand-tan">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-white text-decoration-none opacity-75 custom-hover">Home</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none opacity-75 custom-hover">Products</a></li>
+                        <li class="mb-2"><a href="agency-login.html" class="text-white text-decoration-none opacity-75 custom-hover">Agency Portal</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none opacity-75 custom-hover">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3 text-sand-tan">Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="bi bi-geo-alt-fill me-2 text-sand-tan flex-shrink-0" style="font-size: 20px;"></i>
+                            <span class="opacity-75">123 Eiris Avenue, Business Park, Tech City 10001</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-telephone-fill me-2 text-sand-tan flex-shrink-0" style="font-size: 20px;"></i>
+                            <span class="opacity-75">+1 (800) 123-4567</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-envelope-fill me-2 text-sand-tan flex-shrink-0" style="font-size: 20px;"></i>
+                            <span class="opacity-75">support@eiris.co.in</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-light opacity-25" />
+            <div class="row">
+                <div class="col text-center opacity-75">
+                    <small>&copy; 2026 Eiris. All Rights Reserved.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Login Modal -->
+    <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-labelledby="adminLoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header bg-night-blue text-white rounded-top-4 border-0">
+                    <h5 class="modal-title fw-bold" id="adminLoginModalLabel">Admin Portal Login</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form action="admin-dashboard.html">
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-bold">Admin Email</label>
+                            <input type="email" class="form-control" placeholder="admin@eiris.com" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-muted fw-bold">Password</label>
+                            <input type="password" class="form-control" placeholder="Enter password" required>
+                        </div>
+                        <button type="submit" class="btn btn-secondary-custom rounded-pill w-100 py-2 fw-bold">Login as Admin</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+</body>
+</html>

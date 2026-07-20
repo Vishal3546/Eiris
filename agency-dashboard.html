@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eiris - Agency Dashboard</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+    <div class="d-flex min-vh-100 bg-light">
+        <!-- Sidebar -->
+        <div class="text-white position-relative animate-slide-right" style="width: 280px; background-color: var(--eiris-night-blue-shadow);">
+            <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
+                <i class="bi bi-shield-fill-exclamation text-sand-tan me-2" style="font-size: 30px;"></i>
+                <h4 class="mb-0 fw-bold text-sand-tan">Agency Portal</h4>
+            </div>
+            <ul class="nav flex-column p-3 gap-2">
+                <li class="nav-item">
+                    <a href="agency-dashboard.html" class="nav-link d-flex align-items-center p-3 rounded text-white opacity-75 custom-hover" style="transition: all 0.2s;">
+                        <i class="bi bi-grid-1x2-fill me-3" style="font-size: 20px;"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="agency-purchase.html" class="nav-link d-flex align-items-center p-3 rounded text-white opacity-75 custom-hover" style="transition: all 0.2s;">
+                        <i class="bi bi-cart-fill me-3" style="font-size: 20px;"></i> Buy Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="agency-stocks.html" class="nav-link d-flex align-items-center p-3 rounded text-white opacity-75 custom-hover" style="transition: all 0.2s;">
+                        <i class="bi bi-box-seam-fill me-3" style="font-size: 20px;"></i> My Stocks
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="agency-sales.html" class="nav-link d-flex align-items-center p-3 rounded text-white opacity-75 custom-hover" style="transition: all 0.2s;">
+                        <i class="bi bi-graph-up-arrow me-3" style="font-size: 20px;"></i> Sales
+                    </a>
+                </li>
+            </ul>
+            <div class="p-4 mt-auto position-absolute bottom-0 w-100" style="max-width: 280px;">
+                <a href="index.html" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center border-opacity-25">
+                    <i class="bi bi-box-arrow-right me-2" style="font-size: 18px;"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-grow-1 d-flex flex-column" style="overflow-y: auto; height: 100vh;">
+            <nav class="navbar navbar-expand-lg bg-white border-bottom px-4 py-3 shadow-sm animate-slide-down">
+                <div class="container-fluid">
+                    <div class="ms-auto d-flex align-items-center gap-3">
+                        <span class="text-muted">Agency: <strong class="text-night-blue">AutoTech Distributors</strong></span>
+                        <div class="text-white fw-bold rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="background-color: var(--eiris-sand-tan-shadow); width: 40px; height: 40px;">
+                            AG
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="p-4 flex-grow-1 animate-fade-in-up">
+                <h3 class="fw-bold text-night-blue-shadow mb-4">Dashboard Overview</h3>
+                
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4 d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3 text-primary">
+                                    <i class="bi bi-currency-rupee fs-3"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted mb-0 small fw-bold text-uppercase">Total Sales</p>
+                                    <h4 class="mb-0 fw-bold">₹1,24,500</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4 d-flex align-items-center">
+                                <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3 text-success">
+                                    <i class="bi bi-cart-check fs-3"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted mb-0 small fw-bold text-uppercase">Recent Purchases</p>
+                                    <h4 class="mb-0 fw-bold">42 Items</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4 d-flex align-items-center">
+                                <div class="bg-warning bg-opacity-10 rounded-circle p-3 me-3 text-warning">
+                                    <i class="bi bi-box-seam fs-3"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted mb-0 small fw-bold text-uppercase">Total Stock</p>
+                                    <h4 class="mb-0 fw-bold">850 Units</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4 d-flex align-items-center">
+                                <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3 text-info">
+                                    <i class="bi bi-graph-up-arrow fs-3"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted mb-0 small fw-bold text-uppercase">Growth</p>
+                                    <h4 class="mb-0 fw-bold text-success">+12.5%</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Table -->
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-header bg-white border-bottom p-4">
+                        <h5 class="mb-0 fw-bold text-night-blue-shadow">Recent Stock Movements</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="ps-4">Item</th>
+                                        <th>Action</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="ps-4 fw-bold">LED Headlight X1</td>
+                                        <td><span class="text-success"><i class="bi bi-arrow-down-left"></i> Purchased (500 units)</span></td>
+                                        <td>Today, 10:30 AM</td>
+                                        <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-4 fw-bold">Premium Floor Mats</td>
+                                        <td><span class="text-danger"><i class="bi bi-arrow-up-right"></i> Sold (5 units)</span></td>
+                                        <td>Yesterday, 4:15 PM</td>
+                                        <td><span class="badge bg-success">Completed</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+</body>
+</html>
