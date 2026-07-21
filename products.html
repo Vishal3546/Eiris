@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -52,6 +52,11 @@
                     <li class="nav-item"><a class="nav-link text-white position-relative hover-underline" href="agency-login.html">Agency Login</a></li>
                     <li class="nav-item"><a class="nav-link text-white position-relative hover-underline" href="contact-us.html">Contact Us</a></li>
                 </ul>
+                <div class="d-flex">
+                    <button class="btn btn-sm btn-outline-light btn-secondary-custom ms-2 rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#adminLoginModal">
+                        Admin Login
+                    </button>
+                </div>
             </div>
         </div>
     </nav>    <!-- Page Header -->
@@ -448,6 +453,32 @@
             </div>
         </div>
     </footer>
+
+    <!-- Admin Login Modal -->
+    <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-labelledby="adminLoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header bg-night-blue text-white rounded-top-4 border-0">
+                    <h5 class="modal-title fw-bold" id="adminLoginModalLabel">Admin Portal Login</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form action="admin-dashboard.html">
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-bold">Admin Email</label>
+                            <input type="email" class="form-control" placeholder="admin@eiris.com" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-muted fw-bold">Password</label>
+                            <input type="password" class="form-control" placeholder="Enter password" required>
+                        </div>
+                        <button type="submit" class="btn btn-secondary-custom rounded-pill w-100 py-2 fw-bold">Login as Admin</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/script.js"></script>
 </body>
