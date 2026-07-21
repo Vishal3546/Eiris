@@ -279,3 +279,27 @@ body {
   border-color: var(--eiris-sand-tan) !important;
   box-shadow: 0 4px 12px rgba(225, 179, 130, 0.6);
 }
+
+/* Tracking */
+.tracking-wider {
+  letter-spacing: 2px;
+}
+
+/* Marquee Animation */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-content {
+  display: inline-block;
+  animation: marquee 25s linear infinite;
+}
+.marquee-item {
+  display: inline-block;
+  padding: 0 2.5rem;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}

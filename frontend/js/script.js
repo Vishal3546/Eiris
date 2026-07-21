@@ -54,4 +54,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // 3. Counter Animation for Statistics
+    const counterElements = document.querySelectorAll('.counter');
+    const counterObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = entry.target;
+                const targetValue = parseInt(target.getAttribute('data-target'));
+                const duration = 2000; // 2 seconds
+                const increment = targetValue / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < targetValue) {
+                        target.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        target.innerText = targetValue;
+                    }
+                };
+                
+                updateCounter();
+                obs.unobserve(target);
+            }
+        });
+    }, observerOptions);
+    
+    counterElements.forEach(el => counterObserver.observe(el));
+
 });
