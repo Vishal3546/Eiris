@@ -31,6 +31,10 @@ body {
   background-color: var(--eiris-sand-tan) !important;
 }
 
+.bg-sand-tan1 {
+  background-color: #3b8533;
+}
+
 .text-sand-tan {
   color: var(--eiris-sand-tan) !important;
 }
