@@ -1,0 +1,50 @@
+﻿{
+    "Car Accessories":  [
+                            {
+                                "img":  "https://eiris.co.in/wp-content/uploads/2025/06/FMBT-Player-1.jpg",
+                                "title":  "Cars Product Lists."
+                            },
+                            {
+                                "img":  "https://eiris.co.in/wp-content/uploads/2025/06/Double-Knob-player-1.jpg",
+                                "title":  "\u003cstrong\u003eFM BT PLAYER\u003c/strong\u003e"
+                            },
+                            {
+                                "img":  "https://eiris.co.in/wp-content/uploads/2025/06/cameras.jpg",
+                                "title":  "FMBT Player Radio"
+                            }
+                        ],
+    "LED Bulbs":  [
+
+                  ],
+    "Fan Regulator":  [
+                          {
+                              "img":  "https://eiris.co.in/wp-content/uploads/2025/06/regulator.jpg",
+                              "title":  "Available Fan Regulators \u003cbr /\u003eAccessories."
+                          },
+                          {
+                              "img":  "https://eiris.co.in/wp-content/uploads/2025/06/regulator-1.jpg",
+                              "title":  "Fan Regulators Lists."
+                          },
+                          {
+                              "img":  "https://eiris.co.in/wp-content/uploads/2025/06/regulator-2.jpg",
+                              "title":  "Fan Regulators Guaranteed"
+                          }
+                      ],
+    "LED Lights":  [
+                       {
+                           "img":  "https://eiris.co.in/wp-content/uploads/2025/07/K-LIGHT-PC.jpg",
+                           "title":  "Available LED Lights\u003cbr /\u003eAccessories."
+                       },
+                       {
+                           "img":  "https://eiris.co.in/wp-content/uploads/2025/07/EYELIT-PC.jpg",
+                           "title":  "K Light"
+                       },
+                       {
+                           "img":  "https://eiris.co.in/wp-content/uploads/2025/07/Ball-PC.jpg",
+                           "title":  "Eyelit"
+                       }
+                   ],
+    "LED Emergency Bulbs":  [
+
+                            ]
+}

@@ -28,7 +28,7 @@ $header = @"
             border-color: var(--eiris-sage-green);
         }
         .custom-tabs .nav-link.active {
-            background-color: rgba(156, 176, 128, 0.15); /* light sage background */
+            background-color: rgba(156, 176, 128, 0.15);
             border: 1px solid var(--eiris-sage-green);
             color: var(--eiris-sage-green);
         }
@@ -113,22 +113,26 @@ $footer = @"
 
 $categories = @{
     "pane-car-acc" = @(
-        @{ title="Simple Electronics Starter (ST-2)"; img="https://eiris.co.in/wp-content/uploads/2025/06/Simple-Electronics-Starter-ST-2.jpg"; badge="Starter" }
+        @{ title="FMBT Player Radio"; img="https://eiris.co.in/wp-content/uploads/2025/06/FMBT-Player-1.jpg"; badge="Car Accessories"; specs=@("High Quality Audio", "Bluetooth 5.0", "FM Radio Support") },
+        @{ title="Double Knob Player"; img="https://eiris.co.in/wp-content/uploads/2025/06/Double-Knob-player-1.jpg"; badge="Car Accessories"; specs=@("Double Knob Control", "USB & SD Card Support", "LCD Display") },
+        @{ title="Rear View Cameras"; img="https://eiris.co.in/wp-content/uploads/2025/06/cameras.jpg"; badge="Car Accessories"; specs=@("Night Vision", "Wide Angle Lens", "Waterproof Design") }
     )
     "pane-led-lights" = @(
-        @{ title="Simple Electronics Starter (ST-3)"; img="https://eiris.co.in/wp-content/uploads/2025/06/Simple-Electronics-Starter-ST-3.jpg"; badge="Starter" },
-        @{ title="Digital Electronics Starter (SD-2)"; img="https://eiris.co.in/wp-content/uploads/2025/06/Digital-Electronics-Starter-SD-2.jpg"; badge="Digital" }
+        @{ title="K Light"; img="https://eiris.co.in/wp-content/uploads/2025/07/K-LIGHT-PC.jpg"; badge="LED Lights"; specs=@("High Lumens", "Energy Efficient", "Long Lifespan") },
+        @{ title="Eyelit"; img="https://eiris.co.in/wp-content/uploads/2025/07/EYELIT-PC.jpg"; badge="LED Lights"; specs=@("Premium Design", "Super Bright", "Easy Installation") },
+        @{ title="Ball PC"; img="https://eiris.co.in/wp-content/uploads/2025/07/Ball-PC.jpg"; badge="LED Lights"; specs=@("Durable Casing", "Flicker-Free", "Warm White") }
     )
     "pane-fan-reg" = @(
-        @{ title="Simple Electronics Starter (ST-4)"; img="https://eiris.co.in/wp-content/uploads/2025/06/Simple-Electronics-Starter-ST-4.jpg"; badge="Starter" },
-        @{ title="Simple Water Level Controller (LLC4)"; img="https://eiris.co.in/wp-content/uploads/2025/06/Simple-Water-Level-Controller-LLC4.jpg"; badge="Controller" }
+        @{ title="Step Fan Regulator"; img="https://eiris.co.in/wp-content/uploads/2025/06/regulator.jpg"; badge="Fan Regulator"; specs=@("4-Step Control", "Hum-Free", "Polycarbonate Body") },
+        @{ title="Mini Fan Regulator"; img="https://eiris.co.in/wp-content/uploads/2025/06/regulator-1.jpg"; badge="Fan Regulator"; specs=@("Compact Design", "Smooth Operation", "ISI Certified") },
+        @{ title="Premium Fan Regulator"; img="https://eiris.co.in/wp-content/uploads/2025/06/regulator-2.jpg"; badge="Fan Regulator"; specs=@("High Load Capacity", "Flame Retardant", "Modern Aesthetics") }
     )
     "pane-led-bulbs" = @(
-        @{ title="Simple ELCB + MCB (EL-2)"; img="https://eiris.co.in/wp-content/uploads/2025/06/Simple-ELCB-MCB-EL-2.jpg"; badge="ELCB" },
-        @{ title="Digital ELCB (ELD-2)"; img="https://eiris.co.in/wp-content/uploads/2025/06/Digital-ELCB-ELD-2.jpg"; badge="Digital ELCB" }
+        @{ title="LED Bulb 9W"; img="https://eiris.co.in/wp-content/uploads/2025/07/EYELIT-PC.jpg"; badge="LED Bulbs"; specs=@("9 Watt Power", "B22 Base", "Cool Daylight") },
+        @{ title="LED Bulb 12W"; img="https://eiris.co.in/wp-content/uploads/2025/07/Ball-PC.jpg"; badge="LED Bulbs"; specs=@("12 Watt Power", "Energy Saving", "Wide Beam Angle") }
     )
     "pane-led-emerg" = @(
-        @{ title="RCCB (RCCB-1)"; img="https://eiris.co.in/wp-content/uploads/2025/06/Simple-ELCB-EL-1.jpg"; badge="RCCB" }
+        @{ title="Emergency LED 9W"; img="https://eiris.co.in/wp-content/uploads/2025/07/K-LIGHT-PC.jpg"; badge="Emergency"; specs=@("Battery Backup", "Automatic ON", "Rechargeable") }
     )
 }
 
@@ -180,6 +184,11 @@ foreach ($pane in @("pane-car-acc", "pane-led-lights", "pane-fan-reg", "pane-led
         $t = $p.title
         $im = $p.img
         $b = $p.badge
+        $specsHtml = ""
+        foreach ($spec in $p.specs) {
+            $specsHtml += "<li>$spec</li>`n"
+        }
+        
         $middle += @"
                         <!-- Product $i -->
                         <div class="col-md-6 col-lg-4">
@@ -193,14 +202,7 @@ foreach ($pane in @("pane-car-acc", "pane-led-lights", "pane-fan-reg", "pane-led
                                         <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">$t</h5>
                                         <div class="collapse" id="detailsProductPage$i">
                                             <ul class="text-start small text-dark mb-0 ps-3 mt-2">
-                                                <li>Input Supply – 230V AC/50Hz</li>
-                                                <li>Output Voltage – 230V</li>
-                                                <li>High Voltage Protection – 300V</li>
-                                                <li>Low Voltage Protection – 150V</li>
-                                                <li>Amp Protection – 4 to 24 Amp</li>
-                                                <li>LED Indication</li>
-                                                <li>Load setting by POT</li>
-                                                <li>Auto/Manual Mode</li>
+                                                $specsHtml
                                             </ul>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
