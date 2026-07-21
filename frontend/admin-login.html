@@ -46,19 +46,25 @@
                     </div>
                 </div>
                 <div class="col-md-7 p-5">
-                    <h3 class="fw-bold text-night-blue-shadow mb-4">Welcome Back Admin!</h3>
-                    <p class="text-muted mb-4">Please enter your admin credentials to access the portal.</p>
+                    <h3 class="fw-bold text-night-blue-shadow mb-4" id="formTitle">Welcome Back Admin!</h3>
+                    <p class="text-muted mb-4" id="formSubtitle">Please enter your admin credentials to access the portal.</p>
 
-                    <form action="admin-dashboard.html">
+                    <form id="loginFormElement">
                         <div class="mb-3">
                             <label class="form-label fw-bold text-night-blue-shadow">Email Id</label>
-                            <input type="email" class="form-control form-control-lg bg-light border-0"
+                            <input type="email" id="adminEmail" class="form-control form-control-lg bg-light border-0"
                                 placeholder="admin@eiris.com" required>
                         </div>
                         <div class="mb-4">
                             <label class="form-label fw-bold text-night-blue-shadow">Password</label>
-                            <input type="password" class="form-control form-control-lg bg-light border-0"
-                                placeholder="Enter your password" required>
+                            <div class="input-group">
+                                <input type="password" id="adminPassword" class="form-control form-control-lg bg-light border-0"
+                                    placeholder="Enter your password" required>
+                                <button class="btn bg-light border-0 text-secondary px-3" type="button" onclick="togglePasswordVisibility('adminPassword', 'eyeIcon')">
+                                    <i class="bi bi-eye-slash" id="eyeIcon"></i>
+                                </button>
+                            </div>
+                            <div id="loginErrorMsg" class="text-danger small fw-bold mt-2 d-none">Invalid Credentials</div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div class="form-check">
@@ -67,10 +73,29 @@
                                     Remember me
                                 </label>
                             </div>
+                            <a href="#" onclick="showForgotPassword(event)" class="text-decoration-none small fw-bold text-primary">Forgot Password?</a>
                         </div>
-                        <button type="submit"
+                        <button type="button" id="loginBtn" onclick="handleAdminLogin()"
                             class="btn btn-secondary-custom btn-lg rounded-pill w-100 shadow-sm fw-bold">Login to
                             Dashboard</button>
+                    </form>
+
+                    <!-- Forgot Password Form -->
+                    <form id="forgotPasswordForm" class="d-none">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-night-blue-shadow">Registered Email Id</label>
+                            <input type="email" id="forgotEmail" class="form-control form-control-lg bg-light border-0"
+                                placeholder="admin@eiris.com" required>
+                            <div id="forgotErrorMsg" class="text-danger small fw-bold mt-2 d-none">Error message here</div>
+                            <div id="forgotSuccessMsg" class="text-success small fw-bold mt-2 d-none">Success message here</div>
+                        </div>
+                        <button type="button" id="forgotBtn" onclick="handleForgotPassword()"
+                            class="btn btn-primary btn-lg rounded-pill w-100 shadow-sm fw-bold mb-3">Send Reset Link</button>
+                        <div class="text-center">
+                            <a href="#" onclick="showLogin(event)" class="text-decoration-none small fw-bold text-secondary">
+                                <i class="bi bi-arrow-left"></i> Back to Login
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -79,8 +104,145 @@
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Axios and API Service -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/apiService.js"></script>
+
     <!-- Custom JS -->
     <script src="js/script.js"></script>
+
+    <!-- Login & Forgot Password Logic -->
+    <script>
+        // Remember Me Logic (On Load)
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedEmail = localStorage.getItem('rememberedAdminEmail');
+            if (savedEmail) {
+                document.getElementById('adminEmail').value = savedEmail;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+
+        function showForgotPassword(e) {
+            if (e) e.preventDefault();
+            document.getElementById('loginFormElement').classList.add('d-none');
+            document.getElementById('forgotPasswordForm').classList.remove('d-none');
+            document.getElementById('formTitle').textContent = 'Reset Password';
+            document.getElementById('formSubtitle').textContent = 'Enter your email to receive a password reset link.';
+        }
+
+        function showLogin(e) {
+            if (e) e.preventDefault();
+            document.getElementById('forgotPasswordForm').classList.add('d-none');
+            document.getElementById('loginFormElement').classList.remove('d-none');
+            document.getElementById('formTitle').textContent = 'Welcome Back Admin!';
+            document.getElementById('formSubtitle').textContent = 'Please enter your admin credentials to access the portal.';
+        }
+
+        function togglePasswordVisibility(inputId, iconId) {
+            const passwordInput = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(iconId);
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('bi-eye-slash');
+                eyeIcon.classList.add('bi-eye');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('bi-eye');
+                eyeIcon.classList.add('bi-eye-slash');
+            }
+        }
+
+        async function handleAdminLogin() {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('loginErrorMsg');
+
+            // Hide error initially
+            errorMsg.classList.add('d-none');
+
+            if (!email || !password) {
+                errorMsg.textContent = "Please enter both email and password.";
+                errorMsg.classList.remove('d-none');
+                return;
+            }
+
+            // Show loading state
+            const originalBtnText = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Logging in...';
+            loginBtn.disabled = true;
+
+            try {
+                // Call the API service login function
+                const response = await authService.login(email, password);
+                const user = response.user;
+
+                // Strict Admin check
+                if (user.role === 'ADMIN') {
+                    // Handle Remember Me
+                    if (rememberMe) {
+                        localStorage.setItem('rememberedAdminEmail', email);
+                    } else {
+                        localStorage.removeItem('rememberedAdminEmail');
+                    }
+                    
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    errorMsg.textContent = "Access Denied: You do not have Admin privileges.";
+                    errorMsg.classList.remove('d-none');
+                    authService.logout();
+                }
+
+            } catch (error) {
+                errorMsg.classList.remove('d-none');
+                
+                if (error.response && error.response.status === 401) {
+                    errorMsg.textContent = "Invalid Credentials";
+                } else {
+                    errorMsg.textContent = "An error occurred during login. Please try again later.";
+                }
+            } finally {
+                // Restore button state
+                loginBtn.innerHTML = originalBtnText;
+                loginBtn.disabled = false;
+            }
+        }
+
+        async function handleForgotPassword() {
+            const email = document.getElementById('forgotEmail').value;
+            const forgotBtn = document.getElementById('forgotBtn');
+            const errorMsg = document.getElementById('forgotErrorMsg');
+            const successMsg = document.getElementById('forgotSuccessMsg');
+
+            errorMsg.classList.add('d-none');
+            successMsg.classList.add('d-none');
+
+            if (!email) {
+                errorMsg.textContent = "Please enter your registered email.";
+                errorMsg.classList.remove('d-none');
+                return;
+            }
+
+            const originalBtnText = forgotBtn.innerHTML;
+            forgotBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...';
+            forgotBtn.disabled = true;
+
+            try {
+                const responseMessage = await authService.forgotPassword(email);
+                successMsg.textContent = responseMessage;
+                successMsg.classList.remove('d-none');
+            } catch (error) {
+                errorMsg.textContent = "An error occurred. Please try again.";
+                errorMsg.classList.remove('d-none');
+            } finally {
+                forgotBtn.innerHTML = originalBtnText;
+                forgotBtn.disabled = false;
+            }
+        }
+    </script>
 </body>
 
 </html>

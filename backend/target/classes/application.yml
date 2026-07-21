@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: backend
+
+  threads:
+    virtual:
+      enabled: true
+
+  datasource:
+    url: jdbc:postgresql://aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?sslmode=require&prepareThreshold=0
+    username: postgres.cjktlszbeasdlqpdhjtw
+    password: Kaushalp@8095
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      connection-timeout: 20000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+jwt:
+  secret: EirisSuperSecretKeyThatNeedsToBeVeryLongAndSecureEnoughForHS256Algorithm
+  expiration: 86400000 # 24 hours in ms
+  refresh-expiration: 604800000 # 7 days in ms
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
