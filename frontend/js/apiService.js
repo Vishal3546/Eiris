@@ -117,5 +117,20 @@ const authService = {
     }
 };
 
+const adminAgencyService = {
+    async getAllAgencies() {
+        const response = await apiService.get('/admin/agencies');
+        return response.data;
+    },
+    async createAgency(agencyData) {
+        const response = await apiService.post('/admin/agencies', agencyData);
+        return response.data;
+    },
+    async deleteAgency(id) {
+        await apiService.delete(`/admin/agencies/${id}`);
+    }
+};
+
 window.apiService = apiService;
 window.authService = authService;
+window.adminAgencyService = adminAgencyService;
