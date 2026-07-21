@@ -196,10 +196,20 @@ body {
 /* Product Card */
 .product-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #9CB080 !important;
+  border: 2px solid #2B5748 !important;
 }
 .product-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 15px 30px -10px rgba(18, 52, 59, 0.3) !important;
+}
+.product-card .btn-secondary-custom {
+  background-color: #273338 !important;
+  color: white !important;
+}
+.product-card .btn-secondary-custom:hover {
+  background-color: #0F3040 !important;
+  color: white !important;
 }
 
 /* Feature Card */
