@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Eiris</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg bg-night-blue navbar-dark sticky-top shadow-sm py-2 border-bottom animate-slide-down" style="border-color: var(--eiris-night-blue-shadow) !important;">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold fs-4 text-sand-tan" href="index.html">
+                <div class="hover-rotate me-2">
+                    <i class="bi bi-car-front-fill" style="color: var(--eiris-sand-tan); font-size: 1.5rem;"></i>
+                </div>
+                <span style="letter-spacing: 1px;">Eiris</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#basic-navbar-nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="basic-navbar-nav">
+                <ul class="navbar-nav me-auto ms-4">
+                    <li class="nav-item">
+                        <a class="nav-link text-white position-relative hover-underline" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white position-relative hover-underline" href="agency-login.html">Agency Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white position-relative hover-underline active" href="contact-us.html">Contact Us</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-sm btn-outline-light btn-secondary-custom ms-2 rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#adminLoginModal">
+                        Admin Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Us Section -->
+    <section class="py-5 position-relative" style="background-color: var(--eiris-light); min-height: calc(100vh - 150px);">
+        <div class="container py-5">
+            <div class="text-center mb-5 animate-fade-in-up delay-100">
+                <h2 class="display-4 fw-bold text-night-blue-shadow">Contact Us</h2>
+                <div class="mx-auto bg-sand-tan mt-3" style="width: 100px; height: 6px; border-radius: 3px;"></div>
+                <p class="text-muted mt-4 fs-5 mx-auto" style="max-width: 600px;">
+                    Have any questions or need assistance? Reach out to us, and our team will get back to you shortly.
+                </p>
+            </div>
+            
+            <div class="row g-5 justify-content-center">
+                <!-- Contact Info -->
+                <div class="col-lg-5 animate-slide-right">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 bg-white p-4">
+                        <div class="card-body">
+                            <h4 class="fw-bold text-night-blue-shadow mb-4">Get in Touch</h4>
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="bg-night-blue rounded-circle p-3 d-flex align-items-center justify-content-center text-sand-tan shadow-sm flex-shrink-0" style="width: 50px; height: 50px;">
+                                    <i class="bi bi-geo-alt-fill fs-5"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="fw-bold text-night-blue-shadow mb-1">Our Location</h6>
+                                    <p class="text-muted mb-0">123 Eiris Avenue, Business Park, Tech City 10001</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="bg-night-blue rounded-circle p-3 d-flex align-items-center justify-content-center text-sand-tan shadow-sm flex-shrink-0" style="width: 50px; height: 50px;">
+                                    <i class="bi bi-envelope-fill fs-5"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="fw-bold text-night-blue-shadow mb-1">Email Address</h6>
+                                    <p class="text-muted mb-0">support@eiris.co.in</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="bg-night-blue rounded-circle p-3 d-flex align-items-center justify-content-center text-sand-tan shadow-sm flex-shrink-0" style="width: 50px; height: 50px;">
+                                    <i class="bi bi-telephone-fill fs-5"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="fw-bold text-night-blue-shadow mb-1">Phone Number</h6>
+                                    <p class="text-muted mb-0">+1 (800) 123-4567</p>
+                                </div>
+                            </div>
+                            <hr class="my-4 border-secondary opacity-25">
+                            <h6 class="fw-bold text-night-blue-shadow mb-3">Follow Us</h6>
+                            <div class="d-flex gap-3">
+                                <a href="#" class="bg-light rounded-circle p-2 d-flex align-items-center justify-content-center text-night-blue-shadow text-decoration-none custom-hover shadow-sm" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-facebook"></i>
+                                </a>
+                                <a href="#" class="bg-light rounded-circle p-2 d-flex align-items-center justify-content-center text-night-blue-shadow text-decoration-none custom-hover shadow-sm" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-twitter-x"></i>
+                                </a>
+                                <a href="#" class="bg-light rounded-circle p-2 d-flex align-items-center justify-content-center text-night-blue-shadow text-decoration-none custom-hover shadow-sm" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a href="#" class="bg-light rounded-circle p-2 d-flex align-items-center justify-content-center text-night-blue-shadow text-decoration-none custom-hover shadow-sm" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="col-lg-7 animate-fade-in-up delay-200">
+                    <div class="card border-0 shadow-sm rounded-4 bg-white p-4 h-100">
+                        <div class="card-body">
+                            <h4 class="fw-bold text-night-blue-shadow mb-4">Send Us a Message</h4>
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="name" class="form-label text-muted fw-bold small">Full Name</label>
+                                        <input type="text" class="form-control rounded-3 py-2" id="name" placeholder="John Doe" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label text-muted fw-bold small">Email Address</label>
+                                        <input type="email" class="form-control rounded-3 py-2" id="email" placeholder="john@example.com" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="subject" class="form-label text-muted fw-bold small">Subject</label>
+                                        <input type="text" class="form-control rounded-3 py-2" id="subject" placeholder="How can we help you?" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="message" class="form-label text-muted fw-bold small">Message</label>
+                                        <textarea class="form-control rounded-3 py-2" id="message" rows="4" placeholder="Write your message here..." required></textarea>
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        <button type="submit" class="btn btn-secondary-custom rounded-pill px-5 py-2 fw-bold w-100 shadow-sm">
+                                            Send Message <i class="bi bi-send-fill ms-2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-night-blue-shadow text-white pt-5 pb-3" style="background-color: var(--eiris-night-blue-shadow);">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h4 class="text-sand-tan fw-bold mb-3">Eiris</h4>
+                    <p class="text-light opacity-75">
+                        Premium automotive and lighting solutions. 
+                        Bringing you the best quality car accessories, LED lights, and fan regulators.
+                    </p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3 text-sand-tan">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-white text-decoration-none opacity-75 custom-hover">Home</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none opacity-75 custom-hover">Products</a></li>
+                        <li class="mb-2"><a href="agency-login.html" class="text-white text-decoration-none opacity-75 custom-hover">Agency Portal</a></li>
+                        <li class="mb-2"><a href="contact-us.html" class="text-white text-decoration-none opacity-75 custom-hover">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3 text-sand-tan">Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="bi bi-geo-alt-fill me-2 text-sand-tan flex-shrink-0" style="font-size: 20px;"></i>
+                            <span class="opacity-75">123 Eiris Avenue, Business Park, Tech City 10001</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-telephone-fill me-2 text-sand-tan flex-shrink-0" style="font-size: 20px;"></i>
+                            <span class="opacity-75">+1 (800) 123-4567</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-envelope-fill me-2 text-sand-tan flex-shrink-0" style="font-size: 20px;"></i>
+                            <span class="opacity-75">support@eiris.co.in</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-light opacity-25" />
+            <div class="row">
+                <div class="col text-center opacity-75">
+                    <small>&copy; 2026 Eiris. All Rights Reserved.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Login Modal -->
+    <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-labelledby="adminLoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header bg-night-blue text-white rounded-top-4 border-0">
+                    <h5 class="modal-title fw-bold" id="adminLoginModalLabel">Admin Portal Login</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form action="admin-dashboard.html">
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-bold">Admin Email</label>
+                            <input type="email" class="form-control" placeholder="admin@eiris.com" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-muted fw-bold">Password</label>
+                            <input type="password" class="form-control" placeholder="Enter password" required>
+                        </div>
+                        <button type="submit" class="btn btn-secondary-custom rounded-pill w-100 py-2 fw-bold">Login as Admin</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+</body>
+</html>
