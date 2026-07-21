@@ -251,9 +251,9 @@ body {
 
 /* Custom Tabs for Products */
 .custom-tabs .nav-link {
-  color: var(--eiris-night-blue);
-  background-color: white;
-  border: 2px solid rgba(45, 84, 94, 0.2);
+  color: white;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50rem;
   font-weight: 600;
   padding: 10px 24px;
@@ -262,15 +262,16 @@ body {
 }
 
 .custom-tabs .nav-link:hover {
-  color: var(--eiris-night-blue-shadow);
-  background-color: rgba(225, 179, 130, 0.1);
+  color: var(--eiris-night-blue-shadow) !important;
+  background-color: var(--eiris-sand-tan);
   border-color: var(--eiris-sand-tan);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(225, 179, 130, 0.4);
 }
 
 .custom-tabs .nav-link.active {
   color: var(--eiris-night-blue-shadow) !important;
   background-color: var(--eiris-sand-tan) !important;
   border-color: var(--eiris-sand-tan) !important;
-  box-shadow: 0 4px 12px rgba(225, 179, 130, 0.4);
+  box-shadow: 0 4px 12px rgba(225, 179, 130, 0.6);
 }
