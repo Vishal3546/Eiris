@@ -84,7 +84,6 @@ body {
   background: linear-gradient(135deg, var(--eiris-night-blue) 0%, var(--eiris-night-blue-shadow) 100%);
   color: white;
   position: relative;
-  overflow: hidden;
 }
 
 .hero-section::after {
@@ -218,4 +217,24 @@ body {
 .custom-hover:hover {
   opacity: 1 !important;
   background-color: rgba(255,255,255,0.05);
+}
+
+/* Responsive adjustments for hero section */
+.hero-img-container {
+  height: 400px;
+}
+
+@media (max-width: 991.98px) {
+  .hero-img-container {
+    height: 300px;
+  }
+  .floating-badge-1 {
+    right: 5px !important;
+    top: -10px !important;
+  }
+  .floating-badge-2 {
+    left: 5px !important;
+    bottom: -15px !important;
+    padding: 0.75rem 1rem !important;
+  }
 }
