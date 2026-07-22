@@ -463,3 +463,51 @@ body {
 .password-toggle-btn:hover {
     color: var(--eiris-night-blue);
 }
+
+/* Agency Panel Top Clients Glassmorphism Boxes */
+.glass-agency-panel {
+  background: rgba(18, 52, 59, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.glass-agency-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(18, 52, 59, 0.4) !important;
+  background: rgba(18, 52, 59, 0.95) !important;
+}
+
+.glass-agency-panel h5,
+.glass-agency-panel h6,
+.glass-agency-panel p,
+.glass-agency-panel span:not(.text-primary):not(.text-success):not(.text-warning):not(.text-info):not(.text-mint) {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.text-mint {
+  color: #69f0ae !important;
+}
+
+/* Specific fix for the top clients icons */
+.glass-agency-panel .bg-opacity-10 {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Glassmorphism for Table Header */
+.glass-agency-panel-header {
+  background: rgba(18, 52, 59, 0.9) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.glass-agency-panel-header th {
+  color: white !important;
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  font-weight: 600;
+}
