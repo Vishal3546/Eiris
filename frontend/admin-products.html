@@ -11,6 +11,31 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Custom Tab Styles based on the image */
+        .custom-tabs {
+            gap: 15px;
+            border: none;
+        }
+        .custom-tabs .nav-link {
+            background-color: transparent;
+            border: 1px solid var(--eiris-dark-green);
+            color: #a0aab2;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .custom-tabs .nav-link:hover {
+            color: var(--eiris-sage-green);
+            border-color: var(--eiris-sage-green);
+        }
+        .custom-tabs .nav-link.active {
+            background-color: rgba(156, 176, 128, 0.15);
+            border: 1px solid var(--eiris-sage-green);
+            color: var(--eiris-sage-green);
+        }
+    </style>
 </head>
 
 <body class="bg-light">
@@ -81,86 +106,516 @@
             <div class="p-4 flex-grow-1 animate-fade-in-up">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-bold text-night-blue-shadow mb-0">Manage Products</h3>
-                    <button class="btn btn-primary-custom rounded-pill px-4">
+                    <button class="btn btn-primary-custom rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addProductModal">
                         <i class="bi bi-plus-lg me-2"></i> Add New Product
                     </button>
                 </div>
 
-                <div class="row g-4">
-                    <!-- Product 1 -->
-                    <div class="col-md-4">
-                        <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
-                            <div class="bg-secondary bg-opacity-10 d-flex justify-content-center align-items-center"
-                                style="height: 200px;">
-                                <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
-                            </div>
-                            <div class="card-body p-4">
-                                <span class="badge bg-night-blue mb-2">Lighting</span>
-                                <h5 class="fw-bold text-night-blue-shadow">LED Headlight X1</h5>
-                                <p class="text-muted small">Premium quality product from Eiris. Durable and reliable.
-                                </p>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span class="fw-bold fs-5 text-sand-tan-shadow">â‚¹1299</span>
-                                    <div>
-                                        <button class="btn btn-sm btn-outline-primary rounded-circle me-1"><i
-                                                class="bi bi-pencil-fill"></i></button>
-                                        <button class="btn btn-sm btn-outline-danger rounded-circle"><i
-                                                class="bi bi-trash-fill"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Tabs -->
+            <ul class="nav nav-pills custom-tabs mb-5 justify-content-center" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tab-car-acc" data-bs-toggle="pill" data-bs-target="#pane-car-acc" type="button" role="tab" aria-selected="true">Car Accessories</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-led-lights" data-bs-toggle="pill" data-bs-target="#pane-led-lights" type="button" role="tab" aria-selected="false">LED Lights</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-fan-reg" data-bs-toggle="pill" data-bs-target="#pane-fan-reg" type="button" role="tab" aria-selected="false">Fan Regulator</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-led-bulbs" data-bs-toggle="pill" data-bs-target="#pane-led-bulbs" type="button" role="tab" aria-selected="false">LED Bulbs</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-led-emerg" data-bs-toggle="pill" data-bs-target="#pane-led-emerg" type="button" role="tab" aria-selected="false">LED Emergency Bulbs</button>
+                </li>
+            </ul>
 
-                    <!-- Product 2 -->
-                    <div class="col-md-4">
-                        <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
-                            <div class="bg-secondary bg-opacity-10 d-flex justify-content-center align-items-center"
-                                style="height: 200px;">
-                                <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
-                            </div>
-                            <div class="card-body p-4">
-                                <span class="badge bg-night-blue mb-2">Accessories</span>
-                                <h5 class="fw-bold text-night-blue-shadow">Premium Floor Mats</h5>
-                                <p class="text-muted small">Premium quality product from Eiris. Durable and reliable.
-                                </p>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span class="fw-bold fs-5 text-sand-tan-shadow">â‚¹899</span>
-                                    <div>
-                                        <button class="btn btn-sm btn-outline-primary rounded-circle me-1"><i
-                                                class="bi bi-pencil-fill"></i></button>
-                                        <button class="btn btn-sm btn-outline-danger rounded-circle"><i
-                                                class="bi bi-trash-fill"></i></button>
+            <!-- Tab Content -->
+            <div class="tab-content" id="productTabsContent">                <!-- Pane: pane-car-acc -->
+                <div class="tab-pane fade show active" id="pane-car-acc" role="tabpanel">
+                    <div class="row g-4">                        <!-- Product 1 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/06/FMBT-Player-1.jpg" alt="FMBT Player Radio" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">Car Accessories</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">FMBT Player Radio</h5>
+                                        <div class="collapse" id="detailsProductPage1">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>High Quality Audio</li>
+<li>Bluetooth 5.0</li>
+<li>FM Radio Support</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage1">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        </div>                        <!-- Product 2 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/06/Double-Knob-player-1.jpg" alt="Double Knob Player" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">Car Accessories</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">Double Knob Player</h5>
+                                        <div class="collapse" id="detailsProductPage2">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>Double Knob Control</li>
+<li>USB & SD Card Support</li>
+<li>LCD Display</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage2">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        <!-- Product 3 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/06/cameras.jpg" alt="Rear View Cameras" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">Car Accessories</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">Rear View Cameras</h5>
+                                        <div class="collapse" id="detailsProductPage3">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>Night Vision</li>
+<li>Wide Angle Lens</li>
+<li>Waterproof Design</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage3">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                    </div>
+                </div>                <!-- Pane: pane-led-lights -->
+                <div class="tab-pane fade " id="pane-led-lights" role="tabpanel">
+                    <div class="row g-4">                        <!-- Product 4 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/07/K-LIGHT-PC.jpg" alt="K Light" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">LED Lights</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">K Light</h5>
+                                        <div class="collapse" id="detailsProductPage4">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>High Lumens</li>
+<li>Energy Efficient</li>
+<li>Long Lifespan</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage4">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        <!-- Product 5 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/07/EYELIT-PC.jpg" alt="Eyelit" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">LED Lights</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">Eyelit</h5>
+                                        <div class="collapse" id="detailsProductPage5">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>Premium Design</li>
+<li>Super Bright</li>
+<li>Easy Installation</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage5">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        <!-- Product 6 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/07/Ball-PC.jpg" alt="Ball PC" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">LED Lights</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">Ball PC</h5>
+                                        <div class="collapse" id="detailsProductPage6">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>Durable Casing</li>
+<li>Flicker-Free</li>
+<li>Warm White</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage6">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                    </div>
+                </div>                <!-- Pane: pane-fan-reg -->
+                <div class="tab-pane fade " id="pane-fan-reg" role="tabpanel">
+                    <div class="row g-4">                        <!-- Product 7 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/06/regulator.jpg" alt="Step Fan Regulator" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">Fan Regulator</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">Step Fan Regulator</h5>
+                                        <div class="collapse" id="detailsProductPage7">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>4-Step Control</li>
+<li>Hum-Free</li>
+<li>Polycarbonate Body</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage7">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        <!-- Product 8 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/06/regulator-1.jpg" alt="Mini Fan Regulator" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">Fan Regulator</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">Mini Fan Regulator</h5>
+                                        <div class="collapse" id="detailsProductPage8">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>Compact Design</li>
+<li>Smooth Operation</li>
+<li>ISI Certified</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage8">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        <!-- Product 9 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/06/regulator-2.jpg" alt="Premium Fan Regulator" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">Fan Regulator</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">Premium Fan Regulator</h5>
+                                        <div class="collapse" id="detailsProductPage9">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>High Load Capacity</li>
+<li>Flame Retardant</li>
+<li>Modern Aesthetics</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage9">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                    </div>
+                </div>                <!-- Pane: pane-led-bulbs -->
+                <div class="tab-pane fade " id="pane-led-bulbs" role="tabpanel">
+                    <div class="row g-4">                        <!-- Product 10 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/07/EYELIT-PC.jpg" alt="LED Bulb 9W" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">LED Bulbs</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">LED Bulb 9W</h5>
+                                        <div class="collapse" id="detailsProductPage10">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>9 Watt Power</li>
+<li>B22 Base</li>
+<li>Cool Daylight</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage10">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        <!-- Product 11 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/07/Ball-PC.jpg" alt="LED Bulb 12W" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">LED Bulbs</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">LED Bulb 12W</h5>
+                                        <div class="collapse" id="detailsProductPage11">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>12 Watt Power</li>
+<li>Energy Saving</li>
+<li>Wide Beam Angle</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage11">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                    </div>
+                </div>                <!-- Pane: pane-led-emerg -->
+                <div class="tab-pane fade " id="pane-led-emerg" role="tabpanel">
+                    <div class="row g-4">                        <!-- Product 12 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="h-100">
+                                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                        <img src="https://eiris.co.in/wp-content/uploads/2025/07/K-LIGHT-PC.jpg" alt="Emergency LED 9W" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">Emergency</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column p-4">
+                                        <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">Emergency LED 9W</h5>
+                                        <div class="collapse" id="detailsProductPage12">
+                                            <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                <li>Battery Backup</li>
+<li>Automatic ON</li>
+<li>Rechargeable</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                            <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                            <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#detailsProductPage12">View Details</button>
+                                            <div class="ms-2 d-flex gap-1">
+                                                <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                    </div>
+                </div>            </div>
+        </div>
+    </div>
 
             </div>
         </div>
     </div>
 
     
-    <!-- Logout Confirm Modal -->
-    <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
+        <!-- Add New Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content glass-modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-night-blue-shadow" id="addProductModalLabel">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="addProductForm">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="productImage" class="form-label text-night-blue fw-semibold">Product Image</label>
+                                <input type="file" class="form-control form-control-custom" id="productImage" accept="image/*">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="productName" class="form-label text-night-blue fw-semibold">Product Name</label>
+                                <input type="text" class="form-control form-control-custom" id="productName" placeholder="e.g. FMBT Player Radio" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="productCategory" class="form-label text-night-blue fw-semibold">Category</label>
+                                <select class="form-select form-select-custom" id="productCategory" required>
+                                    <option value="" selected disabled>Select Category</option>
+                                    <option value="Car Accessories">Car Accessories</option>
+                                    <option value="LED Lights">LED Lights</option>
+                                    <option value="Fan Regulator">Fan Regulator</option>
+                                    <option value="LED Bulbs">LED Bulbs</option>
+                                    <option value="Emergency LED">Emergency LED</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="productDetails" class="form-label text-night-blue fw-semibold">Details (comma separated or bullet points)</label>
+                                <textarea class="form-control form-control-custom" id="productDetails" rows="3" placeholder="e.g. High Quality Audio, Bluetooth 5.0, FM Radio Support"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-glass-cancel rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary-custom rounded-pill px-4" id="saveProductBtn">Save Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Product Modal -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content glass-modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-night-blue-shadow" id="editProductModalLabel">Edit Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="editProductForm">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="editProductImage" class="form-label text-night-blue fw-semibold">Product Image (Leave empty to keep current)</label>
+                                <input type="file" class="form-control form-control-custom" id="editProductImage" accept="image/*">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editProductName" class="form-label text-night-blue fw-semibold">Product Name</label>
+                                <input type="text" class="form-control form-control-custom" id="editProductName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editProductCategory" class="form-label text-night-blue fw-semibold">Category</label>
+                                <select class="form-select form-select-custom" id="editProductCategory" required>
+                                    <option value="" disabled>Select Category</option>
+                                    <option value="Car Accessories">Car Accessories</option>
+                                    <option value="LED Lights">LED Lights</option>
+                                    <option value="Fan Regulator">Fan Regulator</option>
+                                    <option value="LED Bulbs">LED Bulbs</option>
+                                    <option value="Emergency LED">Emergency LED</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="editProductDetails" class="form-label text-night-blue fw-semibold">Details (comma separated)</label>
+                                <textarea class="form-control form-control-custom" id="editProductDetails" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-glass-cancel rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary-custom rounded-pill px-4" id="updateProductBtn">Update Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirm Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content glass-modal-content">
                 <div class="modal-body text-center p-5">
                     <div class="glass-icon-container">
-                        <i class="bi bi-box-arrow-right"></i>
+                        <i class="bi bi-trash-fill"></i>
                     </div>
-                    <h4 class="mb-3 fw-bold">Logout?</h4>
-                    <p class="text-white-50 mb-4">Are you sure you want to log out of your account?</p>
+                    <h4 class="mb-3 fw-bold">Delete Product?</h4>
+                    <p class="text-white-50 mb-4">Are you sure you want to delete this product? This action cannot be undone.</p>
                     <div class="d-flex justify-content-center gap-3">
                         <button type="button" class="btn btn-glass-cancel rounded-3 px-4 py-2 fw-semibold w-50" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-glass-delete rounded-3 px-4 py-2 fw-semibold w-50" onclick="performLogout()">Logout</button>
+                        <button type="button" class="btn btn-glass-delete rounded-3 px-4 py-2 fw-semibold w-50" id="confirmDeleteBtn">Delete</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Logout Confirm Modal -->
+    <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-modal-content">
+                <div class="modal-body text-center p-5">
 
     <script>
         function performLogout() {
@@ -173,6 +628,188 @@
             }
             window.location.href = 'index.html';
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const saveBtn = document.getElementById('saveProductBtn');
+            if(saveBtn) {
+                saveBtn.addEventListener('click', function() {
+                    const name = document.getElementById('productName').value;
+                    const category = document.getElementById('productCategory').value;
+                    const detailsStr = document.getElementById('productDetails').value;
+                    const imageInput = document.getElementById('productImage');
+                    
+                    if(!name || !category) {
+                        alert("Please fill in Product Name and Category.");
+                        return;
+                    }
+
+                    let imageUrl = 'https://via.placeholder.com/200x200?text=No+Image';
+                    if (imageInput.files && imageInput.files[0]) {
+                        imageUrl = URL.createObjectURL(imageInput.files[0]);
+                    }
+
+                    const detailsList = detailsStr ? detailsStr.split(',').map(d => `<li>${d.trim()}</li>`).join('') : '';
+
+                    let targetPaneId = '';
+                    switch(category) {
+                        case 'Car Accessories': targetPaneId = 'pane-car-acc'; break;
+                        case 'LED Lights': targetPaneId = 'pane-led-lights'; break;
+                        case 'Fan Regulator': targetPaneId = 'pane-fan-reg'; break;
+                        case 'LED Bulbs': targetPaneId = 'pane-led-bulbs'; break;
+                        case 'Emergency LED': targetPaneId = 'pane-led-emerg'; break;
+                    }
+
+                    const targetPane = document.getElementById(targetPaneId);
+                    if(targetPane) {
+                        const row = targetPane.querySelector('.row');
+                        if(row) {
+                            const newId = 'detailsProductPage_new_' + Math.floor(Math.random() * 10000);
+                            const productCard = `
+                            <div class="col-md-6 col-lg-4">
+                                <div class="h-100">
+                                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                        <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                            <img src="${imageUrl}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;">
+                                            <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">${category}</span>
+                                        </div>
+                                        <div class="card-body d-flex flex-column p-4">
+                                            <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">${name}</h5>
+                                            <div class="collapse" id="${newId}">
+                                                <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                    ${detailsList}
+                                                </ul>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                                <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
+                                                <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#${newId}">View Details</button>
+                                                <div class="ms-2 d-flex gap-1">
+                                                    <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                            row.insertAdjacentHTML('afterbegin', productCard);
+                        }
+                    }
+
+                    const modalEl = document.getElementById('addProductModal');
+                    const modal = bootstrap.Modal.getInstance(modalEl);
+                    modal.hide();
+                    document.getElementById('addProductForm').reset();
+                });
+            }
+
+            // Edit and Delete functionality
+            let currentEditCard = null;
+            let currentDeleteCard = null;
+
+            const tabsContent = document.getElementById('productTabsContent');
+            if(tabsContent) {
+                tabsContent.addEventListener('click', function(e) {
+                    const btn = e.target.closest('button');
+                    if(!btn) return;
+
+                    const card = btn.closest('.col-md-6'); // The product card container
+                    if(!card) return;
+
+                    // Check if it's Edit button
+                    if(btn.querySelector('.bi-pencil-fill')) {
+                        currentEditCard = card;
+                        const name = card.querySelector('.card-title').innerText.trim();
+                        const category = card.querySelector('.badge').innerText.trim();
+                        
+                        // Extract details to comma separated string
+                        const detailsItems = card.querySelectorAll('.collapse ul li');
+                        const detailsArr = [];
+                        detailsItems.forEach(li => detailsArr.push(li.innerText.trim()));
+                        const detailsStr = detailsArr.join(', ');
+
+                        document.getElementById('editProductName').value = name;
+                        
+                        // Handle category mismatch gracefully
+                        const catSelect = document.getElementById('editProductCategory');
+                        let catFound = false;
+                        for(let i=0; i<catSelect.options.length; i++) {
+                            if(catSelect.options[i].value === category) {
+                                catFound = true;
+                                break;
+                            }
+                        }
+                        if(catFound) {
+                            catSelect.value = category;
+                        } else {
+                            catSelect.value = "";
+                        }
+                        
+                        document.getElementById('editProductDetails').value = detailsStr;
+                        document.getElementById('editProductImage').value = ''; // clear file input
+
+                        const editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+                        editModal.show();
+                    }
+
+                    // Check if it's Delete button
+                    if(btn.querySelector('.bi-trash-fill')) {
+                        currentDeleteCard = card;
+                        const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+                        deleteModal.show();
+                    }
+                });
+            }
+
+            // Update Product logic
+            const updateBtn = document.getElementById('updateProductBtn');
+            if(updateBtn) {
+                updateBtn.addEventListener('click', function() {
+                    if(!currentEditCard) return;
+
+                    const name = document.getElementById('editProductName').value;
+                    const category = document.getElementById('editProductCategory').value;
+                    const detailsStr = document.getElementById('editProductDetails').value;
+                    const imageInput = document.getElementById('editProductImage');
+
+                    if(!name || !category) {
+                        alert("Please fill in Product Name and Category.");
+                        return;
+                    }
+
+                    // Update Image if new one is selected
+                    if (imageInput.files && imageInput.files[0]) {
+                        const imageUrl = URL.createObjectURL(imageInput.files[0]);
+                        currentEditCard.querySelector('img').src = imageUrl;
+                    }
+
+                    // Update Text
+                    currentEditCard.querySelector('.card-title').innerText = name;
+                    currentEditCard.querySelector('img').alt = name;
+                    currentEditCard.querySelector('.badge').innerText = category;
+
+                    // Update Details
+                    const detailsList = detailsStr ? detailsStr.split(',').map(d => `<li>${d.trim()}</li>`).join('') : '';
+                    currentEditCard.querySelector('.collapse ul').innerHTML = detailsList;
+
+                    const editModalEl = document.getElementById('editProductModal');
+                    const editModal = bootstrap.Modal.getInstance(editModalEl);
+                    if(editModal) editModal.hide();
+                });
+            }
+
+            // Confirm Delete logic
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+            if(confirmDeleteBtn) {
+                confirmDeleteBtn.addEventListener('click', function() {
+                    if(currentDeleteCard) {
+                        currentDeleteCard.remove();
+                    }
+                    const deleteModalEl = document.getElementById('deleteConfirmModal');
+                    const deleteModal = bootstrap.Modal.getInstance(deleteModalEl);
+                    if(deleteModal) deleteModal.hide();
+                });
+            }
+        });
     </script>
 
     <!-- Bootstrap JS Bundle with Popper -->
@@ -183,4 +820,3 @@
 </body>
 
 </html>
-
