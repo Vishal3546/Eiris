@@ -370,6 +370,26 @@ body {
   transform: translateY(0);
 }
 
+/* Custom Scrollbar for Tables */
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: rgba(14, 21, 58, 0.05);
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: var(--eiris-night-blue);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: var(--eiris-night-blue-shadow);
+}
+
 /* Glassmorphism Modal Styles */
 .glass-modal {
     backdrop-filter: blur(10px);

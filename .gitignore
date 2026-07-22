@@ -1,3 +1,5 @@
 apache-maven-*
 backend/apache-maven-*
 backend/target/
+**/target/
+*.class
