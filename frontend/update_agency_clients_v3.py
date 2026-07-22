@@ -1,199 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eiris - Agency Clients</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-        .select2-container--default .select2-selection--single {
-            height: 38px;
-            border: 1px solid #dee2e6;
-            border-radius: 0.375rem;
-            display: flex;
-            align-items: center;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 36px;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            color: #495057;
-            padding-left: 12px;
-        }
-    </style>
-</head>
-<body class="bg-light">
+import os, re
 
-    <div class="d-flex min-vh-100 bg-light">
-        <!-- Sidebar -->
-        <div id="sidebar" class="sidebar text-white position-relative animate-slide-right" style="width: 280px; background-color: var(--eiris-night-blue-shadow);">
-            <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
-                <i class="bi bi-shield-fill-exclamation text-sand-tan me-2" style="font-size: 30px;"></i>
-                <h4 class="mb-0 fw-bold text-sand-tan">Agency Portal</h4>
-            </div>
-            <ul class="nav flex-column p-3 gap-2">
-                <li class="nav-item">
-                    <a href="agency-dashboard.html" class="nav-link d-flex align-items-center p-3 rounded text-white opacity-75 custom-hover" style="transition: all 0.2s;">
-                        <i class="bi bi-grid-1x2-fill me-3" style="font-size: 20px;"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="agency-clients.html" class="nav-link d-flex align-items-center p-3 rounded text-white opacity-75 custom-hover" style="transition: all 0.2s;">
-                        <i class="bi bi-people-fill me-3" style="font-size: 20px;"></i> Clients
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="agency-purchase.html" class="nav-link d-flex align-items-center p-3 rounded text-white opacity-75 custom-hover" style="transition: all 0.2s;">
-                        <i class="bi bi-cart-fill me-3" style="font-size: 20px;"></i> Buy Products
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="agency-stocks.html" class="nav-link d-flex align-items-center p-3 rounded text-white opacity-75 custom-hover" style="transition: all 0.2s;">
-                        <i class="bi bi-box-seam-fill me-3" style="font-size: 20px;"></i> My Stocks
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="agency-sales.html" class="nav-link d-flex align-items-center p-3 rounded text-white opacity-75 custom-hover" style="transition: all 0.2s;">
-                        <i class="bi bi-graph-up-arrow me-3" style="font-size: 20px;"></i> Sales
-                    </a>
-                </li>
-            </ul>
-            <div class="p-4 mt-auto position-absolute bottom-0 w-100" style="max-width: 280px;">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#logoutConfirmModal" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center border-opacity-25">
-                    <i class="bi bi-box-arrow-right me-2" style="font-size: 18px;"></i> Logout
-                </a>
-            </div>
-        </div>
+file_path = r'c:\Users\DELL\Desktop\Eiris New\Eiris\frontend\agency-clients.html'
+with open(file_path, 'r', encoding='utf-8') as f:
+    content = f.read()
 
-        <!-- Main Content -->
-        <div class="flex-grow-1 d-flex flex-column" style="overflow-y: auto; height: 100vh;">
-            <nav class="navbar navbar-expand-lg bg-white border-bottom px-4 py-3 shadow-sm animate-slide-down">
-                <div class="container-fluid">
-                    <!-- Sidebar Toggle Button (Mobile/Tablet) -->
-                    <button class="sidebar-toggle-btn d-lg-none me-auto" id="sidebarToggle">
-                        <i class="bi bi-list fs-3"></i>
-                    </button>
-                    <div class="ms-auto d-flex align-items-center gap-3">
-                        <span class="text-muted">Agency: <strong class="text-night-blue">AutoTech Distributors</strong></span>
-                        <div class="text-white fw-bold rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="background-color: var(--eiris-sand-tan-shadow); width: 40px; height: 40px;">
-                            AG
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            
-            <div class="p-4 flex-grow-1 animate-fade-in-up">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-bold text-night-blue-shadow mb-0">Clients Management</h3>
-                    <button class="btn btn-primary-custom rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addClientModal">
-                        <i class="bi bi-plus-lg me-2"></i> Add New Client
-                    </button>
-                </div>
-                
-                <h5 class="fw-bold text-night-blue-shadow mb-3">Top Clients</h5>
-                <div class="row g-4 mb-4" id="topClientsContainer">
-                    <!-- Rendered by JS -->
-                </div>
-                
-                <!-- Client List Table -->
-                <div class="card border-0 shadow-sm rounded-4">
-                    <div class="card-header bg-white border-bottom p-4 d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0 fw-bold text-night-blue-shadow">All Clients</h5>
-                        <div class="input-group shadow-sm border-0 rounded-pill overflow-hidden bg-white" style="width: 320px; border: 1px solid var(--eiris-sand-tan) !important;">
-                            <span class="input-group-text bg-white border-0 text-primary pe-1"><i class="bi bi-search"></i></span>
-                            <input type="text" id="clientSearch" class="form-control border-0 shadow-none bg-white" placeholder="Search name or farm/company...">
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="glass-agency-panel-header">
-                                    <tr class="align-middle text-nowrap">
-                                        <th class="ps-4">Client Name</th>
-                                        <th>Company</th>
-                                        <th>Contact Info</th>
-                                        <th>Place</th>
-                                        <th>Total Sales</th>
-                                        
-                                        <th class="text-end pe-4">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="clientsTableBody">
-                                    <!-- Rendered by JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+# 1. Remove Status from Header
+content = content.replace('<th>Status</th>', '')
 
-    
-
-    <!-- Add Client Modal -->
-    <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content rounded-4 shadow-lg" style="border: 3px solid var(--eiris-night-blue) !important;">
-                <div class="modal-header bg-night-blue text-white rounded-top-4 border-0">
-                    <h5 class="modal-title" id="addClientModalLabel">Add New Client</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <form id="addClientForm">
-                        <div id="formErrorMsg" class="alert alert-danger d-none small"></div>
-                        <div class="mb-3">
-                            <label class="form-label text-muted fw-bold">Farm/Company Name</label>
-                            <input type="text" id="clientCompany" class="form-control" placeholder="Enter farm or company name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-muted fw-bold">Client Name</label>
-                            <input type="text" id="clientName" class="form-control" placeholder="Enter client name" required>
-                        </div>
-                        <div class="mb-3">
+# 2. Add Email field to addClientForm
+add_email_html = '''<div class="mb-3">
                             <label class="form-label text-muted fw-bold">Email Address</label>
                             <input type="email" id="clientEmail" class="form-control" placeholder="Enter email address" required>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label text-muted fw-bold">State</label>
-                                <select id="clientState" class="form-select select2" required>
-                                    <option value="" disabled selected>Select State</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mt-3 mt-md-0">
-                                <label class="form-label text-muted fw-bold">City</label>
-                                <select id="clientCity" class="form-select select2" required>
-                                    <option value="" disabled selected>Select City</option>
-                                </select>
-                            </div>
+                        <div class="mb-3">'''
+content = content.replace('<div class="mb-3">\n                            <label class="form-label text-muted fw-bold">Farm/Company Name</label>', add_email_html.replace('<div class="mb-3">', '<div class="mb-3">\n                            <label class="form-label text-muted fw-bold">Farm/Company Name</label>', 1))
+# Actually, let's just use string replace on Farm/Company Name field
+add_email_html = '''<div class="mb-3">
+                            <label class="form-label text-muted fw-bold">Email Address</label>
+                            <input type="email" id="clientEmail" class="form-control" placeholder="Enter email address" required>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label text-muted fw-bold">Contact Number</label>
-                            <div class="input-group">
-                                <span class="input-group-text">+91</span>
-                                <input type="tel" id="clientContact" class="form-control" placeholder="XXXX XXXXX" required>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" id="saveClientBtn" class="btn btn-secondary-custom rounded-pill px-4">Save Client</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                        <div class="row mb-3">'''
+content = content.replace('<div class="row mb-3">', add_email_html)
 
 
+# 3. Add Edit Client Modal and Confirm Modal HTML
+modals_html = '''
     <!-- Edit Client Modal -->
     <div class="modal fade" id="editClientModal" tabindex="-1" aria-labelledby="editClientModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -268,83 +99,13 @@
             </div>
         </div>
     </div>
+'''
+if 'id="editClientModal"' not in content:
+    content = content.replace('    <!-- Logout Confirm Modal -->', modals_html + '\n    <!-- Logout Confirm Modal -->')
 
-    <!-- Logout Confirm Modal -->
-    <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content glass-modal-content">
-                <div class="modal-body text-center p-5">
-                    <div class="glass-icon-container">
-                        <i class="bi bi-box-arrow-right"></i>
-                    </div>
-                    <h4 class="mb-3 fw-bold">Logout?</h4>
-                    <p class="text-white-50 mb-4">Are you sure you want to log out of your account?</p>
-                    <div class="d-flex justify-content-center gap-3">
-                        <button type="button" class="btn btn-glass-cancel rounded-3 px-4 py-2 fw-semibold w-50" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-glass-delete rounded-3 px-4 py-2 fw-semibold w-50" onclick="performLogout()">Logout</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function performLogout() {
-            if (typeof authService !== 'undefined') {
-                authService.logout();
-            } else {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                localStorage.removeItem('user');
-            }
-            window.location.href = 'index.html';
-        }
-    </script>
-
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Custom JS -->
-    <script src="js/script.js"></script>
-
-    <!-- jQuery and Select2 JS -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="js/locations.js"></script>
-    
-    <script>
-        $(document).ready(function() {
-            // Initialize Select2
-            $('#clientState, #clientCity').select2({
-                theme: 'classic',
-                width: '100%',
-                dropdownParent: $('#addClientModal')
-            });
-
-            // Populate States
-            if (typeof indiaLocations !== 'undefined') {
-                const states = Object.keys(indiaLocations).sort();
-                states.forEach(state => {
-                    $('#clientState').append(new Option(state, state));
-                });
-            }
-
-            // Populate Cities on State change
-            $('#clientState').on('change', function() {
-                const state = $(this).val();
-                const citySelect = $('#clientCity');
-                citySelect.empty().append(new Option('Select City', '', true, true));
-                
-                if(state && typeof indiaLocations !== 'undefined' && indiaLocations[state]) {
-                    const cities = indiaLocations[state].sort();
-                    cities.forEach(city => {
-                        citySelect.append(new Option(city, city));
-                    });
-                }
-                citySelect.trigger('change');
-            });
-
-            // Initial Mock Data
+# 4. Replace JS logic block entirely to fix the rendering and state
+js_to_replace = r'// Initial Mock Data[\s\S]*?}\);\s*</script>'
+new_js = '''// Initial Mock Data
             let clientsList = [
                 { id: 1, name: "John Doe", added: "Jan 12, 2024", company: "Tech Solutions Inc.", email: "john@techsolutions.com", phone: "+91 98765 43210", place: "New York", sales: 45000, orders: 12 },
                 { id: 2, name: "Alice Smith", added: "Feb 05, 2024", company: "Global Logistics", email: "alice@globallogistics.com", phone: "+91 98765 43211", place: "London", sales: 38500, orders: 8 },
@@ -595,9 +356,12 @@
             });
 
         });
-    </script>
+    </script>'''
 
-</body>
-</html>
+content = re.sub(r'// Initial Mock Data[\s\S]*?\}\);\s*</script>', new_js, content)
 
 
+with open(file_path, 'w', encoding='utf-8') as f:
+    f.write(content)
+
+print('Rewrite complete')
