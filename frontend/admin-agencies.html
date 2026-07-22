@@ -449,12 +449,13 @@
             const location = `${city}, ${state}`;
             const contact = `+91 ${contactInput}`;
             
+            const form = document.getElementById('editAgencyForm');
             const btn = document.getElementById('updateAgencyBtn');
             const errorMsg = document.getElementById('editFormErrorMsg');
             errorMsg.classList.add('d-none');
 
-            if (!name || !email || !password || !location || !contact) {
-                errorMsg.textContent = "Please fill all required fields.";
+            if (!form.checkValidity()) {
+                errorMsg.textContent = "Please fill all required fields before updating.";
                 errorMsg.classList.remove('d-none');
                 return;
             }
@@ -500,13 +501,14 @@
             const location = `${city}, ${state}`;
             const contact = `+91 ${contactInput}`;
             
+            const form = document.getElementById('addAgencyForm');
             const btn = document.getElementById('saveAgencyBtn');
             const errorMsg = document.getElementById('formErrorMsg');
             
             errorMsg.classList.add('d-none');
 
-            if (!name || !email || !password || !location || !contact) {
-                errorMsg.textContent = "Please fill all required fields.";
+            if (!form.checkValidity()) {
+                errorMsg.textContent = "Please fill all required fields before submitting.";
                 errorMsg.classList.remove('d-none');
                 return;
             }
@@ -644,6 +646,18 @@
                 } else {
                     citySelect.trigger('change');
                 }
+            });
+
+            $('#addAgencyModal').on('hidden.bs.modal', function () {
+                document.getElementById('addAgencyForm').reset();
+                $('#formErrorMsg').addClass('d-none');
+                $('#agencyState').val(null).trigger('change');
+            });
+
+            $('#editAgencyModal').on('hidden.bs.modal', function () {
+                document.getElementById('editAgencyForm').reset();
+                $('#editFormErrorMsg').addClass('d-none');
+                $('#editAgencyState').val(null).trigger('change');
             });
         });
 

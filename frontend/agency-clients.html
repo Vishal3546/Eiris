@@ -517,10 +517,12 @@
 
             $('#updateClientBtn').on('click', function() {
                 const form = document.getElementById('editClientForm');
+                let errorMsg = $('#editFormErrorMsg');
                 if (!form.checkValidity()) {
-                    form.reportValidity();
+                    errorMsg.removeClass('d-none').text('Please fill all required fields before updating.');
                     return;
                 }
+                errorMsg.addClass('d-none');
                 
                 let id = parseInt($('#editClientId').val());
                 let clientIndex = clientsList.findIndex(c => c.id === id);
@@ -562,10 +564,12 @@
             
             $('#saveClientBtn').on('click', function() {
                 const form = document.getElementById('addClientForm');
+                let errorMsg = $('#formErrorMsg');
                 if (!form.checkValidity()) {
-                    form.reportValidity();
+                    errorMsg.removeClass('d-none').text('Please fill all required fields before submitting.');
                     return;
                 }
+                errorMsg.addClass('d-none');
                 
                 let name = $('#clientName').val();
                 let company = $('#clientCompany').val();
@@ -600,6 +604,17 @@
                 $('#clientState').val(null).trigger('change');
             });
 
+            $('#addClientModal').on('hidden.bs.modal', function () {
+                document.getElementById('addClientForm').reset();
+                $('#formErrorMsg').addClass('d-none');
+                $('#clientState').val(null).trigger('change');
+            });
+
+            $('#editClientModal').on('hidden.bs.modal', function () {
+                document.getElementById('editClientForm').reset();
+                $('#editFormErrorMsg').addClass('d-none');
+                $('#editClientState').val(null).trigger('change');
+            });
         });
     </script>
 </body>
