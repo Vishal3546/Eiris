@@ -126,6 +126,10 @@ const adminAgencyService = {
         const response = await apiService.post('/admin/agencies', agencyData);
         return response.data;
     },
+    async updateAgency(id, agencyData) {
+        const response = await apiService.put(`/admin/agencies/${id}`, agencyData);
+        return response.data;
+    },
     async deleteAgency(id) {
         await apiService.delete(`/admin/agencies/${id}`);
     }

@@ -1,6 +1,7 @@
 package com.eiris.backend.controller;
 
 import com.eiris.backend.dto.request.CreateAgencyRequest;
+import com.eiris.backend.dto.request.UpdateAgencyRequest;
 import com.eiris.backend.dto.response.AgencyResponse;
 import com.eiris.backend.service.AgencyService;
 import jakarta.validation.Valid;
@@ -29,6 +30,11 @@ public class AgencyController {
     @GetMapping
     public ResponseEntity<List<AgencyResponse>> getAllAgencies() {
         return ResponseEntity.ok(agencyService.getAllAgencies());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AgencyResponse> updateAgency(@PathVariable UUID id, @Valid @RequestBody UpdateAgencyRequest request) {
+        return ResponseEntity.ok(agencyService.updateAgency(id, request));
     }
 
     @DeleteMapping("/{id}")

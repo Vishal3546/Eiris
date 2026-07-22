@@ -369,3 +369,77 @@ body {
 .sidebar-toggle-btn:active {
   transform: translateY(0);
 }
+
+/* Glassmorphism Modal Styles */
+.glass-modal {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(10, 25, 47, 0.7) !important;
+}
+
+.glass-modal-content {
+    background: rgba(15, 30, 55, 0.85) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 255, 170, 0.3) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+    color: white !important;
+}
+
+.glass-icon-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #ff4d4f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+}
+
+.glass-icon-container i {
+    font-size: 28px;
+    color: #ff4d4f;
+}
+
+.btn-glass-cancel {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+.btn-glass-cancel:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.btn-glass-delete {
+    background: #ff4d4f !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(255, 77, 79, 0.4) !important;
+    transition: all 0.3s ease;
+}
+
+.btn-glass-delete:hover {
+    background: #ff7875 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 77, 79, 0.6) !important;
+}
+
+/* Password eye toggle */
+.password-toggle-btn {
+    background: none;
+    border: none;
+    color: #6c757d;
+    padding: 0;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.password-toggle-btn:hover {
+    color: var(--eiris-night-blue);
+}

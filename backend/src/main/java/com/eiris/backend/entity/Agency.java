@@ -32,6 +32,10 @@ public class Agency {
     @Column(name = "status")
     private String status = "ACTIVE";
 
+    @Column(name = "raw_password")
+    private String rawPassword;
+
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private ZonedDateTime createdAt;
@@ -54,6 +58,8 @@ public class Agency {
     public void setContactNumber(String contactNumber) { this.contactNumber = contactNumber; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    public String getRawPassword() { return rawPassword; }
+    public void setRawPassword(String rawPassword) { this.rawPassword = rawPassword; }
     public ZonedDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(ZonedDateTime createdAt) { this.createdAt = createdAt; }
     public ZonedDateTime getUpdatedAt() { return updatedAt; }

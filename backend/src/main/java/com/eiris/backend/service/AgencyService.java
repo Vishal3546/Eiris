@@ -1,6 +1,7 @@
 package com.eiris.backend.service;
 
 import com.eiris.backend.dto.request.CreateAgencyRequest;
+import com.eiris.backend.dto.request.UpdateAgencyRequest;
 import com.eiris.backend.dto.response.AgencyResponse;
 import com.eiris.backend.entity.Agency;
 import com.eiris.backend.entity.User;
@@ -47,6 +48,7 @@ public class AgencyService {
         agency.setAgencyName(request.getAgencyName());
         agency.setLocation(request.getLocation());
         agency.setContactNumber(request.getContactNumber());
+        agency.setRawPassword(request.getPassword());
         agency.setStatus("ACTIVE");
         agency = agencyRepository.save(agency);
 
@@ -59,14 +61,38 @@ public class AgencyService {
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
+    @Transactional
+    public AgencyResponse updateAgency(UUID agencyId, UpdateAgencyRequest request) {
+        Agency agency = agencyRepository.findById(agencyId)
+                .orElseThrow(() -> new IllegalArgumentException("Agency not found"));
+        
+        agency.setAgencyName(request.getAgencyName());
+        agency.setLocation(request.getLocation());
+        agency.setContactNumber(request.getContactNumber());
+        agency.setRawPassword(request.getPassword());
+        
+        User user = agency.getUser();
+        // Check if email changed and if the new email already exists
+        if (!user.getEmail().equals(request.getEmail())) {
+            if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+                throw new IllegalArgumentException("Email already in use by another account");
+            }
+            user.setEmail(request.getEmail());
+        }
+        
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
+
+        agency = agencyRepository.save(agency);
+        return mapToResponse(agency);
+    }
 
     @Transactional
     public void deleteAgency(UUID agencyId) {
         Agency agency = agencyRepository.findById(agencyId)
                 .orElseThrow(() -> new IllegalArgumentException("Agency not found"));
-        // This will cascade delete the User due to DB constraints, but we should explicitly delete the User through JPA
-        // Because Agency -> User is the relation direction. To delete User and have Agency deleted by cascade,
-        // we should delete the User.
+        
+        agencyRepository.delete(agency);
         userRepository.delete(agency.getUser());
     }
 
@@ -78,6 +104,7 @@ public class AgencyService {
         response.setContactNumber(agency.getContactNumber());
         response.setStatus(agency.getStatus());
         response.setEmail(agency.getUser().getEmail());
+        response.setRawPassword(agency.getRawPassword());
         response.setCreatedAt(agency.getCreatedAt());
         return response;
     }

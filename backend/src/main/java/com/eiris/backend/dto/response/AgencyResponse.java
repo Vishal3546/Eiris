@@ -13,6 +13,7 @@ public class AgencyResponse {
     private String contactNumber;
     private String status;
     private String email; 
+    private String rawPassword;
     private ZonedDateTime createdAt;
 
     public UUID getId() { return id; }
@@ -27,6 +28,8 @@ public class AgencyResponse {
     public void setStatus(String status) { this.status = status; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+    public String getRawPassword() { return rawPassword; }
+    public void setRawPassword(String rawPassword) { this.rawPassword = rawPassword; }
     public ZonedDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(ZonedDateTime createdAt) { this.createdAt = createdAt; }
 }
