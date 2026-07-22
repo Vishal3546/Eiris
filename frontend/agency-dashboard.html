@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
 
     <div class="d-flex min-vh-100 bg-light">
         <!-- Sidebar -->
-        <div class="text-white position-relative animate-slide-right" style="width: 280px; background-color: var(--eiris-night-blue-shadow);">
+        <div id="sidebar" class="sidebar text-white position-relative animate-slide-right" style="width: 280px; background-color: var(--eiris-night-blue-shadow);">
             <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
                 <i class="bi bi-shield-fill-exclamation text-sand-tan me-2" style="font-size: 30px;"></i>
                 <h4 class="mb-0 fw-bold text-sand-tan">Agency Portal</h4>
@@ -58,6 +58,10 @@
         <div class="flex-grow-1 d-flex flex-column" style="overflow-y: auto; height: 100vh;">
             <nav class="navbar navbar-expand-lg bg-white border-bottom px-4 py-3 shadow-sm animate-slide-down">
                 <div class="container-fluid">
+                    <!-- Sidebar Toggle Button (Mobile/Tablet) -->
+                    <button class="sidebar-toggle-btn d-lg-none me-auto" id="sidebarToggle">
+                        <i class="bi bi-list fs-3"></i>
+                    </button>
                     <div class="ms-auto d-flex align-items-center gap-3">
                         <span class="text-muted">Agency: <strong class="text-night-blue">AutoTech Distributors</strong></span>
                         <div class="text-white fw-bold rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="background-color: var(--eiris-sand-tan-shadow); width: 40px; height: 40px;">
@@ -79,7 +83,7 @@
                                 </div>
                                 <div>
                                     <p class="text-muted mb-0 small fw-bold text-uppercase">Total Sales</p>
-                                    <h4 class="mb-0 fw-bold">₹1,24,500</h4>
+                                    <h4 class="mb-0 fw-bold">â‚¹1,24,500</h4>
                                 </div>
                             </div>
                         </div>
@@ -170,3 +174,5 @@
     <script src="js/script.js"></script>
 </body>
 </html>
+
+

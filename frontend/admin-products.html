@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -17,7 +17,7 @@
 
     <div class="d-flex min-vh-100 bg-light">
         <!-- Sidebar -->
-        <div class="bg-night-blue text-white position-relative animate-slide-right" style="width: 280px;">
+        <div id="sidebar" class="sidebar bg-night-blue text-white position-relative animate-slide-right" style="width: 280px;">
             <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
                 <i class="bi bi-car-front-fill text-sand-tan me-2" style="font-size: 30px;"></i>
                 <h4 class="mb-0 fw-bold text-sand-tan">Admin Portal</h4>
@@ -64,6 +64,10 @@
         <div class="flex-grow-1 d-flex flex-column" style="overflow-y: auto; height: 100vh;">
             <nav class="navbar navbar-expand-lg bg-white border-bottom px-4 py-3 shadow-sm animate-slide-down">
                 <div class="container-fluid">
+                    <!-- Sidebar Toggle Button (Mobile/Tablet) -->
+                    <button class="sidebar-toggle-btn d-lg-none me-auto" id="sidebarToggle">
+                        <i class="bi bi-list fs-3"></i>
+                    </button>
                     <div class="ms-auto d-flex align-items-center gap-3">
                         <span class="text-muted">Welcome, <strong class="text-night-blue">Super Admin</strong></span>
                         <div class="bg-sand-tan text-night-blue fw-bold rounded-circle d-flex align-items-center justify-content-center shadow-sm"
@@ -96,7 +100,7 @@
                                 <p class="text-muted small">Premium quality product from Eiris. Durable and reliable.
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span class="fw-bold fs-5 text-sand-tan-shadow">₹1299</span>
+                                    <span class="fw-bold fs-5 text-sand-tan-shadow">â‚¹1299</span>
                                     <div>
                                         <button class="btn btn-sm btn-outline-primary rounded-circle me-1"><i
                                                 class="bi bi-pencil-fill"></i></button>
@@ -121,7 +125,7 @@
                                 <p class="text-muted small">Premium quality product from Eiris. Durable and reliable.
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <span class="fw-bold fs-5 text-sand-tan-shadow">₹899</span>
+                                    <span class="fw-bold fs-5 text-sand-tan-shadow">â‚¹899</span>
                                     <div>
                                         <button class="btn btn-sm btn-outline-primary rounded-circle me-1"><i
                                                 class="bi bi-pencil-fill"></i></button>
@@ -146,3 +150,4 @@
 </body>
 
 </html>
+

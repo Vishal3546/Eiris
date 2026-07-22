@@ -82,5 +82,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }, observerOptions);
     
     counterElements.forEach(el => counterObserver.observe(el));
+    // 4. Responsive Sidebar Toggle Logic
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggleBtn = document.getElementById('sidebarToggle');
+    
+    if (sidebar && sidebarToggleBtn) {
+        // Create overlay dynamically
+        const overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        document.body.appendChild(overlay);
+
+        // Toggle sidebar on button click
+        sidebarToggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent immediate closing if body has listener
+            sidebar.classList.toggle('show-sidebar');
+            overlay.classList.toggle('show-sidebar-overlay');
+        });
+
+        // Close sidebar on overlay click
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('show-sidebar');
+            overlay.classList.remove('show-sidebar-overlay');
+        });
+    }
 
 });

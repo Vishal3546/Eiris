@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
 
     <div class="d-flex min-vh-100 bg-light">
         <!-- Sidebar -->
-        <div class="bg-night-blue text-white position-relative animate-slide-right" style="width: 280px;">
+        <div id="sidebar" class="sidebar bg-night-blue text-white position-relative animate-slide-right" style="width: 280px;">
             <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
                 <i class="bi bi-car-front-fill text-sand-tan me-2" style="font-size: 30px;"></i>
                 <h4 class="mb-0 fw-bold text-sand-tan">Admin Portal</h4>
@@ -53,6 +53,10 @@
         <div class="flex-grow-1 d-flex flex-column" style="overflow-y: auto; height: 100vh;">
             <nav class="navbar navbar-expand-lg bg-white border-bottom px-4 py-3 shadow-sm animate-slide-down">
                 <div class="container-fluid">
+                    <!-- Sidebar Toggle Button (Mobile/Tablet) -->
+                    <button class="sidebar-toggle-btn d-lg-none me-auto" id="sidebarToggle">
+                        <i class="bi bi-list fs-3"></i>
+                    </button>
                     <div class="ms-auto d-flex align-items-center gap-3">
                         <span class="text-muted">Welcome, <strong class="text-night-blue">Super Admin</strong></span>
                         <div class="bg-sand-tan text-night-blue fw-bold rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px;">
@@ -84,7 +88,7 @@
                                         <td class="ps-4 fw-bold text-primary">#ORD-9021</td>
                                         <td>AutoTech Distributors</td>
                                         <td>500x LED Headlights...</td>
-                                        <td class="fw-bold">₹6,49,500</td>
+                                        <td class="fw-bold">â‚¹6,49,500</td>
                                         <td><span class="badge bg-warning text-dark">Pending Review</span></td>
                                         <td class="pe-4 text-end">
                                             <button class="btn btn-sm btn-success rounded-pill px-3 me-2">Approve</button>
@@ -95,7 +99,7 @@
                                         <td class="ps-4 fw-bold text-primary">#ORD-9020</td>
                                         <td>Speedy Lights</td>
                                         <td>100x Premium Floor Mats</td>
-                                        <td class="fw-bold">₹89,900</td>
+                                        <td class="fw-bold">â‚¹89,900</td>
                                         <td><span class="badge bg-success">Approved</span></td>
                                         <td class="pe-4 text-end">
                                             <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>Processed</button>
@@ -117,3 +121,5 @@
     <script src="js/script.js"></script>
 </body>
 </html>
+
+

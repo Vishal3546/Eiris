@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
 
     <div class="d-flex min-vh-100 bg-light">
         <!-- Sidebar -->
-        <div class="text-white position-relative animate-slide-right" style="width: 280px; background-color: var(--eiris-night-blue-shadow);">
+        <div id="sidebar" class="sidebar text-white position-relative animate-slide-right" style="width: 280px; background-color: var(--eiris-night-blue-shadow);">
             <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
                 <i class="bi bi-shield-fill-exclamation text-sand-tan me-2" style="font-size: 30px;"></i>
                 <h4 class="mb-0 fw-bold text-sand-tan">Agency Portal</h4>
@@ -58,6 +58,10 @@
         <div class="flex-grow-1 d-flex flex-column" style="overflow-y: auto; height: 100vh;">
             <nav class="navbar navbar-expand-lg bg-white border-bottom px-4 py-3 shadow-sm animate-slide-down">
                 <div class="container-fluid">
+                    <!-- Sidebar Toggle Button (Mobile/Tablet) -->
+                    <button class="sidebar-toggle-btn d-lg-none me-auto" id="sidebarToggle">
+                        <i class="bi bi-list fs-3"></i>
+                    </button>
                     <div class="ms-auto d-flex align-items-center gap-3">
                         <span class="text-muted">Agency: <strong class="text-night-blue">AutoTech Distributors</strong></span>
                         <div class="text-white fw-bold rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="background-color: var(--eiris-sand-tan-shadow); width: 40px; height: 40px;">
@@ -89,7 +93,7 @@
                                 <div class="d-flex justify-content-between text-start border-top pt-3">
                                     <div>
                                         <p class="text-muted small mb-0">Total Sales</p>
-                                        <h6 class="fw-bold mb-0">₹45,000</h6>
+                                        <h6 class="fw-bold mb-0">â‚¹45,000</h6>
                                     </div>
                                     <div class="text-end">
                                         <p class="text-muted small mb-0">Orders</p>
@@ -111,7 +115,7 @@
                                 <div class="d-flex justify-content-between text-start border-top pt-3">
                                     <div>
                                         <p class="text-muted small mb-0">Total Sales</p>
-                                        <h6 class="fw-bold mb-0">₹38,500</h6>
+                                        <h6 class="fw-bold mb-0">â‚¹38,500</h6>
                                     </div>
                                     <div class="text-end">
                                         <p class="text-muted small mb-0">Orders</p>
@@ -133,7 +137,7 @@
                                 <div class="d-flex justify-content-between text-start border-top pt-3">
                                     <div>
                                         <p class="text-muted small mb-0">Total Sales</p>
-                                        <h6 class="fw-bold mb-0">₹29,200</h6>
+                                        <h6 class="fw-bold mb-0">â‚¹29,200</h6>
                                     </div>
                                     <div class="text-end">
                                         <p class="text-muted small mb-0">Orders</p>
@@ -184,7 +188,7 @@
                                         <td>Tech Solutions Inc.</td>
                                         <td>john@techsolutions.com</td>
                                         <td>+91 98765 43210</td>
-                                        <td class="fw-bold">₹45,000</td>
+                                        <td class="fw-bold">â‚¹45,000</td>
                                         <td><span class="badge bg-success bg-opacity-10 text-success px-2 py-1 rounded-pill">Active</span></td>
                                         <td class="text-end pe-4">
                                             <button class="btn btn-sm btn-light rounded-circle me-1"><i class="bi bi-eye"></i></button>
@@ -206,7 +210,7 @@
                                         <td>Global Logistics</td>
                                         <td>alice@globallogistics.com</td>
                                         <td>+91 98765 43211</td>
-                                        <td class="fw-bold">₹38,500</td>
+                                        <td class="fw-bold">â‚¹38,500</td>
                                         <td><span class="badge bg-success bg-opacity-10 text-success px-2 py-1 rounded-pill">Active</span></td>
                                         <td class="text-end pe-4">
                                             <button class="btn btn-sm btn-light rounded-circle me-1"><i class="bi bi-eye"></i></button>
@@ -228,7 +232,7 @@
                                         <td>Prime Enterprises</td>
                                         <td>robert@primeent.com</td>
                                         <td>+91 98765 43212</td>
-                                        <td class="fw-bold">₹29,200</td>
+                                        <td class="fw-bold">â‚¹29,200</td>
                                         <td><span class="badge bg-warning bg-opacity-10 text-warning px-2 py-1 rounded-pill">Inactive</span></td>
                                         <td class="text-end pe-4">
                                             <button class="btn btn-sm btn-light rounded-circle me-1"><i class="bi bi-eye"></i></button>
@@ -251,3 +255,5 @@
     <script src="js/script.js"></script>
 </body>
 </html>
+
+
