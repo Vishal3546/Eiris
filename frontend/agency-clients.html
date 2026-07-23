@@ -344,21 +344,54 @@
                 citySelect.trigger('change');
             });
 
-            // Initial Mock Data
-            let clientsList = [
-                { id: 1, name: "John Doe", added: "Jan 12, 2024", company: "Tech Solutions Inc.", email: "john@techsolutions.com", phone: "+91 98765 43210", state: "Maharashtra", place: "Mumbai", sales: 45000, orders: 12 },
-                { id: 2, name: "Alice Smith", added: "Feb 05, 2024", company: "Global Logistics", email: "alice@globallogistics.com", phone: "+91 98765 43211", state: "Delhi", place: "New Delhi", sales: 38500, orders: 8 },
-                { id: 3, name: "Robert Johnson", added: "Mar 18, 2024", company: "Prime Enterprises", email: "robert@primeent.com", phone: "+91 98765 43212", state: "Gujarat", place: "Ahmedabad", sales: 29200, orders: 5 }
-            ];
+            // Initial Mock Data and Backend Integration
+            const API_BASE_URL = 'http://localhost:8080/api/agency/clients';
+            
+            function getAuthHeaders() {
+                const token = localStorage.getItem('accessToken');
+                return {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
+                };
+            }
+
+            let clientsList = [];
+
+            async function fetchClients() {
+                try {
+                    const response = await fetch(API_BASE_URL, { headers: getAuthHeaders() });
+                    if (!response.ok) throw new Error("Failed to fetch clients");
+                    const data = await response.json();
+                    
+                    // Map backend properties to frontend properties format if necessary
+                    clientsList = data.map(c => ({
+                        id: c.id,
+                        name: c.clientName,
+                        company: c.clientCompany || '-',
+                        email: c.clientEmail,
+                        phone: c.clientContact,
+                        state: c.clientState || '-',
+                        place: c.clientCity || '-',
+                        sales: c.sales || 0,
+                        orders: c.orders || 0,
+                        added: new Date(c.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
+                    }));
+                    renderTopClients();
+                    renderClientsTable();
+                } catch (e) {
+                    console.error("Error fetching clients", e);
+                }
+            }
 
             function getInitials(name) {
+                if(!name) return 'C';
                 let parts = name.trim().split(' ');
                 if (parts.length >= 2) {
                     return (parts[0][0] + parts[1][0]).toUpperCase();
                 } else if (parts.length === 1 && parts[0].length >= 2) {
                     return parts[0].substring(0, 2).toUpperCase();
                 }
-                return 'C';
+                return name.substring(0,1).toUpperCase();
             }
 
             function getAvatarClass(index) {
@@ -428,8 +461,8 @@
                             <td class="fw-bold text-success">₹${client.sales.toLocaleString('en-IN')}</td>
                             <td class="pe-4 text-end">
                                 <div class="d-flex justify-content-end gap-2 flex-nowrap">
-                                    <button class="btn btn-sm btn-outline-primary rounded-circle" title="Edit" onclick="openEditClient(${client.id})"><i class="bi bi-pencil-fill"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger rounded-circle" title="Delete" onclick="confirmDeleteClient(${client.id})"><i class="bi bi-trash-fill"></i></button>
+                                    <button class="btn btn-sm btn-outline-primary rounded-circle" title="Edit" onclick="openEditClient('${client.id}')"><i class="bi bi-pencil-fill"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-circle" title="Delete" onclick="confirmDeleteClient('${client.id}')"><i class="bi bi-trash-fill"></i></button>
                                 </div>
                             </td>
                         </tr>`;
@@ -470,7 +503,7 @@
                     $('#editClientCompany').val(client.company);
                     $('#editClientEmail').val(client.email);
                     
-                    let num = client.phone.replace('+91 ', '');
+                    let num = client.phone ? client.phone.replace('+91 ', '') : '';
                     $('#editClientContact').val(num);
                     
                     $('#editClientState, #editClientCity').select2({
@@ -517,15 +550,13 @@
 
             $('#updateClientBtn').on('click', function() {
                 const form = document.getElementById('editClientForm');
-                let errorMsg = $('#editFormErrorMsg');
                 if (!form.checkValidity()) {
-                    errorMsg.removeClass('d-none').text('Please fill all required fields before updating.');
+                    form.reportValidity();
                     return;
                 }
-                errorMsg.addClass('d-none');
                 
-                let id = parseInt($('#editClientId').val());
-                let clientIndex = clientsList.findIndex(c => c.id === id);
+                let id = $('#editClientId').val();
+                let clientIndex = clientsList.findIndex(c => c.id == id);
                 if(clientIndex !== -1) {
                     clientsList[clientIndex].name = $('#editClientName').val();
                     clientsList[clientIndex].company = $('#editClientCompany').val();
@@ -543,15 +574,14 @@
             window.confirmDeleteClient = function(id) {
                 showCustomConfirm().then(confirmed => {
                     if(confirmed) {
-                        clientsList = clientsList.filter(c => c.id !== id);
+                        clientsList = clientsList.filter(c => c.id != id);
                         renderTopClients();
                         renderClientsTable();
                     }
                 });
             };
 
-            renderTopClients();
-            renderClientsTable();
+            fetchClients();
             
             $('#clientSearch').on('input', function() {
                 let val = $(this).val().toLowerCase();
@@ -562,46 +592,52 @@
                 renderClientsTable(filtered);
             });
             
-            $('#saveClientBtn').on('click', function() {
+            $('#saveClientBtn').on('click', async function() {
                 const form = document.getElementById('addClientForm');
                 let errorMsg = $('#formErrorMsg');
+                
                 if (!form.checkValidity()) {
                     errorMsg.removeClass('d-none').text('Please fill all required fields before submitting.');
                     return;
                 }
                 errorMsg.addClass('d-none');
                 
-                let name = $('#clientName').val();
-                let company = $('#clientCompany').val();
-                let email = $('#clientEmail').val();
-                let contact = '+91 ' + $('#clientContact').val();
-                let state = $('#clientState').val();
-                let city = $('#clientCity').val();
+                let btn = $(this);
+                let originalText = btn.html();
+                btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...');
+                btn.prop('disabled', true);
                 
-                let newId = clientsList.length > 0 ? Math.max(...clientsList.map(c => c.id)) + 1 : 1;
-                
-                let newClient = {
-                    id: newId,
-                    name: name,
-                    added: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
-                    company: company,
-                    email: email,
-                    phone: contact,
-                    state: state || '-',
-                    place: city || '-',
-                    sales: 0,
-                    orders: 0
+                const clientData = {
+                    clientName: $('#clientName').val(),
+                    clientCompany: $('#clientCompany').val(),
+                    clientEmail: $('#clientEmail').val(),
+                    clientContact: '+91 ' + $('#clientContact').val(),
+                    clientState: $('#clientState').val(),
+                    clientCity: $('#clientCity').val()
                 };
                 
-                clientsList.unshift(newClient); 
-                renderTopClients(); 
-                
-                $('#clientSearch').val('');
-                renderClientsTable();
-                
-                $('#addClientModal').modal('hide');
-                form.reset();
-                $('#clientState').val(null).trigger('change');
+                try {
+                    const response = await fetch(API_BASE_URL, {
+                        method: 'POST',
+                        headers: getAuthHeaders(),
+                        body: JSON.stringify(clientData)
+                    });
+                    
+                    if (!response.ok) throw new Error("Failed to save client");
+                    
+                    await fetchClients();
+                    
+                    $('#clientSearch').val('');
+                    $('#addClientModal').modal('hide');
+                    form.reset();
+                    $('#clientState').val(null).trigger('change');
+                } catch (e) {
+                    console.error("Error saving client", e);
+                    errorMsg.removeClass('d-none').text('Error saving client. Please try again.');
+                } finally {
+                    btn.html(originalText);
+                    btn.prop('disabled', false);
+                }
             });
 
             $('#addClientModal').on('hidden.bs.modal', function () {
@@ -616,6 +652,7 @@
                 $('#editClientState').val(null).trigger('change');
             });
         });
+
     </script>
 </body>
 </html>
