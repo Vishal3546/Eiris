@@ -314,6 +314,15 @@
     
     <script>
         $(document).ready(function() {
+            // Check if user is logged in and is an agency
+            const token = localStorage.getItem('accessToken');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            
+            if (!token || user.role !== 'AGENCY') {
+                window.location.href = 'index.html';
+                return;
+            }
+
             // Initialize Select2
             $('#clientState, #clientCity').select2({
                 theme: 'classic',

@@ -1,101 +1,71 @@
-const INVENTORY_STORAGE_KEY = 'eiris_agency_inventory';
-const SALES_STORAGE_KEY = 'eiris_agency_sales';
+const API_BASE_URL = 'http://localhost:8080/api/agency';
+
+function getAuthHeaders() {
+    const token = localStorage.getItem('accessToken');
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': token ? `Bearer ${token}` : ''
+    };
+}
 
 const agencyInventoryManager = {
-    getInventory: function() {
-        const invStr = localStorage.getItem(INVENTORY_STORAGE_KEY);
-        return invStr ? JSON.parse(invStr) : [];
+    getInventory: async function() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/inventory`, { headers: getAuthHeaders() });
+            if (!response.ok) throw new Error("Failed to fetch inventory");
+            return await response.json();
+        } catch (e) {
+            console.error("Error in getInventory:", e);
+            return [];
+        }
     },
 
-    saveInventory: function(inventory) {
-        localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(inventory));
-        this.notifyInventoryChanged();
+    getSales: async function() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/sales`, { headers: getAuthHeaders() });
+            if (!response.ok) throw new Error("Failed to fetch sales");
+            return await response.json();
+        } catch (e) {
+            console.error("Error in getSales:", e);
+            return [];
+        }
     },
 
-    getSales: function() {
-        const salesStr = localStorage.getItem(SALES_STORAGE_KEY);
-        return salesStr ? JSON.parse(salesStr) : [];
-    },
-
-    saveSales: function(sales) {
-        localStorage.setItem(SALES_STORAGE_KEY, JSON.stringify(sales));
-    },
-
-    addItemsToInventory: function(cartItems) {
-        let inventory = this.getInventory();
-        
-        cartItems.forEach(cartItem => {
-            const existingItemIndex = inventory.findIndex(i => i.id === cartItem.id);
-            if (existingItemIndex !== -1) {
-                inventory[existingItemIndex].quantity += cartItem.quantity;
-                // Update price/details just in case they changed
-                inventory[existingItemIndex].price = cartItem.price;
-                inventory[existingItemIndex].name = cartItem.name;
-            } else {
-                inventory.push({
-                    id: cartItem.id,
-                    name: cartItem.name,
-                    category: cartItem.category,
-                    price: cartItem.price,
-                    imageUrl: cartItem.imageUrl || cartItem.image,
-                    quantity: cartItem.quantity
-                });
+    recordSale: async function(productId, quantitySold, customerName = "Walk-in Customer") {
+        try {
+            const payload = {
+                productId: productId,
+                quantity: parseInt(quantitySold, 10),
+                customerName: customerName
+            };
+            const response = await fetch(`${API_BASE_URL}/sales`, {
+                method: 'POST',
+                headers: getAuthHeaders(),
+                body: JSON.stringify(payload)
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                return { success: false, message: errorData.message || "Failed to record sale" };
             }
-        });
-        
-        this.saveInventory(inventory);
-    },
-
-    recordSale: function(productId, quantitySold, customerName = "Walk-in Customer") {
-        let inventory = this.getInventory();
-        const itemIndex = inventory.findIndex(i => i.id === productId);
-        
-        if (itemIndex === -1) {
-            return { success: false, message: "Item not found in inventory." };
+            
+            this.notifyInventoryChanged();
+            return { success: true, message: "Sale recorded successfully!" };
+        } catch (e) {
+            console.error("Error in recordSale:", e);
+            return { success: false, message: "Network error occurred." };
         }
-        
-        const item = inventory[itemIndex];
-        const qtyToSell = parseInt(quantitySold, 10);
-        
-        if (item.quantity < qtyToSell) {
-            return { success: false, message: "Not enough stock available." };
-        }
-        
-        // Deduct from inventory
-        item.quantity -= qtyToSell;
-        this.saveInventory(inventory);
-        
-        // Log the sale
-        let sales = this.getSales();
-        sales.push({
-            id: Date.now().toString(),
-            productId: item.id,
-            productName: item.name,
-            category: item.category,
-            quantity: qtyToSell,
-            unitPrice: item.price,
-            totalPrice: item.price * qtyToSell,
-            customerName: customerName,
-            date: new Date().toISOString()
-        });
-        this.saveSales(sales);
-        
-        return { success: true, message: "Sale recorded successfully!" };
     },
     
-    getMetrics: function() {
-        const inventory = this.getInventory();
-        const totalItems = inventory.reduce((sum, item) => sum + item.quantity, 0);
-        const lowStockCount = inventory.filter(item => item.quantity > 0 && item.quantity <= 20).length;
-        const outOfStockCount = inventory.filter(item => item.quantity <= 0).length;
-        const totalValue = inventory.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        
-        return {
-            totalItems,
-            lowStockCount,
-            outOfStockCount,
-            totalValue
-        };
+    getMetrics: async function() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/inventory/metrics`, { headers: getAuthHeaders() });
+            if (!response.ok) throw new Error("Failed to fetch metrics");
+            return await response.json();
+        } catch (e) {
+            console.error("Error in getMetrics:", e);
+            return { totalItems: 0, lowStockCount: 0, outOfStockCount: 0, totalValue: 0 };
+        }
     },
 
     notifyInventoryChanged: function() {

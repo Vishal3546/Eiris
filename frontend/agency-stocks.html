@@ -225,24 +225,35 @@
     <script>
         // UI Logic for Inventory
         document.addEventListener('DOMContentLoaded', function() {
-            function updateDashboard() {
+            // Check if user is logged in and is an agency
+            const token = localStorage.getItem('accessToken');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            
+            if (!token || user.role !== 'AGENCY') {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            async function updateDashboard() {
                 if(!window.agencyInventoryManager) return;
                 
-                const metrics = window.agencyInventoryManager.getMetrics();
+                const metrics = await window.agencyInventoryManager.getMetrics();
                 document.getElementById('metricTotalItems').innerText = metrics.totalItems;
                 document.getElementById('metricTotalValue').innerText = metrics.totalValue.toLocaleString('en-IN');
                 document.getElementById('metricLowStock').innerText = metrics.lowStockCount;
                 
-                renderTable();
-                populateCategories();
+                const inventory = await window.agencyInventoryManager.getInventory();
+                window.currentInventory = inventory; // Store for filtering
+                renderTable(inventory);
+                populateCategories(inventory);
             }
             
-            function renderTable() {
+            function renderTable(inventoryData) {
                 const tbody = document.getElementById('inventoryTableBody');
                 const emptyState = document.getElementById('emptyState');
                 if(!window.agencyInventoryManager) return;
                 
-                let inventory = window.agencyInventoryManager.getInventory();
+                let inventory = inventoryData || window.currentInventory || [];
                 
                 // Filtering
                 const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -302,9 +313,9 @@
                 tbody.innerHTML = html;
             }
             
-            function populateCategories() {
+            function populateCategories(inventoryData) {
                 if(!window.agencyInventoryManager) return;
-                const inventory = window.agencyInventoryManager.getInventory();
+                const inventory = inventoryData || window.currentInventory || [];
                 const categories = [...new Set(inventory.map(item => item.category).filter(Boolean))];
                 
                 const select = document.getElementById('categoryFilter');
@@ -318,8 +329,8 @@
             }
             
             // Event Listeners for Filters
-            document.getElementById('searchInput').addEventListener('input', renderTable);
-            document.getElementById('categoryFilter').addEventListener('change', renderTable);
+            document.getElementById('searchInput').addEventListener('input', () => renderTable());
+            document.getElementById('categoryFilter').addEventListener('change', () => renderTable());
             
             // Record Sale Modal Logic
             let currentSaleModal = null;
@@ -338,15 +349,15 @@
                 }
             });
             
-            document.getElementById('confirmSaleBtn').addEventListener('click', function() {
+            document.getElementById('confirmSaleBtn').addEventListener('click', async function() {
                 const id = document.getElementById('saleProductId').value;
                 const qty = document.getElementById('saleQuantity').value;
                 const customer = document.getElementById('saleCustomerName').value || "Walk-in Customer";
                 
-                const result = window.agencyInventoryManager.recordSale(id, qty, customer);
+                const result = await window.agencyInventoryManager.recordSale(id, qty, customer);
                 if (result.success) {
                     currentSaleModal.hide();
-                    updateDashboard();
+                    await updateDashboard();
                     
                     // Show small success toast or alert
                     alert(qty + " units sold to " + customer + "!");
