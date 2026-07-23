@@ -152,25 +152,9 @@
     <script src="js/productManager.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Hardcoded products for agency (migrated from admin)
-            const hardcodedProducts = [
-                { id: 'hc1', category: 'Car Accessories', name: 'FMBT Player Radio', price: 1299, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/FMBT-Player-1.jpg', details: 'High Quality Audio,Bluetooth 5.0,FM Radio Support' },
-                { id: 'hc2', category: 'Car Accessories', name: 'Double Knob Player', price: 1499, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/Double-Knob-player-1.jpg', details: 'Double Knob Control,USB & SD Card Support,LCD Display' },
-                { id: 'hc3', category: 'Car Accessories', name: 'Rear View Cameras', price: 899, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/cameras.jpg', details: 'Night Vision,Wide Angle Lens,Waterproof Design' },
-                { id: 'hc4', category: 'LED Lights', name: 'K Light', price: 499, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/K-LIGHT-PC.jpg', details: 'High Lumens,Energy Efficient,Long Lifespan' },
-                { id: 'hc5', category: 'LED Lights', name: 'Eyelit', price: 599, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/EYELIT-PC.jpg', details: 'Premium Design,Super Bright,Easy Installation' },
-                { id: 'hc6', category: 'LED Lights', name: 'Ball PC', price: 399, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/Ball-PC.jpg', details: 'Durable Casing,Flicker-Free,Warm White' },
-                { id: 'hc7', category: 'Fan Regulator', name: 'Step Fan Regulator', price: 299, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/regulator.jpg', details: '4-Step Control,Hum-Free,Polycarbonate Body' },
-                { id: 'hc8', category: 'Fan Regulator', name: 'Mini Fan Regulator', price: 199, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/regulator-1.jpg', details: 'Compact Design,Smooth Operation,ISI Certified' },
-                { id: 'hc9', category: 'Fan Regulator', name: 'Premium Fan Regulator', price: 399, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/regulator-2.jpg', details: 'High Load Capacity,Flame Retardant,Modern Aesthetics' },
-                { id: 'hc10', category: 'LED Bulbs', name: 'LED Bulb 9W', price: 149, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/EYELIT-PC.jpg', details: '9 Watt Power,B22 Base,Cool Daylight' },
-                { id: 'hc11', category: 'LED Bulbs', name: 'LED Bulb 12W', price: 199, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/Ball-PC.jpg', details: '12 Watt Power,Energy Saving,Wide Beam Angle' },
-                { id: 'hc12', category: 'Emergency LED', name: 'Emergency LED 9W', price: 499, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/K-LIGHT-PC.jpg', details: 'Battery Backup,Automatic ON,Rechargeable' }
-            ];
-
-            function renderProducts() {
-                const customProducts = window.productManager ? window.productManager.getProducts() : [];
-                const allProducts = [...hardcodedProducts, ...customProducts];
+            async function renderProducts() {
+                const customProducts = window.productManager ? await window.productManager.getProducts() : [];
+                const allProducts = [...customProducts];
                 
                 document.querySelectorAll('.tab-pane .row').forEach(row => row.innerHTML = '');
 
@@ -193,7 +177,7 @@
                             const productCard = `
                             <div class="col-md-6 col-lg-4 product-item">
                                 <div class="h-100">
-                                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card custom-added-product" data-id="${p.id}">
                                         <div style="height: 200px; background-color: #f0f0f0; position: relative;">
                                             <img src="${img}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover;">
                                             <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">${p.category}</span>
@@ -228,7 +212,7 @@
                                     </div>
                                 </div>
                             </div>`;
-                            // Append custom to beginning, hardcoded to end conceptually (or just append all)
+                            // Append to row
                             row.insertAdjacentHTML('beforeend', productCard);
                         }
                     }
@@ -308,9 +292,9 @@
                     const input = btn.parentElement.querySelector('.qty-input');
                     const quantity = parseInt(input.value) || 1;
                     
-                    const customProducts = window.productManager ? window.productManager.getProducts() : [];
-                    const allProducts = [...hardcodedProducts, ...customProducts];
-                    const product = allProducts.find(p => p.id === productId);
+                    window.productManager.getProducts().then(customProducts => {
+                        const allProducts = [...customProducts];
+                        const product = allProducts.find(p => p.id === productId);
                     
                     if (product && window.cartManager) {
                         window.cartManager.addToCart(product, quantity);
@@ -324,6 +308,7 @@
                             btn.classList.replace('btn-success', 'btn-outline-primary');
                         }, 1000);
                     }
+                    });
                 }
                 
                 // Cart Modal interactions

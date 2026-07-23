@@ -1,45 +1,99 @@
-// Product Manager for handling custom added products in localStorage
+// Product Manager for handling products via Backend API
 
-const PRODUCT_STORAGE_KEY = 'eiris_custom_products';
+const API_BASE_URL = 'http://localhost:8080/api/admin/products';
+
+function getAuthHeaders() {
+    const token = localStorage.getItem('accessToken');
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': token ? `Bearer ${token}` : ''
+    };
+}
 
 const productManager = {
-    getProducts: function() {
-        const productsStr = localStorage.getItem(PRODUCT_STORAGE_KEY);
-        if (productsStr) {
-            try {
-                return JSON.parse(productsStr);
-            } catch (e) {
-                console.error("Error parsing custom products", e);
-                return [];
-            }
+    getProducts: async function() {
+        try {
+            const response = await fetch(API_BASE_URL, {
+                headers: {
+                    'Authorization': localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ''
+                }
+            });
+            if (!response.ok) throw new Error("Failed to fetch products");
+            return await response.json();
+        } catch (e) {
+            console.error("Error fetching products", e);
+            return [];
         }
-        return [];
     },
 
-    addProduct: function(product) {
-        const products = this.getProducts();
-        product.id = 'prod_' + Date.now();
-        products.push(product);
-        localStorage.setItem(PRODUCT_STORAGE_KEY, JSON.stringify(products));
-        return product;
-    },
-
-    updateProduct: function(id, updatedProduct) {
-        const products = this.getProducts();
-        const index = products.findIndex(p => p.id === id);
-        if (index !== -1) {
-            products[index] = { ...products[index], ...updatedProduct };
-            localStorage.setItem(PRODUCT_STORAGE_KEY, JSON.stringify(products));
-            return products[index];
+    uploadImage: async function(file) {
+        try {
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            const token = localStorage.getItem('accessToken');
+            const response = await fetch(`${API_BASE_URL}/upload-image`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': token ? `Bearer ${token}` : ''
+                },
+                body: formData
+            });
+            if (!response.ok) throw new Error("Failed to upload image");
+            const data = await response.json();
+            return data.url;
+        } catch (e) {
+            console.error("Error uploading image", e);
+            throw e;
         }
-        return null;
     },
 
-    deleteProduct: function(id) {
-        let products = this.getProducts();
-        products = products.filter(p => p.id !== id);
-        localStorage.setItem(PRODUCT_STORAGE_KEY, JSON.stringify(products));
+    addProduct: async function(product) {
+        try {
+            const response = await fetch(API_BASE_URL, {
+                method: 'POST',
+                headers: getAuthHeaders(),
+                body: JSON.stringify(product)
+            });
+            if (!response.ok) throw new Error("Failed to add product");
+            return await response.json();
+        } catch (e) {
+            console.error("Error adding product", e);
+            throw e;
+        }
+    },
+
+    updateProduct: async function(id, updatedProduct) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/${id}`, {
+                method: 'PUT',
+                headers: getAuthHeaders(),
+                body: JSON.stringify(updatedProduct)
+            });
+            if (!response.ok) throw new Error("Failed to update product");
+            return await response.json();
+        } catch (e) {
+            console.error("Error updating product", e);
+            throw e;
+        }
+    },
+
+    deleteProduct: async function(id) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ''
+                }
+            });
+            if (!response.ok) throw new Error("Failed to delete product");
+            return true;
+        } catch (e) {
+            console.error("Error deleting product", e);
+            throw e;
+        }
     }
 };
 
 window.productManager = productManager;
+

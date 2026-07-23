@@ -44,3 +44,11 @@ server:
   error:
     include-message: always
     include-binding-errors: always
+
+aws:
+  s3:
+    access-key: 1a3143389e44cea5d4d3ebb274b0be52
+    secret-key: cbd6a192d15c293f12b371f19fec93d04a7b50d3fe3b8ea7ada0cf281634edcc
+    endpoint: https://cjktlszbeasdlqpdhjtw.supabase.co/storage/v1/s3
+    region: ap-northeast-1
+    bucket: Eiris
