@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -72,8 +72,68 @@
             </nav>
             
             <div class="p-4 flex-grow-1 animate-fade-in-up">
-                <h3 class="fw-bold text-night-blue-shadow mb-4">My Stocks (Inventory)</h3>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold text-night-blue-shadow mb-0">My Stocks (Inventory)</h3>
+                    <a href="agency-purchase.html" class="btn btn-primary-custom rounded-pill px-4"><i class="bi bi-cart-plus me-2"></i>Buy Products</a>
+                </div>
                 
+                <!-- Metrics Row -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 p-3" style="background: linear-gradient(135deg, #1e3a4c, #2a5068); color: white;">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="text-white-50 text-uppercase fw-bold mb-0">Total Items in Stock</h6>
+                                    <i class="bi bi-box-seam fs-3 opacity-50"></i>
+                                </div>
+                                <h2 class="fw-bold mb-0" id="metricTotalItems">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 p-3" style="background: linear-gradient(135deg, #9cb080, #b1c19b); color: white;">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="text-white-50 text-uppercase fw-bold mb-0 text-dark">Estimated Value</h6>
+                                    <i class="bi bi-currency-rupee fs-3 opacity-50 text-dark"></i>
+                                </div>
+                                <h2 class="fw-bold mb-0 text-dark">₹<span id="metricTotalValue">0</span></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 p-3" style="background: linear-gradient(135deg, #dc3545, #e4606d); color: white;">
+                            <div class="card-body d-flex flex-column justify-content-center">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="text-white-50 text-uppercase fw-bold mb-0">Low Stock Alerts</h6>
+                                    <i class="bi bi-exclamation-triangle fs-3 opacity-50"></i>
+                                </div>
+                                <h2 class="fw-bold mb-0" id="metricLowStock">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-body p-3">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                                    <input type="text" class="form-control border-start-0 ps-0 focus-none" id="searchInput" placeholder="Search products by name...">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select border-secondary-subtle" id="categoryFilter">
+                                    <option value="all">All Categories</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Inventory Table -->
                 <div class="card border-0 shadow-sm rounded-4">
                     <div class="card-body p-0">
                         <div class="table-responsive">
@@ -87,36 +147,16 @@
                                         <th class="pe-4 py-3 text-end">Quick Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="ps-4 fw-bold">LED Headlight X1</td>
-                                        <td>Lighting</td>
-                                        <td><span class="fw-bold fs-5">500</span> units</td>
-                                        <td><span class="badge bg-success">In Stock</span></td>
-                                        <td class="pe-4 text-end">
-                                            <a href="agency-purchase.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">Restock</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="ps-4 fw-bold">Premium Floor Mats</td>
-                                        <td>Accessories</td>
-                                        <td><span class="fw-bold fs-5 text-danger">15</span> units</td>
-                                        <td><span class="badge bg-danger">Low Stock</span></td>
-                                        <td class="pe-4 text-end">
-                                            <a href="agency-purchase.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">Restock</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="ps-4 fw-bold">Smart Fan Regulator</td>
-                                        <td>Smart Home</td>
-                                        <td><span class="fw-bold fs-5">335</span> units</td>
-                                        <td><span class="badge bg-success">In Stock</span></td>
-                                        <td class="pe-4 text-end">
-                                            <a href="agency-purchase.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">Restock</a>
-                                        </td>
-                                    </tr>
+                                <tbody id="inventoryTableBody">
+                                    <!-- Dynamic rows will be inserted here -->
                                 </tbody>
                             </table>
+                        </div>
+                        <div id="emptyState" class="text-center p-5 d-none">
+                            <i class="bi bi-box-seam text-muted" style="font-size: 3rem;"></i>
+                            <h5 class="mt-3 fw-bold text-night-blue-shadow">Your inventory is empty</h5>
+                            <p class="text-muted">Head over to Buy Products to purchase stock.</p>
+                            <a href="agency-purchase.html" class="btn btn-secondary-custom rounded-pill mt-2">Buy Products</a>
                         </div>
                     </div>
                 </div>
@@ -144,7 +184,181 @@
         </div>
     </div>
 
+    <!-- Record Sale Modal -->
+    <div class="modal fade" id="recordSaleModal" tabindex="-1" aria-labelledby="recordSaleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow rounded-4">
+                <div class="modal-header border-bottom bg-light">
+                    <h5 class="modal-title fw-bold text-night-blue-shadow" id="recordSaleModalLabel"><i class="bi bi-receipt me-2"></i>Record Sale</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Product</label>
+                        <input type="text" class="form-control" id="saleProductName" readonly disabled>
+                        <input type="hidden" id="saleProductId">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Available Stock</label>
+                        <input type="text" class="form-control" id="saleAvailableStock" readonly disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Quantity Sold</label>
+                        <input type="number" class="form-control fw-bold border-secondary text-night-blue" id="saleQuantity" min="1" value="1">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Customer Name (Optional)</label>
+                        <input type="text" class="form-control" id="saleCustomerName" placeholder="e.g. Local Shop A">
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary-custom rounded-pill px-4 fw-bold" id="confirmSaleBtn">Confirm Sale</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Managers -->
+    <script src="js/agencyInventoryManager.js"></script>
+
     <script>
+        // UI Logic for Inventory
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateDashboard() {
+                if(!window.agencyInventoryManager) return;
+                
+                const metrics = window.agencyInventoryManager.getMetrics();
+                document.getElementById('metricTotalItems').innerText = metrics.totalItems;
+                document.getElementById('metricTotalValue').innerText = metrics.totalValue.toLocaleString('en-IN');
+                document.getElementById('metricLowStock').innerText = metrics.lowStockCount;
+                
+                renderTable();
+                populateCategories();
+            }
+            
+            function renderTable() {
+                const tbody = document.getElementById('inventoryTableBody');
+                const emptyState = document.getElementById('emptyState');
+                if(!window.agencyInventoryManager) return;
+                
+                let inventory = window.agencyInventoryManager.getInventory();
+                
+                // Filtering
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const categoryFilter = document.getElementById('categoryFilter').value;
+                
+                inventory = inventory.filter(item => {
+                    const matchesSearch = item.name.toLowerCase().includes(searchTerm);
+                    const matchesCat = categoryFilter === 'all' || item.category === categoryFilter;
+                    return matchesSearch && matchesCat;
+                });
+                
+                if (inventory.length === 0) {
+                    tbody.innerHTML = '';
+                    emptyState.classList.remove('d-none');
+                    return;
+                }
+                
+                emptyState.classList.add('d-none');
+                let html = '';
+                
+                inventory.forEach(item => {
+                    let statusBadge = '<span class="badge bg-success">In Stock</span>';
+                    let stockClass = '';
+                    if (item.quantity <= 0) {
+                        statusBadge = '<span class="badge bg-dark">Out of Stock</span>';
+                        stockClass = 'text-muted text-decoration-line-through';
+                    } else if (item.quantity <= 20) {
+                        statusBadge = '<span class="badge bg-danger">Low Stock</span>';
+                        stockClass = 'text-danger';
+                    }
+                    
+                    const img = item.imageUrl || 'https://via.placeholder.com/40';
+                    
+                    html += `
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="${img}" class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                                    <div>
+                                        <div class="fw-bold text-night-blue-shadow">${item.name}</div>
+                                        <div class="text-muted small">₹${item.price}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-light text-dark border">${item.category || 'General'}</span></td>
+                            <td><span class="fw-bold fs-5 ${stockClass}">${item.quantity}</span> units</td>
+                            <td>${statusBadge}</td>
+                            <td class="pe-4 text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button class="btn btn-sm btn-outline-success rounded-pill px-3 record-sale-btn" data-id="${item.id}" data-name="${item.name}" data-qty="${item.quantity}" ${item.quantity <= 0 ? 'disabled' : ''}><i class="bi bi-currency-rupee me-1"></i>Sell</button>
+                                    <a href="agency-purchase.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">Restock</a>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html;
+            }
+            
+            function populateCategories() {
+                if(!window.agencyInventoryManager) return;
+                const inventory = window.agencyInventoryManager.getInventory();
+                const categories = [...new Set(inventory.map(item => item.category).filter(Boolean))];
+                
+                const select = document.getElementById('categoryFilter');
+                // Keep the 'all' option
+                const currentVal = select.value;
+                select.innerHTML = '<option value="all">All Categories</option>';
+                categories.forEach(cat => {
+                    select.innerHTML += `<option value="${cat}">${cat}</option>`;
+                });
+                select.value = currentVal;
+            }
+            
+            // Event Listeners for Filters
+            document.getElementById('searchInput').addEventListener('input', renderTable);
+            document.getElementById('categoryFilter').addEventListener('change', renderTable);
+            
+            // Record Sale Modal Logic
+            let currentSaleModal = null;
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.record-sale-btn')) {
+                    const btn = e.target.closest('.record-sale-btn');
+                    document.getElementById('saleProductId').value = btn.getAttribute('data-id');
+                    document.getElementById('saleProductName').value = btn.getAttribute('data-name');
+                    document.getElementById('saleAvailableStock').value = btn.getAttribute('data-qty');
+                    document.getElementById('saleQuantity').value = 1;
+                    document.getElementById('saleQuantity').max = btn.getAttribute('data-qty');
+                    document.getElementById('saleCustomerName').value = '';
+                    
+                    currentSaleModal = new bootstrap.Modal(document.getElementById('recordSaleModal'));
+                    currentSaleModal.show();
+                }
+            });
+            
+            document.getElementById('confirmSaleBtn').addEventListener('click', function() {
+                const id = document.getElementById('saleProductId').value;
+                const qty = document.getElementById('saleQuantity').value;
+                const customer = document.getElementById('saleCustomerName').value || "Walk-in Customer";
+                
+                const result = window.agencyInventoryManager.recordSale(id, qty, customer);
+                if (result.success) {
+                    currentSaleModal.hide();
+                    updateDashboard();
+                    
+                    // Show small success toast or alert
+                    alert(qty + " units sold to " + customer + "!");
+                } else {
+                    alert(result.message);
+                }
+            });
+
+            // Initial Load
+            updateDashboard();
+        });
+
         function performLogout() {
             if (typeof authService !== 'undefined') {
                 authService.logout();

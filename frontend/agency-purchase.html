@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Custom Tab Styles */
+        .custom-tabs { gap: 15px; border: none; }
+        .custom-tabs .nav-link { background-color: transparent; border: 1px solid var(--eiris-dark-green); color: #a0aab2; border-radius: 8px; padding: 10px 24px; font-weight: 500; transition: all 0.3s ease; }
+        .custom-tabs .nav-link:hover { color: var(--eiris-sage-green); border-color: var(--eiris-sage-green); }
+        .custom-tabs .nav-link.active { background-color: rgba(156, 176, 128, 0.15); border: 1px solid var(--eiris-sage-green); color: var(--eiris-sage-green); }
+    </style>
 </head>
 <body class="bg-light">
 
@@ -75,59 +82,33 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-bold text-night-blue-shadow mb-0">Product Catalog</h3>
                     <div>
-                        <button class="btn btn-primary-custom rounded-pill px-4 position-relative">
+                        <button class="btn btn-primary-custom rounded-pill px-4 position-relative" id="viewCartBtn">
                             <i class="bi bi-cart3 me-2"></i> View Cart
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                2
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none" id="cartBadge">
+                                0
                                 <span class="visually-hidden">items in cart</span>
                             </span>
                         </button>
                     </div>
                 </div>
                 
-                <div class="row g-4">
-                    <!-- Product 1 -->
-                    <div class="col-md-4">
-                        <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden product-card">
-                            <div class="bg-secondary bg-opacity-10 d-flex justify-content-center align-items-center" style="height: 200px;">
-                                <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
-                            </div>
-                            <div class="card-body p-4 d-flex flex-column">
-                                <span class="badge bg-night-blue mb-2 align-self-start">Lighting</span>
-                                <h5 class="fw-bold text-night-blue-shadow">LED Headlight X1</h5>
-                                <p class="text-muted small">Premium quality product from Eiris. Durable and reliable.</p>
-                                <div class="mt-auto">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="fw-bold fs-5 text-sand-tan-shadow">â‚¹1299 / unit</span>
-                                        <span class="text-success small"><i class="bi bi-check-circle-fill"></i> In Stock</span>
-                                    </div>
-                                    <button class="btn btn-outline-primary btn-secondary-custom rounded-pill w-100"><i class="bi bi-cart-plus me-2"></i>Add to Order</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Product 2 -->
-                    <div class="col-md-4">
-                        <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden product-card">
-                            <div class="bg-secondary bg-opacity-10 d-flex justify-content-center align-items-center" style="height: 200px;">
-                                <i class="bi bi-image text-muted" style="font-size: 4rem;"></i>
-                            </div>
-                            <div class="card-body p-4 d-flex flex-column">
-                                <span class="badge bg-night-blue mb-2 align-self-start">Accessories</span>
-                                <h5 class="fw-bold text-night-blue-shadow">Premium Floor Mats</h5>
-                                <p class="text-muted small">Premium quality product from Eiris. Durable and reliable.</p>
-                                <div class="mt-auto">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="fw-bold fs-5 text-sand-tan-shadow">â‚¹899 / unit</span>
-                                        <span class="text-success small"><i class="bi bi-check-circle-fill"></i> In Stock</span>
-                                    </div>
-                                    <button class="btn btn-outline-primary btn-secondary-custom rounded-pill w-100"><i class="bi bi-cart-plus me-2"></i>Add to Order</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Tabs -->
+            <ul class="nav nav-pills custom-tabs mb-5 justify-content-center" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation"><button class="nav-link active" id="tab-car-acc" data-bs-toggle="pill" data-bs-target="#pane-car-acc" type="button" role="tab">Car Accessories</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="tab-led-lights" data-bs-toggle="pill" data-bs-target="#pane-led-lights" type="button" role="tab">LED Lights</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="tab-fan-reg" data-bs-toggle="pill" data-bs-target="#pane-fan-reg" type="button" role="tab">Fan Regulator</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="tab-led-bulbs" data-bs-toggle="pill" data-bs-target="#pane-led-bulbs" type="button" role="tab">LED Bulbs</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="tab-led-emerg" data-bs-toggle="pill" data-bs-target="#pane-led-emerg" type="button" role="tab">Emergency LED</button></li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="productTabsContent">
+                <div class="tab-pane fade show active" id="pane-car-acc" role="tabpanel"><div class="row g-4"></div></div>
+                <div class="tab-pane fade" id="pane-led-lights" role="tabpanel"><div class="row g-4"></div></div>
+                <div class="tab-pane fade" id="pane-fan-reg" role="tabpanel"><div class="row g-4"></div></div>
+                <div class="tab-pane fade" id="pane-led-bulbs" role="tabpanel"><div class="row g-4"></div></div>
+                <div class="tab-pane fade" id="pane-led-emerg" role="tabpanel"><div class="row g-4"></div></div>
+            </div>
             </div>
         </div>
     </div>
@@ -168,6 +149,290 @@
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
+    <script src="js/productManager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hardcoded products for agency (migrated from admin)
+            const hardcodedProducts = [
+                { id: 'hc1', category: 'Car Accessories', name: 'FMBT Player Radio', price: 1299, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/FMBT-Player-1.jpg', details: 'High Quality Audio,Bluetooth 5.0,FM Radio Support' },
+                { id: 'hc2', category: 'Car Accessories', name: 'Double Knob Player', price: 1499, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/Double-Knob-player-1.jpg', details: 'Double Knob Control,USB & SD Card Support,LCD Display' },
+                { id: 'hc3', category: 'Car Accessories', name: 'Rear View Cameras', price: 899, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/cameras.jpg', details: 'Night Vision,Wide Angle Lens,Waterproof Design' },
+                { id: 'hc4', category: 'LED Lights', name: 'K Light', price: 499, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/K-LIGHT-PC.jpg', details: 'High Lumens,Energy Efficient,Long Lifespan' },
+                { id: 'hc5', category: 'LED Lights', name: 'Eyelit', price: 599, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/EYELIT-PC.jpg', details: 'Premium Design,Super Bright,Easy Installation' },
+                { id: 'hc6', category: 'LED Lights', name: 'Ball PC', price: 399, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/Ball-PC.jpg', details: 'Durable Casing,Flicker-Free,Warm White' },
+                { id: 'hc7', category: 'Fan Regulator', name: 'Step Fan Regulator', price: 299, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/regulator.jpg', details: '4-Step Control,Hum-Free,Polycarbonate Body' },
+                { id: 'hc8', category: 'Fan Regulator', name: 'Mini Fan Regulator', price: 199, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/regulator-1.jpg', details: 'Compact Design,Smooth Operation,ISI Certified' },
+                { id: 'hc9', category: 'Fan Regulator', name: 'Premium Fan Regulator', price: 399, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/06/regulator-2.jpg', details: 'High Load Capacity,Flame Retardant,Modern Aesthetics' },
+                { id: 'hc10', category: 'LED Bulbs', name: 'LED Bulb 9W', price: 149, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/EYELIT-PC.jpg', details: '9 Watt Power,B22 Base,Cool Daylight' },
+                { id: 'hc11', category: 'LED Bulbs', name: 'LED Bulb 12W', price: 199, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/Ball-PC.jpg', details: '12 Watt Power,Energy Saving,Wide Beam Angle' },
+                { id: 'hc12', category: 'Emergency LED', name: 'Emergency LED 9W', price: 499, stock: 0, image: 'https://eiris.co.in/wp-content/uploads/2025/07/K-LIGHT-PC.jpg', details: 'Battery Backup,Automatic ON,Rechargeable' }
+            ];
+
+            function renderProducts() {
+                const customProducts = window.productManager ? window.productManager.getProducts() : [];
+                const allProducts = [...hardcodedProducts, ...customProducts];
+                
+                document.querySelectorAll('.tab-pane .row').forEach(row => row.innerHTML = '');
+
+                allProducts.forEach(p => {
+                    let targetPaneId = '';
+                    switch(p.category) {
+                        case 'Car Accessories': targetPaneId = 'pane-car-acc'; break;
+                        case 'LED Lights': targetPaneId = 'pane-led-lights'; break;
+                        case 'Fan Regulator': targetPaneId = 'pane-fan-reg'; break;
+                        case 'LED Bulbs': targetPaneId = 'pane-led-bulbs'; break;
+                        case 'Emergency LED': targetPaneId = 'pane-led-emerg'; break;
+                    }
+                    const targetPane = document.getElementById(targetPaneId);
+                    if (targetPane) {
+                        const row = targetPane.querySelector('.row');
+                        if (row) {
+                            const img = p.imageUrl || p.image;
+                            const detailsList = p.details ? p.details.split(',').map(d => `<li>${d.trim()}</li>`).join('') : '';
+                            const newId = 'detailsProductPage_' + p.id;
+                            const productCard = `
+                            <div class="col-md-6 col-lg-4 product-item">
+                                <div class="h-100">
+                                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                        <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                            <img src="${img}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                                            <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">${p.category}</span>
+                                        </div>
+                                        <div class="card-body d-flex flex-column p-4">
+                                            <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">${p.name}</h5>
+                                            <div class="collapse" id="${newId}">
+                                                <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                    ${detailsList}
+                                                </ul>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                                <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3" data-bs-toggle="collapse" data-bs-target="#${newId}">View Details</button>
+                                            </div>
+                                            <div class="mt-3">
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <span class="fw-bold fs-5 text-sand-tan-shadow">₹${p.price || 0} / unit</span>
+                                                    ${(!p.hasOwnProperty('stock') || p.stock > 0) ? '<span class="text-success small"><i class="bi bi-check-circle-fill"></i> In Stock</span>' : '<span class="text-danger small"><i class="bi bi-x-circle-fill"></i> Out of Stock</span>'}
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                                    <button class="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center qty-btn minus-btn shadow-sm" style="width: 36px; height: 36px; border-width: 2px;" ${(!p.hasOwnProperty('stock') || p.stock > 0) ? '' : 'disabled'}>
+                                                        <i class="bi bi-dash-lg"></i>
+                                                    </button>
+                                                    <input type="number" class="form-control text-center fw-bold qty-input shadow-sm border-dark" value="1" min="1" style="width: 70px; border-radius: 8px; border-width: 2px;" ${(!p.hasOwnProperty('stock') || p.stock > 0) ? '' : 'disabled'}>
+                                                    <button class="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center qty-btn plus-btn shadow-sm" style="width: 36px; height: 36px; border-width: 2px;" ${(!p.hasOwnProperty('stock') || p.stock > 0) ? '' : 'disabled'}>
+                                                        <i class="bi bi-plus-lg"></i>
+                                                    </button>
+                                                </div>
+                                                <button class="btn btn-outline-primary btn-secondary-custom rounded-pill w-100 add-to-cart-btn" data-product-id="${p.id}" ${(!p.hasOwnProperty('stock') || p.stock > 0) ? '' : 'disabled'}><i class="bi bi-cart-plus me-2"></i>Add to Order</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                            // Append custom to beginning, hardcoded to end conceptually (or just append all)
+                            row.insertAdjacentHTML('beforeend', productCard);
+                        }
+                    }
+                });
+            }
+            renderProducts();
+
+            // Cart Interaction Logic
+            function updateCartBadge() {
+                const badge = document.getElementById('cartBadge');
+                const totalItems = window.cartManager ? window.cartManager.getTotalItems() : 0;
+                if (totalItems > 0) {
+                    badge.innerText = totalItems;
+                    badge.classList.remove('d-none');
+                } else {
+                    badge.classList.add('d-none');
+                }
+            }
+
+            function renderCart() {
+                const container = document.getElementById('cartItemsContainer');
+                const totalEl = document.getElementById('cartTotal');
+                const cart = window.cartManager ? window.cartManager.getCart() : [];
+                
+                if (cart.length === 0) {
+                    container.innerHTML = '<div class="text-center text-muted mt-5"><i class="bi bi-cart-x fs-1"></i><p class="mt-2">Your cart is empty</p></div>';
+                    totalEl.innerText = '₹0';
+                    return;
+                }
+
+                let html = '';
+                cart.forEach(item => {
+                    const img = item.imageUrl || item.image || 'https://via.placeholder.com/60';
+                    html += `
+                    <div class="d-flex gap-3 border-bottom pb-3 mb-3 cart-item" data-id="${item.id}">
+                        <img src="${img}" alt="${item.name}" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-1 text-night-blue-shadow">${item.name}</h6>
+                            <div class="text-muted small mb-2">₹${item.price} / unit</div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn btn-sm btn-outline-secondary rounded-circle cart-minus-btn" style="width: 24px; height: 24px; padding: 0; line-height: 1;">-</button>
+                                <input type="number" class="form-control form-control-sm text-center fw-bold cart-qty-input px-1" value="${item.quantity}" min="1" style="width: 45px; height: 24px;">
+                                <button class="btn btn-sm btn-outline-secondary rounded-circle cart-plus-btn" style="width: 24px; height: 24px; padding: 0; line-height: 1;">+</button>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <div class="fw-bold text-sand-tan-shadow mb-2">₹${item.price * item.quantity}</div>
+                            <button class="btn btn-sm text-danger cart-remove-btn p-0"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+                totalEl.innerText = '₹' + window.cartManager.getTotalPrice();
+            }
+
+            window.addEventListener('cartChanged', () => {
+                updateCartBadge();
+                renderCart();
+            });
+
+            // Handle plus/minus buttons on product cards
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.qty-btn')) {
+                    const btn = e.target.closest('.qty-btn');
+                    const input = btn.parentElement.querySelector('.qty-input');
+                    let val = parseInt(input.value) || 1;
+                    if (btn.classList.contains('plus-btn')) {
+                        input.value = val + 1;
+                    } else if (btn.classList.contains('minus-btn') && val > 1) {
+                        input.value = val - 1;
+                    }
+                }
+                
+                if (e.target.closest('.add-to-cart-btn')) {
+                    const btn = e.target.closest('.add-to-cart-btn');
+                    const productId = btn.getAttribute('data-product-id');
+                    const input = btn.parentElement.querySelector('.qty-input');
+                    const quantity = parseInt(input.value) || 1;
+                    
+                    const customProducts = window.productManager ? window.productManager.getProducts() : [];
+                    const allProducts = [...hardcodedProducts, ...customProducts];
+                    const product = allProducts.find(p => p.id === productId);
+                    
+                    if (product && window.cartManager) {
+                        window.cartManager.addToCart(product, quantity);
+                        
+                        // Show visual feedback
+                        const originalHtml = btn.innerHTML;
+                        btn.innerHTML = '<i class="bi bi-check-lg"></i> Added';
+                        btn.classList.replace('btn-outline-primary', 'btn-success');
+                        setTimeout(() => {
+                            btn.innerHTML = originalHtml;
+                            btn.classList.replace('btn-success', 'btn-outline-primary');
+                        }, 1000);
+                    }
+                }
+                
+                // Cart Modal interactions
+                if (e.target.closest('.cart-minus-btn') || e.target.closest('.cart-plus-btn')) {
+                    const btn = e.target.closest('button');
+                    const itemEl = btn.closest('.cart-item');
+                    const id = itemEl.getAttribute('data-id');
+                    let qty = parseInt(itemEl.querySelector('.cart-qty-input').value) || 1;
+                    
+                    if (btn.classList.contains('cart-plus-btn')) {
+                        qty += 1;
+                    } else if (btn.classList.contains('cart-minus-btn')) {
+                        qty -= 1;
+                    }
+                    if (window.cartManager) {
+                        if (qty > 0) window.cartManager.updateQuantity(id, qty);
+                        else window.cartManager.removeFromCart(id);
+                    }
+                }
+                
+                if (e.target.closest('.cart-remove-btn')) {
+                    const id = e.target.closest('.cart-item').getAttribute('data-id');
+                    if (window.cartManager) window.cartManager.removeFromCart(id);
+                }
+            });
+            
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('cart-qty-input')) {
+                    const id = e.target.closest('.cart-item').getAttribute('data-id');
+                    const qty = parseInt(e.target.value) || 1;
+                    if (window.cartManager) window.cartManager.updateQuantity(id, qty);
+                }
+            });
+
+            // Initialize UI
+            updateCartBadge();
+            
+            // Explicitly initialize Offcanvas to avoid Bootstrap data-attribute bugs
+            const cartOffcanvasEl = document.getElementById('cartOffcanvas');
+            const cartOffcanvasInstance = new bootstrap.Offcanvas(cartOffcanvasEl);
+            
+            document.getElementById('viewCartBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                cartOffcanvasInstance.show();
+            });
+            
+            cartOffcanvasEl.addEventListener('show.bs.offcanvas', renderCart);
+            
+            // Checkout Logic
+            document.getElementById('checkoutBtn').addEventListener('click', function() {
+                const cart = window.cartManager ? window.cartManager.getCart() : [];
+                if (cart.length === 0) {
+                    alert("Your cart is empty!");
+                    return;
+                }
+                
+                if (window.agencyInventoryManager) {
+                    window.agencyInventoryManager.addItemsToInventory(cart);
+                    window.cartManager.clearCart();
+                    
+                    // Show success visually inside offcanvas
+                    const container = document.getElementById('cartItemsContainer');
+                    container.innerHTML = '<div class="text-center text-success mt-5"><i class="bi bi-check-circle-fill fs-1"></i><h5 class="mt-3 fw-bold">Order Placed Successfully!</h5><p>The purchased items have been securely added to your <a href="agency-stocks.html">My Stocks</a> inventory.</p></div>';
+                    document.getElementById('cartTotal').innerText = '₹0';
+                    updateCartBadge();
+                    
+                    // Reset button temporarily and hide offcanvas, then redirect
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="bi bi-check2-all"></i> Success';
+                    this.classList.replace('btn-secondary-custom', 'btn-success');
+                    
+                    const offcanvasEl = document.getElementById('cartOffcanvas');
+                    const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl);
+                    if(offcanvas) offcanvas.hide();
+                    
+                    // Redirect immediately to My Stocks page
+                    window.location.href = 'agency-stocks.html';
+                } else {
+                    alert("Error: Inventory manager not found.");
+                }
+            });
+        });
+    </script>
+    
+    <!-- Cart Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+        <div class="offcanvas-header border-bottom bg-night-blue text-white">
+            <h5 class="offcanvas-title fw-bold" id="cartOffcanvasLabel"><i class="bi bi-cart3 me-2"></i> Your Order</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column p-0">
+            <div id="cartItemsContainer" class="flex-grow-1 overflow-auto p-3">
+                <!-- Cart items will be injected here -->
+            </div>
+            <div class="border-top p-3 bg-light mt-auto shadow">
+                <div class="d-flex justify-content-between mb-3 fw-bold fs-5">
+                    <span>Total Estimate:</span>
+                    <span id="cartTotal" class="text-sand-tan-shadow">₹0</span>
+                </div>
+                <button class="btn btn-secondary-custom w-100 rounded-pill py-2 fw-bold" id="checkoutBtn">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/cartManager.js"></script>
+    <script src="js/agencyInventoryManager.js"></script>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="js/script.js"></script>
 </body>

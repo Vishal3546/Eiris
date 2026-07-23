@@ -522,7 +522,7 @@
                                 <label for="productName" class="form-label text-muted fw-bold">Product Name</label>
                                 <input type="text" class="form-control" id="productName" placeholder="e.g. FMBT Player Radio" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="productCategory" class="form-label text-muted fw-bold">Category</label>
                                 <select class="form-select" id="productCategory" required>
                                     <option value="" selected disabled>Select Category</option>
@@ -532,6 +532,14 @@
                                     <option value="LED Bulbs">LED Bulbs</option>
                                     <option value="Emergency LED">Emergency LED</option>
                                 </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="productPrice" class="form-label text-muted fw-bold">Price (₹)</label>
+                                <input type="number" class="form-control" id="productPrice" placeholder="e.g. 1299" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="productStock" class="form-label text-muted fw-bold">Stock Qty</label>
+                                <input type="number" class="form-control" id="productStock" placeholder="e.g. 50" required>
                             </div>
                             <div class="col-md-12">
                                 <label for="productDetails" class="form-label text-muted fw-bold">Details (comma separated or bullet points)</label>
@@ -566,7 +574,7 @@
                                 <label for="editProductName" class="form-label text-muted fw-bold">Product Name</label>
                                 <input type="text" class="form-control" id="editProductName" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="editProductCategory" class="form-label text-muted fw-bold">Category</label>
                                 <select class="form-select" id="editProductCategory" required>
                                     <option value="" disabled>Select Category</option>
@@ -576,6 +584,14 @@
                                     <option value="LED Bulbs">LED Bulbs</option>
                                     <option value="Emergency LED">Emergency LED</option>
                                 </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="editProductPrice" class="form-label text-muted fw-bold">Price (₹)</label>
+                                <input type="number" class="form-control" id="editProductPrice" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="editProductStock" class="form-label text-muted fw-bold">Stock Qty</label>
+                                <input type="number" class="form-control" id="editProductStock" required>
                             </div>
                             <div class="col-md-12">
                                 <label for="editProductDetails" class="form-label text-muted fw-bold">Details (comma separated)</label>
@@ -630,6 +646,7 @@
         </div>
     </div>
 
+    <script src="js/productManager.js"></script>
     <script>
         function performLogout() {
             if (typeof authService !== 'undefined') {
@@ -643,11 +660,85 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Render custom products from localStorage
+            function renderCustomProducts() {
+                const products = window.productManager ? window.productManager.getProducts() : [];
+                // First remove all previously rendered custom products
+                document.querySelectorAll('.custom-added-product').forEach(el => el.remove());
+
+                products.forEach(p => {
+                    let targetPaneId = '';
+                    switch(p.category) {
+                        case 'Car Accessories': targetPaneId = 'pane-car-acc'; break;
+                        case 'LED Lights': targetPaneId = 'pane-led-lights'; break;
+                        case 'Fan Regulator': targetPaneId = 'pane-fan-reg'; break;
+                        case 'LED Bulbs': targetPaneId = 'pane-led-bulbs'; break;
+                        case 'Emergency LED': targetPaneId = 'pane-led-emerg'; break;
+                    }
+                    const targetPane = document.getElementById(targetPaneId);
+                    if (targetPane) {
+                        const row = targetPane.querySelector('.row');
+                        if (row) {
+                            const detailsList = p.details ? p.details.split(',').map(d => `<li>${d.trim()}</li>`).join('') : '';
+                            const newId = 'detailsProductPage_' + p.id;
+                            const productCard = `
+                            <div class="col-md-6 col-lg-4 custom-added-product" data-id="${p.id}">
+                                <div class="h-100">
+                                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
+                                        <div style="height: 200px; background-color: #f0f0f0; position: relative;">
+                                            <img src="${p.imageUrl}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                                            <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">${p.category}</span>
+                                        </div>
+                                        <div class="card-body d-flex flex-column p-4">
+                                            <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">${p.name}</h5>
+                                            <div class="collapse" id="${newId}">
+                                                <ul class="text-start small text-dark mb-0 ps-3 mt-2">
+                                                    ${detailsList}
+                                                </ul>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
+                                                <span class="fw-bold fs-5 text-sand-tan-shadow" data-price="${p.price}">₹${p.price || 0}</span>
+                                                <span class="badge bg-${p.stock > 0 ? 'success' : 'danger'} ms-2" data-stock="${p.stock}">Stock: ${p.stock || 0}</span>
+                                                <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-2 ms-auto" data-bs-toggle="collapse" data-bs-target="#${newId}">Details</button>
+                                                <div class="ms-2 d-flex gap-1">
+                                                    <button class="btn btn-sm btn-outline-primary rounded-circle edit-btn"><i class="bi bi-pencil-fill"></i></button>
+                                                    <button class="btn btn-sm btn-outline-danger rounded-circle delete-btn"><i class="bi bi-trash-fill"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                            row.insertAdjacentHTML('afterbegin', productCard);
+                        }
+                    }
+                });
+            }
+
+            function initHardcodedProductsStock() {
+                const hardcodedCards = document.querySelectorAll('.col-md-6:not(.custom-added-product)');
+                hardcodedCards.forEach(card => {
+                    const priceSpan = card.querySelector('.text-sand-tan-shadow');
+                    if (priceSpan && !card.querySelector('[data-stock]')) {
+                        const stockBadge = document.createElement('span');
+                        stockBadge.className = 'badge bg-danger ms-2';
+                        stockBadge.setAttribute('data-stock', '0');
+                        stockBadge.innerText = 'Stock: 0';
+                        priceSpan.parentNode.insertBefore(stockBadge, priceSpan.nextSibling);
+                    }
+                });
+            }
+            initHardcodedProductsStock();
+
+            renderCustomProducts();
+
             const saveBtn = document.getElementById('saveProductBtn');
             if(saveBtn) {
                 saveBtn.addEventListener('click', function() {
                     const name = document.getElementById('productName').value;
                     const category = document.getElementById('productCategory').value;
+                    const price = document.getElementById('productPrice').value;
+                    const stock = document.getElementById('productStock').value;
                     const detailsStr = document.getElementById('productDetails').value;
                     const imageInput = document.getElementById('productImage');
                     
@@ -661,52 +752,17 @@
                         imageUrl = URL.createObjectURL(imageInput.files[0]);
                     }
 
-                    const detailsList = detailsStr ? detailsStr.split(',').map(d => `<li>${d.trim()}</li>`).join('') : '';
+                    const product = {
+                        name: name,
+                        category: category,
+                        price: price,
+                        stock: stock,
+                        details: detailsStr,
+                        imageUrl: imageUrl
+                    };
 
-                    let targetPaneId = '';
-                    switch(category) {
-                        case 'Car Accessories': targetPaneId = 'pane-car-acc'; break;
-                        case 'LED Lights': targetPaneId = 'pane-led-lights'; break;
-                        case 'Fan Regulator': targetPaneId = 'pane-fan-reg'; break;
-                        case 'LED Bulbs': targetPaneId = 'pane-led-bulbs'; break;
-                        case 'Emergency LED': targetPaneId = 'pane-led-emerg'; break;
-                    }
-
-                    const targetPane = document.getElementById(targetPaneId);
-                    if(targetPane) {
-                        const row = targetPane.querySelector('.row');
-                        if(row) {
-                            const newId = 'detailsProductPage_new_' + Math.floor(Math.random() * 10000);
-                            const productCard = `
-                            <div class="col-md-6 col-lg-4">
-                                <div class="h-100">
-                                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
-                                        <div style="height: 200px; background-color: #f0f0f0; position: relative;">
-                                            <img src="${imageUrl}" alt="${name}" style="width: 100%; height: 100%; object-fit: cover;">
-                                            <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">${category}</span>
-                                        </div>
-                                        <div class="card-body d-flex flex-column p-4">
-                                            <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">${name}</h5>
-                                            <div class="collapse" id="${newId}">
-                                                <ul class="text-start small text-dark mb-0 ps-3 mt-2">
-                                                    ${detailsList}
-                                                </ul>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
-                                                <span class="fw-bold fs-5 text-sand-tan-shadow"></span>
-                                                <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-3 ms-auto" data-bs-toggle="collapse" data-bs-target="#${newId}">View Details</button>
-                                                <div class="ms-2 d-flex gap-1">
-                                                    <button class="btn btn-sm btn-outline-primary rounded-circle"><i class="bi bi-pencil-fill"></i></button>
-                                                    <button class="btn btn-sm btn-outline-danger rounded-circle"><i class="bi bi-trash-fill"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                            row.insertAdjacentHTML('afterbegin', productCard);
-                        }
-                    }
+                    window.productManager.addProduct(product);
+                    renderCustomProducts();
 
                     const modalEl = document.getElementById('addProductModal');
                     const modal = bootstrap.Modal.getInstance(modalEl);
@@ -715,9 +771,9 @@
                 });
             }
 
-            // Edit and Delete functionality
-            let currentEditCard = null;
-            let currentDeleteCard = null;
+            let currentEditId = null;
+            let currentDeleteId = null;
+            let currentHardcodedCard = null;
 
             const tabsContent = document.getElementById('productTabsContent');
             if(tabsContent) {
@@ -725,62 +781,83 @@
                     const btn = e.target.closest('button');
                     if(!btn) return;
 
-                    const card = btn.closest('.col-md-6'); // The product card container
+                    const card = btn.closest('.col-md-6'); 
                     if(!card) return;
 
-                    // Check if it's Edit button
-                    if(btn.querySelector('.bi-pencil-fill')) {
-                        currentEditCard = card;
-                        const name = card.querySelector('.card-title').innerText.trim();
-                        const category = card.querySelector('.badge').innerText.trim();
-                        
-                        // Extract details to comma separated string
-                        const detailsItems = card.querySelectorAll('.collapse ul li');
-                        const detailsArr = [];
-                        detailsItems.forEach(li => detailsArr.push(li.innerText.trim()));
-                        const detailsStr = detailsArr.join(', ');
+                    const customCardWrapper = btn.closest('.custom-added-product');
+                    const productId = customCardWrapper ? customCardWrapper.getAttribute('data-id') : null;
 
-                        document.getElementById('editProductName').value = name;
-                        
-                        // Handle category mismatch gracefully
-                        const catSelect = document.getElementById('editProductCategory');
-                        let catFound = false;
-                        for(let i=0; i<catSelect.options.length; i++) {
-                            if(catSelect.options[i].value === category) {
-                                catFound = true;
-                                break;
+                    if(btn.classList.contains('edit-btn') || btn.querySelector('.bi-pencil-fill')) {
+                        if (productId) {
+                            currentEditId = productId;
+                            currentHardcodedCard = null;
+                            const products = window.productManager.getProducts();
+                            const p = products.find(prod => prod.id === productId);
+                            if(p) {
+                                document.getElementById('editProductName').value = p.name;
+                                document.getElementById('editProductCategory').value = p.category;
+                                document.getElementById('editProductPrice').value = p.price || '';
+                                document.getElementById('editProductStock').value = p.stock || 0;
+                                document.getElementById('editProductDetails').value = p.details || '';
+                                document.getElementById('editProductImage').value = '';
                             }
-                        }
-                        if(catFound) {
-                            catSelect.value = category;
                         } else {
-                            catSelect.value = "";
+                            // Hardcoded card edit fallback
+                            currentEditId = null;
+                            currentHardcodedCard = card;
+                            const name = card.querySelector('.card-title').innerText.trim();
+                            const category = card.querySelector('.badge').innerText.trim();
+                            const priceEl = card.querySelector('.text-sand-tan-shadow');
+                            const priceRaw = priceEl ? priceEl.innerText.replace('₹', '').trim() : '';
+                            const stockEl = card.querySelector('[data-stock]');
+                            const stockRaw = stockEl ? stockEl.getAttribute('data-stock') : 0;
+                            
+                            const detailsItems = card.querySelectorAll('.collapse ul li');
+                            const detailsArr = [];
+                            detailsItems.forEach(li => detailsArr.push(li.innerText.trim()));
+                            const detailsStr = detailsArr.join(', ');
+
+                            document.getElementById('editProductName').value = name;
+                            document.getElementById('editProductPrice').value = priceRaw;
+                            document.getElementById('editProductStock').value = stockRaw;
+                            
+                            const catSelect = document.getElementById('editProductCategory');
+                            let catFound = false;
+                            for(let i=0; i<catSelect.options.length; i++) {
+                                if(catSelect.options[i].value === category) {
+                                    catFound = true; break;
+                                }
+                            }
+                            catSelect.value = catFound ? category : "";
+                            document.getElementById('editProductDetails').value = detailsStr;
+                            document.getElementById('editProductImage').value = '';
                         }
-                        
-                        document.getElementById('editProductDetails').value = detailsStr;
-                        document.getElementById('editProductImage').value = ''; // clear file input
 
                         const editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
                         editModal.show();
                     }
 
-                    // Check if it's Delete button
-                    if(btn.querySelector('.bi-trash-fill')) {
-                        currentDeleteCard = card;
+                    if(btn.classList.contains('delete-btn') || btn.querySelector('.bi-trash-fill')) {
+                        if (productId) {
+                            currentDeleteId = productId;
+                            currentHardcodedCard = null;
+                        } else {
+                            currentDeleteId = null;
+                            currentHardcodedCard = card;
+                        }
                         const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
                         deleteModal.show();
                     }
                 });
             }
 
-            // Update Product logic
             const updateBtn = document.getElementById('updateProductBtn');
             if(updateBtn) {
                 updateBtn.addEventListener('click', function() {
-                    if(!currentEditCard) return;
-
                     const name = document.getElementById('editProductName').value;
                     const category = document.getElementById('editProductCategory').value;
+                    const price = document.getElementById('editProductPrice').value;
+                    const stock = document.getElementById('editProductStock').value;
                     const detailsStr = document.getElementById('editProductDetails').value;
                     const imageInput = document.getElementById('editProductImage');
 
@@ -789,20 +866,40 @@
                         return;
                     }
 
-                    // Update Image if new one is selected
-                    if (imageInput.files && imageInput.files[0]) {
-                        const imageUrl = URL.createObjectURL(imageInput.files[0]);
-                        currentEditCard.querySelector('img').src = imageUrl;
+                    if (currentEditId) {
+                        const updated = {
+                            name: name,
+                            category: category,
+                            price: price,
+                            stock: stock,
+                            details: detailsStr
+                        };
+                        if (imageInput.files && imageInput.files[0]) {
+                            updated.imageUrl = URL.createObjectURL(imageInput.files[0]);
+                        }
+                        window.productManager.updateProduct(currentEditId, updated);
+                        renderCustomProducts();
+                    } else if (currentHardcodedCard) {
+                        if (imageInput.files && imageInput.files[0]) {
+                            currentHardcodedCard.querySelector('img').src = URL.createObjectURL(imageInput.files[0]);
+                        }
+                        currentHardcodedCard.querySelector('.card-title').innerText = name;
+                        currentHardcodedCard.querySelector('.badge').innerText = category;
+                        const priceSpan = currentHardcodedCard.querySelector('.text-sand-tan-shadow');
+                        if (priceSpan) priceSpan.innerText = price ? '₹' + price : '';
+                        
+                        let stockBadge = currentHardcodedCard.querySelector('[data-stock]');
+                        if (!stockBadge) {
+                            stockBadge = document.createElement('span');
+                            if (priceSpan) priceSpan.parentNode.insertBefore(stockBadge, priceSpan.nextSibling);
+                        }
+                        stockBadge.className = `badge bg-${stock > 0 ? 'success' : 'danger'} ms-2`;
+                        stockBadge.setAttribute('data-stock', stock);
+                        stockBadge.innerText = 'Stock: ' + (stock || 0);
+                        
+                        const detailsList = detailsStr ? detailsStr.split(',').map(d => `<li>${d.trim()}</li>`).join('') : '';
+                        currentHardcodedCard.querySelector('.collapse ul').innerHTML = detailsList;
                     }
-
-                    // Update Text
-                    currentEditCard.querySelector('.card-title').innerText = name;
-                    currentEditCard.querySelector('img').alt = name;
-                    currentEditCard.querySelector('.badge').innerText = category;
-
-                    // Update Details
-                    const detailsList = detailsStr ? detailsStr.split(',').map(d => `<li>${d.trim()}</li>`).join('') : '';
-                    currentEditCard.querySelector('.collapse ul').innerHTML = detailsList;
 
                     const editModalEl = document.getElementById('editProductModal');
                     const editModal = bootstrap.Modal.getInstance(editModalEl);
@@ -810,12 +907,14 @@
                 });
             }
 
-            // Confirm Delete logic
             const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
             if(confirmDeleteBtn) {
                 confirmDeleteBtn.addEventListener('click', function() {
-                    if(currentDeleteCard) {
-                        currentDeleteCard.remove();
+                    if (currentDeleteId) {
+                        window.productManager.deleteProduct(currentDeleteId);
+                        renderCustomProducts();
+                    } else if (currentHardcodedCard) {
+                        currentHardcodedCard.remove();
                     }
                     const deleteModalEl = document.getElementById('deleteConfirmModal');
                     const deleteModal = bootstrap.Modal.getInstance(deleteModalEl);
