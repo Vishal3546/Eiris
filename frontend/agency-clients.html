@@ -380,6 +380,8 @@
                     renderClientsTable();
                 } catch (e) {
                     console.error("Error fetching clients", e);
+                    $('#clientsTableBody').html('<tr><td colspan="6" class="text-center py-4 text-danger"><i class="bi bi-exclamation-triangle me-2"></i>Failed to load clients. Please try again.</td></tr>');
+                    $('#topClientsContainer').html('<div class="col-12 text-center text-muted py-3">Could not load top clients.</div>');
                 }
             }
 

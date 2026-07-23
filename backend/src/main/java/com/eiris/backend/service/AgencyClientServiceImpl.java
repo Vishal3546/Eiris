@@ -26,7 +26,16 @@ public class AgencyClientServiceImpl implements AgencyClientService {
     @Override
     public AgencyClientResponse addClient(User user, AgencyClientRequest request) {
         Agency agency = agencyRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Agency not found for the logged-in user"));
+                .orElseGet(() -> {
+                    Agency newAgency = new Agency();
+                    newAgency.setUser(user);
+                    newAgency.setAgencyName(user.getEmail().split("@")[0] + " Agency");
+                    newAgency.setLocation("Unknown");
+                    newAgency.setContactNumber("0000000000");
+                    newAgency.setRawPassword("auto-generated");
+                    newAgency.setStatus("ACTIVE");
+                    return agencyRepository.save(newAgency);
+                });
 
         AgencyClient client = new AgencyClient();
         client.setAgency(agency);
@@ -45,7 +54,16 @@ public class AgencyClientServiceImpl implements AgencyClientService {
     @Override
     public List<AgencyClientResponse> getClientsForAgency(User user) {
         Agency agency = agencyRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Agency not found for the logged-in user"));
+                .orElseGet(() -> {
+                    Agency newAgency = new Agency();
+                    newAgency.setUser(user);
+                    newAgency.setAgencyName(user.getEmail().split("@")[0] + " Agency");
+                    newAgency.setLocation("Unknown");
+                    newAgency.setContactNumber("0000000000");
+                    newAgency.setRawPassword("auto-generated");
+                    newAgency.setStatus("ACTIVE");
+                    return agencyRepository.save(newAgency);
+                });
 
         return agencyClientRepository.findByAgencyId(agency.getId())
                 .stream()

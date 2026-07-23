@@ -50,7 +50,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGenericException(Exception ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
+        ex.printStackTrace(); // ADDED FOR DEBUGGING
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + ex.getMessage());
         problemDetail.setType(URI.create("https://api.eiris.com/errors/internal-server-error"));
         problemDetail.setTitle("Internal Server Error");
         return problemDetail;

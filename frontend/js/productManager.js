@@ -13,11 +13,7 @@ function getAuthHeaders() {
 const productManager = {
     getProducts: async function() {
         try {
-            const response = await fetch(API_BASE_URL, {
-                headers: {
-                    'Authorization': localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ''
-                }
-            });
+            const response = await fetch('http://localhost:8080/api/public/products');
             if (!response.ok) throw new Error("Failed to fetch products");
             return await response.json();
         } catch (e) {
