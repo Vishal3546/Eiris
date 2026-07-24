@@ -1,8 +1,5 @@
 package com.eiris.backend.dto;
 
-import java.util.UUID;
-import java.time.ZonedDateTime;
-
 public class AgencyClientRequest {
     private String clientName;
     private String clientCompany;

@@ -1,9 +1,9 @@
-// Product Manager for handling products via Backend API
+﻿// Product Manager for handling products via Backend API
 
-const API_BASE_URL = 'http://localhost:8080/api/admin/products';
+const PRODUCT_API_BASE_URL = 'http://localhost:8080/api/admin/products';
 
 function getAuthHeaders() {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
     return {
         'Content-Type': 'application/json',
         'Authorization': token ? `Bearer ${token}` : ''
@@ -27,8 +27,8 @@ const productManager = {
             const formData = new FormData();
             formData.append('image', file);
             
-            const token = localStorage.getItem('accessToken');
-            const response = await fetch(`${API_BASE_URL}/upload-image`, {
+            const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+            const response = await fetch(`${PRODUCT_API_BASE_URL}/upload-image`, {
                 method: 'POST',
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : ''
@@ -46,7 +46,7 @@ const productManager = {
 
     addProduct: async function(product) {
         try {
-            const response = await fetch(API_BASE_URL, {
+            const response = await fetch(PRODUCT_API_BASE_URL, {
                 method: 'POST',
                 headers: getAuthHeaders(),
                 body: JSON.stringify(product)
@@ -61,7 +61,7 @@ const productManager = {
 
     updateProduct: async function(id, updatedProduct) {
         try {
-            const response = await fetch(`${API_BASE_URL}/${id}`, {
+            const response = await fetch(`${PRODUCT_API_BASE_URL}/${id}`, {
                 method: 'PUT',
                 headers: getAuthHeaders(),
                 body: JSON.stringify(updatedProduct)
@@ -76,10 +76,10 @@ const productManager = {
 
     deleteProduct: async function(id) {
         try {
-            const response = await fetch(`${API_BASE_URL}/${id}`, {
+            const response = await fetch(`${PRODUCT_API_BASE_URL}/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': localStorage.getItem('accessToken') ? `Bearer ${localStorage.getItem('accessToken')}` : ''
+                    'Authorization': localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken') ? `Bearer ${localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken')}` : ''
                 }
             });
             if (!response.ok) throw new Error("Failed to delete product");
@@ -91,5 +91,4 @@ const productManager = {
     }
 };
 
-window.productManager = productManager;
 

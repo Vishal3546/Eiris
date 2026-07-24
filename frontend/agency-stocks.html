@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -133,8 +133,21 @@
                     </div>
                 </div>
                 
-                <!-- Inventory Table -->
-                <div class="card border-0 shadow-sm rounded-4">
+                <!-- Tabs for Inventory vs Orders -->
+                <ul class="nav nav-pills custom-tabs-light mb-4" id="stockTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="tab-inventory" data-bs-toggle="pill" data-bs-target="#pane-inventory" type="button" role="tab">Current Stock</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-orders" data-bs-toggle="pill" data-bs-target="#pane-orders" type="button" role="tab">Purchase Orders</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="stockTabsContent">
+                    <!-- Inventory Tab Pane -->
+                    <div class="tab-pane fade show active" id="pane-inventory" role="tabpanel">
+                        <!-- Inventory Table -->
+                        <div class="card border-0 shadow-sm rounded-4">
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
@@ -157,6 +170,37 @@
                             <h5 class="mt-3 fw-bold text-night-blue-shadow">Your inventory is empty</h5>
                             <p class="text-muted">Head over to Buy Products to purchase stock.</p>
                             <a href="agency-purchase.html" class="btn btn-secondary-custom rounded-pill mt-2">Buy Products</a>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    
+                    <!-- Orders Tab Pane -->
+                    <div class="tab-pane fade" id="pane-orders" role="tabpanel">
+                        <div class="card border-0 shadow-sm rounded-4">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="ps-4 py-3">Order ID</th>
+                                                <th class="py-3">Product Name</th>
+                                                <th class="py-3">Quantity</th>
+                                                <th class="py-3">Total Amount</th>
+                                                <th class="py-3">Status</th>
+                                                <th class="pe-4 py-3 text-end">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ordersTableBody">
+                                            <!-- Dynamic rows will be inserted here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="emptyOrdersState" class="text-center p-5 d-none">
+                                    <i class="bi bi-bag-x text-muted" style="font-size: 3rem;"></i>
+                                    <h5 class="mt-3 fw-bold text-night-blue-shadow">No Purchase Orders Found</h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -226,8 +270,8 @@
         // UI Logic for Inventory
         document.addEventListener('DOMContentLoaded', function() {
             // Check if user is logged in and is an agency
-            const token = localStorage.getItem('accessToken');
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+            const user = JSON.parse(localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user') || '{}');
             
             if (!token || user.role !== 'AGENCY') {
                 window.location.href = 'index.html';
@@ -246,6 +290,71 @@
                 window.currentInventory = inventory; // Store for filtering
                 renderTable(inventory);
                 populateCategories(inventory);
+                updateOrders();
+            }
+            
+            async function updateOrders() {
+                if(!window.agencyInventoryManager) return;
+                const orders = await window.agencyInventoryManager.getOrders();
+                renderOrdersTable(orders);
+            }
+
+            function renderOrdersTable(orders) {
+                const tbody = document.getElementById('ordersTableBody');
+                const emptyState = document.getElementById('emptyOrdersState');
+                
+                if (orders.length === 0) {
+                    tbody.innerHTML = '';
+                    emptyState.classList.remove('d-none');
+                    return;
+                }
+                
+                emptyState.classList.add('d-none');
+                let html = '';
+                
+                orders.forEach(order => {
+                    let statusBadge = '';
+                    let actionBtn = '';
+                    
+                    switch(order.status) {
+                        case 'PENDING':
+                            statusBadge = '<span class="badge bg-warning text-dark">Pending</span>';
+                            actionBtn = '<button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>Waiting...</button>';
+                            break;
+                        case 'APPROVED':
+                            statusBadge = '<span class="badge bg-info text-dark">Approved</span>';
+                            actionBtn = '<button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>Processing...</button>';
+                            break;
+                        case 'SHIPPED':
+                            statusBadge = '<span class="badge bg-primary">Shipped</span>';
+                            actionBtn = `<button class="btn btn-sm btn-success rounded-pill px-3 receive-order-btn" data-id="${order.id}">Mark Received</button>`;
+                            break;
+                        case 'DELIVERED':
+                        case 'COMPLETED':
+                            statusBadge = '<span class="badge bg-success">Delivered</span>';
+                            actionBtn = '<button class="btn btn-sm btn-outline-success rounded-pill px-3" disabled><i class="bi bi-check-circle"></i></button>';
+                            break;
+                        case 'CANCELLED':
+                            statusBadge = '<span class="badge bg-danger">Cancelled</span>';
+                            actionBtn = '-';
+                            break;
+                    }
+                    
+                    // Simple formatting for date
+                    const dateStr = new Date(order.date).toLocaleDateString('en-IN');
+                    
+                    html += `
+                        <tr>
+                            <td class="ps-4 fw-bold text-primary" style="font-size: 0.85rem;">${order.id.split('-')[0]}...</td>
+                            <td class="fw-bold text-night-blue-shadow">${order.productName}</td>
+                            <td>${order.quantity}</td>
+                            <td class="fw-bold">₹${order.totalPrice.toLocaleString('en-IN')}</td>
+                            <td>${statusBadge} <div class="small text-muted mt-1">${dateStr}</div></td>
+                            <td class="pe-4 text-end">${actionBtn}</td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html;
             }
             
             function renderTable(inventoryData) {
@@ -366,6 +475,27 @@
                 }
             });
 
+            // Handle Mark as Received
+            document.addEventListener('click', async function(e) {
+                if (e.target.closest('.receive-order-btn')) {
+                    const btn = e.target.closest('.receive-order-btn');
+                    const orderId = btn.getAttribute('data-id');
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+                    
+                    const result = await window.agencyInventoryManager.receiveOrder(orderId);
+                    if (result.success) {
+                        alert("Order marked as received! Your stock has been updated.");
+                        await updateDashboard();
+                        await updateOrders();
+                    } else {
+                        alert(result.message);
+                        btn.disabled = false;
+                        btn.innerHTML = 'Mark Received';
+                    }
+                }
+            });
+
             // Initial Load
             updateDashboard();
         });
@@ -374,9 +504,9 @@
             if (typeof authService !== 'undefined') {
                 authService.logout();
             } else {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                localStorage.removeItem('user');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user');
             }
             window.location.href = 'index.html';
         }

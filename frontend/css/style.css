@@ -280,6 +280,33 @@ body {
   box-shadow: 0 4px 12px rgba(225, 179, 130, 0.6);
 }
 
+/* Custom Tabs for Light Backgrounds */
+.custom-tabs-light .nav-link {
+  color: var(--eiris-night-blue-shadow);
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50rem;
+  font-weight: 600;
+  padding: 10px 24px;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+}
+
+.custom-tabs-light .nav-link:hover {
+  color: var(--eiris-night-blue-shadow) !important;
+  background-color: var(--eiris-sand-tan);
+  border-color: var(--eiris-sand-tan);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(225, 179, 130, 0.4);
+}
+
+.custom-tabs-light .nav-link.active {
+  color: var(--eiris-night-blue-shadow) !important;
+  background-color: var(--eiris-sand-tan) !important;
+  border-color: var(--eiris-sand-tan) !important;
+  box-shadow: 0 4px 12px rgba(225, 179, 130, 0.6);
+}
+
 /* Tracking */
 .tracking-wider {
   letter-spacing: 2px;

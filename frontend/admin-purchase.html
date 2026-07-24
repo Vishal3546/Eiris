@@ -83,28 +83,8 @@
                                         <th class="pe-4 py-3 text-end">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="ps-4 fw-bold text-primary">#ORD-9021</td>
-                                        <td>AutoTech Distributors</td>
-                                        <td>500x LED Headlights...</td>
-                                        <td class="fw-bold">â‚¹6,49,500</td>
-                                        <td><span class="badge bg-warning text-dark">Pending Review</span></td>
-                                        <td class="pe-4 text-end">
-                                            <button class="btn btn-sm btn-success rounded-pill px-3 me-2">Approve</button>
-                                            <button class="btn btn-sm btn-danger rounded-pill px-3">Reject</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="ps-4 fw-bold text-primary">#ORD-9020</td>
-                                        <td>Speedy Lights</td>
-                                        <td>100x Premium Floor Mats</td>
-                                        <td class="fw-bold">â‚¹89,900</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
-                                        <td class="pe-4 text-end">
-                                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>Processed</button>
-                                        </td>
-                                    </tr>
+                                <tbody id="adminOrdersTableBody">
+                                    <!-- Dynamic rows -->
                                 </tbody>
                             </table>
                         </div>
@@ -139,9 +119,9 @@
             if (typeof authService !== 'undefined') {
                 authService.logout();
             } else {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                localStorage.removeItem('user');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user');
             }
             window.location.href = 'index.html';
         }
@@ -149,6 +129,103 @@
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="js/adminPurchaseManager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+            const user = JSON.parse(localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user') || '{}');
+            
+            if (!token || user.role !== 'ADMIN') {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            async function loadOrders() {
+                if(!window.adminPurchaseManager) return;
+                const orders = await window.adminPurchaseManager.getOrders();
+                renderOrders(orders);
+            }
+
+            function renderOrders(orders) {
+                const tbody = document.getElementById('adminOrdersTableBody');
+                
+                if (orders.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No purchase requests found.</td></tr>';
+                    return;
+                }
+                
+                let html = '';
+                orders.forEach(order => {
+                    let statusBadge = '';
+                    let actionBtns = '';
+                    
+                    switch(order.status) {
+                        case 'PENDING':
+                            statusBadge = '<span class="badge bg-warning text-dark">Pending</span>';
+                            actionBtns = `
+                                <button class="btn btn-sm btn-success rounded-pill px-3 me-1 action-btn" data-id="${order.id}" data-action="APPROVED">Approve</button>
+                                <button class="btn btn-sm btn-danger rounded-pill px-3 action-btn" data-id="${order.id}" data-action="CANCELLED">Reject</button>
+                            `;
+                            break;
+                        case 'APPROVED':
+                            statusBadge = '<span class="badge bg-info text-dark">Approved</span>';
+                            actionBtns = `
+                                <button class="btn btn-sm btn-primary rounded-pill px-3 action-btn" data-id="${order.id}" data-action="SHIPPED"><i class="bi bi-truck me-1"></i> Ship</button>
+                            `;
+                            break;
+                        case 'SHIPPED':
+                            statusBadge = '<span class="badge bg-primary">Shipped</span>';
+                            actionBtns = '<button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>Waiting for Agency</button>';
+                            break;
+                        case 'DELIVERED':
+                        case 'COMPLETED':
+                            statusBadge = '<span class="badge bg-success">Delivered</span>';
+                            actionBtns = '<button class="btn btn-sm btn-outline-success rounded-pill px-3" disabled>Completed</button>';
+                            break;
+                        case 'CANCELLED':
+                            statusBadge = '<span class="badge bg-danger">Cancelled</span>';
+                            actionBtns = '-';
+                            break;
+                    }
+                    
+                    html += `
+                        <tr>
+                            <td class="ps-4 fw-bold text-primary" style="font-size: 0.85rem;">${order.id.split('-')[0]}...</td>
+                            <td class="fw-bold">${order.agencyName}</td>
+                            <td>${order.productName} (x${order.quantity})</td>
+                            <td class="fw-bold">₹${order.totalPrice.toLocaleString('en-IN')}</td>
+                            <td>${statusBadge}</td>
+                            <td class="pe-4 text-end">${actionBtns}</td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html;
+            }
+
+            document.addEventListener('click', async function(e) {
+                if (e.target.closest('.action-btn')) {
+                    const btn = e.target.closest('.action-btn');
+                    const orderId = btn.getAttribute('data-id');
+                    const newStatus = btn.getAttribute('data-action');
+                    
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+                    
+                    const result = await window.adminPurchaseManager.updateOrderStatus(orderId, newStatus);
+                    if (result.success) {
+                        await loadOrders();
+                    } else {
+                        alert(result.message);
+                        btn.disabled = false;
+                        btn.innerText = "Error";
+                    }
+                }
+            });
+
+            loadOrders();
+        });
+    </script>
     
     <!-- Custom JS -->
     <script src="js/script.js"></script>

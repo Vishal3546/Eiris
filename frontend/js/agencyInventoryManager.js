@@ -1,7 +1,7 @@
-const API_BASE_URL = 'http://localhost:8080/api/agency';
+﻿const AGENCY_API_BASE_URL = 'http://localhost:8080/api/agency';
 
 function getAuthHeaders() {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
     return {
         'Content-Type': 'application/json',
         'Authorization': token ? `Bearer ${token}` : ''
@@ -11,7 +11,7 @@ function getAuthHeaders() {
 const agencyInventoryManager = {
     getInventory: async function() {
         try {
-            const response = await fetch(`${API_BASE_URL}/inventory`, { headers: getAuthHeaders() });
+            const response = await fetch(`${AGENCY_API_BASE_URL}/inventory`, { headers: getAuthHeaders() });
             if (!response.ok) throw new Error("Failed to fetch inventory");
             return await response.json();
         } catch (e) {
@@ -20,9 +20,38 @@ const agencyInventoryManager = {
         }
     },
 
+    getOrders: async function() {
+        try {
+            const response = await fetch(`${AGENCY_API_BASE_URL}/orders`, { headers: getAuthHeaders() });
+            if (!response.ok) throw new Error("Failed to fetch orders");
+            return await response.json();
+        } catch (e) {
+            console.error("Error in getOrders:", e);
+            return [];
+        }
+    },
+
+    receiveOrder: async function(orderId) {
+        try {
+            const response = await fetch(`${AGENCY_API_BASE_URL}/orders/${orderId}/receive`, {
+                method: 'PUT',
+                headers: getAuthHeaders()
+            });
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                return { success: false, message: errorData.message || "Failed to receive order" };
+            }
+            this.notifyInventoryChanged();
+            return { success: true, message: "Order received successfully!" };
+        } catch (e) {
+            console.error("Error in receiveOrder:", e);
+            return { success: false, message: "Network error occurred." };
+        }
+    },
+
     getSales: async function() {
         try {
-            const response = await fetch(`${API_BASE_URL}/sales`, { headers: getAuthHeaders() });
+            const response = await fetch(`${AGENCY_API_BASE_URL}/sales`, { headers: getAuthHeaders() });
             if (!response.ok) throw new Error("Failed to fetch sales");
             return await response.json();
         } catch (e) {
@@ -38,7 +67,7 @@ const agencyInventoryManager = {
                 quantity: parseInt(quantitySold, 10),
                 customerName: customerName
             };
-            const response = await fetch(`${API_BASE_URL}/sales`, {
+            const response = await fetch(`${AGENCY_API_BASE_URL}/sales`, {
                 method: 'POST',
                 headers: getAuthHeaders(),
                 body: JSON.stringify(payload)
@@ -59,7 +88,7 @@ const agencyInventoryManager = {
     
     getMetrics: async function() {
         try {
-            const response = await fetch(`${API_BASE_URL}/inventory/metrics`, { headers: getAuthHeaders() });
+            const response = await fetch(`${AGENCY_API_BASE_URL}/inventory/metrics`, { headers: getAuthHeaders() });
             if (!response.ok) throw new Error("Failed to fetch metrics");
             return await response.json();
         } catch (e) {

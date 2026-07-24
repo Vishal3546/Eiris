@@ -5,7 +5,6 @@ import com.eiris.backend.dto.request.AgencySaleRequest;
 import com.eiris.backend.dto.response.AgencyInventoryResponse;
 import com.eiris.backend.dto.response.AgencyMetricsResponse;
 import com.eiris.backend.dto.response.AgencySaleResponse;
-import com.eiris.backend.entity.User;
 import com.eiris.backend.security.CustomUserDetails;
 import com.eiris.backend.service.AgencyInventoryService;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +24,25 @@ public class AgencyInventoryController {
     }
 
     // --- ORDERS (Purchasing from Admin) ---
+    @GetMapping("/orders")
+    public ResponseEntity<List<com.eiris.backend.dto.response.AgencyOrderResponse>> getOrders(
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(inventoryService.getOrders(userDetails.getUser()));
+    }
+
     @PostMapping("/orders")
     public ResponseEntity<Void> placeOrder(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody AgencyOrderRequest request) {
         inventoryService.placeOrder(userDetails.getUser(), request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/orders/{id}/receive")
+    public ResponseEntity<Void> receiveOrder(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable java.util.UUID id) {
+        inventoryService.receiveOrder(id, userDetails.getUser());
         return ResponseEntity.ok().build();
     }
 

@@ -1,4 +1,4 @@
-// apiService.js
+﻿// apiService.js
 
 // Ensure axios is loaded in your HTML before this script: 
 // <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -15,7 +15,7 @@ const apiService = axios.create({
 // Request interceptor to attach access token
 apiService.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('accessToken');
+        const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
@@ -34,11 +34,15 @@ apiService.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        // If error is 401 and we haven't retried yet
-        if (error.response && error.response.status === 401 && !originalRequest._retry) {
+        // Exclude auth endpoints from the 401 refresh logic
+        const isAuthEndpoint = originalRequest.url.includes('/auth/login') || originalRequest.url.includes('/auth/refresh');
+
+        // If error is 401 and we haven't retried yet, and it's not a login/refresh request
+        if (error.response && error.response.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
+            console.warn("Got 401 Unauthorized, attempting to refresh token...", error.config.url);
             originalRequest._retry = true;
 
-            const refreshToken = localStorage.getItem('refreshToken');
+            const refreshToken = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken');
             if (refreshToken) {
                 try {
                     // Attempt to refresh token
@@ -48,26 +52,29 @@ apiService.interceptors.response.use(
 
                     // Store new tokens
                     const { accessToken, refreshToken: newRefreshToken, user } = response.data;
-                    localStorage.setItem('accessToken', accessToken);
-                    localStorage.setItem('refreshToken', newRefreshToken);
-                    localStorage.setItem('user', JSON.stringify(user));
+                    localStorage.setItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken', accessToken);
+                    localStorage.setItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken', newRefreshToken);
+                    localStorage.setItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user', JSON.stringify(user));
 
+                    console.log("Token refreshed successfully.");
                     // Update header and retry original request
                     originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
                     return apiService(originalRequest);
                 } catch (refreshError) {
+                    console.error("Token refresh failed. Clearing localStorage.", refreshError);
                     // Refresh failed, user needs to login again
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('refreshToken');
-                    localStorage.removeItem('user');
+                    localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+                    localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken');
+                    localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user');
                     // Optional: Redirect to login page
                     // window.location.href = '/login.html';
                     return Promise.reject(refreshError);
                 }
             } else {
+                console.warn("No refresh token available. Clearing localStorage.");
                 // No refresh token available, clear storage just in case
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('user');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user');
                 // window.location.href = '/login.html';
             }
         }
@@ -81,9 +88,9 @@ const authService = {
     async login(email, password) {
         const response = await apiService.post('/auth/login', { email, password });
         if (response.data.accessToken) {
-            localStorage.setItem('accessToken', response.data.accessToken);
-            localStorage.setItem('refreshToken', response.data.refreshToken);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+            localStorage.setItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken', response.data.accessToken);
+            localStorage.setItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken', response.data.refreshToken);
+            localStorage.setItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user', JSON.stringify(response.data.user));
         }
         return response.data;
     },
@@ -91,22 +98,22 @@ const authService = {
     async register(email, password) {
         const response = await apiService.post('/auth/register', { email, password });
         if (response.data.accessToken) {
-            localStorage.setItem('accessToken', response.data.accessToken);
-            localStorage.setItem('refreshToken', response.data.refreshToken);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+            localStorage.setItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken', response.data.accessToken);
+            localStorage.setItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken', response.data.refreshToken);
+            localStorage.setItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user', JSON.stringify(response.data.user));
         }
         return response.data;
     },
 
     logout() {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
+        localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+        localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken');
+        localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user');
         // window.location.href = '/login.html';
     },
     
     getCurrentUser() {
-        const userStr = localStorage.getItem('user');
+        const userStr = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user');
         if (userStr) return JSON.parse(userStr);
         return null;
     },

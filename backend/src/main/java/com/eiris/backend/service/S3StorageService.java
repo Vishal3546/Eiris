@@ -20,7 +20,6 @@ public class S3StorageService {
 
     private final S3Client s3Client;
     private final String bucketName;
-    private final String endpointUrl;
     private final String projectId;
 
     public S3StorageService(
@@ -31,7 +30,6 @@ public class S3StorageService {
             @Value("${aws.s3.bucket}") String bucketName) {
         
         this.bucketName = bucketName;
-        this.endpointUrl = endpoint;
         
         // Extract project ID from endpoint to construct the public URL correctly
         // Format: https://[project-id].supabase.co/storage/v1/s3

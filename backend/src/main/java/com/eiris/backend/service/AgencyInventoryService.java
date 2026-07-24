@@ -4,6 +4,7 @@ import com.eiris.backend.dto.request.AgencyOrderRequest;
 import com.eiris.backend.dto.request.AgencySaleRequest;
 import com.eiris.backend.dto.response.AgencyInventoryResponse;
 import com.eiris.backend.dto.response.AgencyMetricsResponse;
+import com.eiris.backend.dto.response.AgencyOrderResponse;
 import com.eiris.backend.dto.response.AgencySaleResponse;
 import com.eiris.backend.entity.*;
 import com.eiris.backend.repository.AgencyInventoryRepository;
@@ -47,22 +48,62 @@ public class AgencyInventoryService {
             order.setQuantity(item.getQuantity());
             order.setUnitPrice(product.getPrice());
             order.setTotalPrice(product.getPrice() * item.getQuantity());
-            order.setStatus("COMPLETED");
+            order.setStatus(OrderStatus.PENDING);
             orderRepository.save(order);
-
-            // 2. Update Inventory
-            AgencyInventory inventory = inventoryRepository.findByAgencyUserAndProduct(agencyUser, product)
-                    .orElseGet(() -> {
-                        AgencyInventory newInv = new AgencyInventory();
-                        newInv.setAgencyUser(agencyUser);
-                        newInv.setProduct(product);
-                        newInv.setAvailableQuantity(0);
-                        return newInv;
-                    });
-
-            inventory.setAvailableQuantity(inventory.getAvailableQuantity() + item.getQuantity());
-            inventoryRepository.save(inventory);
         }
+    }
+
+    @Transactional
+    public void receiveOrder(java.util.UUID orderId, User agencyUser) {
+        AgencyOrder order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
+        if (!order.getAgencyUser().getId().equals(agencyUser.getId())) {
+            throw new IllegalArgumentException("Not authorized to receive this order");
+        }
+
+        if (order.getStatus() == OrderStatus.DELIVERED) {
+            throw new IllegalArgumentException("Order already received");
+        }
+
+        if (order.getStatus() != OrderStatus.SHIPPED && order.getStatus() != OrderStatus.APPROVED) {
+            throw new IllegalArgumentException("Order is not shipped yet");
+        }
+
+        // Update status
+        order.setStatus(OrderStatus.DELIVERED);
+        orderRepository.save(order);
+
+        // Update Inventory
+        Product product = order.getProduct();
+        AgencyInventory inventory = inventoryRepository.findByAgencyUserAndProduct(agencyUser, product)
+                .orElseGet(() -> {
+                    AgencyInventory newInv = new AgencyInventory();
+                    newInv.setAgencyUser(agencyUser);
+                    newInv.setProduct(product);
+                    newInv.setAvailableQuantity(0);
+                    return newInv;
+                });
+
+        inventory.setAvailableQuantity(inventory.getAvailableQuantity() + order.getQuantity());
+        inventoryRepository.save(inventory);
+    }
+
+    @Transactional(readOnly = true)
+    public List<AgencyOrderResponse> getOrders(User agencyUser) {
+        return orderRepository.findByAgencyUserOrderByCreatedAtDesc(agencyUser).stream()
+                .map(order -> {
+                    AgencyOrderResponse resp = new AgencyOrderResponse();
+                    resp.setId(order.getId());
+                    resp.setProductName(order.getProduct().getName());
+                    resp.setQuantity(order.getQuantity());
+                    resp.setUnitPrice(order.getUnitPrice());
+                    resp.setTotalPrice(order.getTotalPrice());
+                    resp.setStatus(order.getStatus());
+                    resp.setDate(order.getCreatedAt());
+                    return resp;
+                })
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -293,9 +293,9 @@
             if (typeof authService !== 'undefined') {
                 authService.logout();
             } else {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                localStorage.removeItem('user');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken');
+                localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user');
             }
             window.location.href = 'index.html';
         }
@@ -315,8 +315,8 @@
     <script>
         $(document).ready(function() {
             // Check if user is logged in and is an agency
-            const token = localStorage.getItem('accessToken');
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+            const user = JSON.parse(localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user') || '{}');
             
             if (!token || user.role !== 'AGENCY') {
                 window.location.href = 'index.html';
@@ -357,7 +357,7 @@
             const API_BASE_URL = 'http://localhost:8080/api/agency/clients';
             
             function getAuthHeaders() {
-                const token = localStorage.getItem('accessToken');
+                const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
                 return {
                     'Content-Type': 'application/json',
                     'Authorization': token ? `Bearer ${token}` : ''
