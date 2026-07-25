@@ -61,6 +61,21 @@ public class AgencyService {
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public AgencyResponse getAgencyById(UUID agencyId) {
+        Agency agency = agencyRepository.findById(agencyId)
+                .orElseThrow(() -> new IllegalArgumentException("Agency not found"));
+        return mapToResponse(agency);
+    }
+
+    @Transactional(readOnly = true)
+    public User getAgencyUser(UUID agencyId) {
+        Agency agency = agencyRepository.findById(agencyId)
+                .orElseThrow(() -> new IllegalArgumentException("Agency not found"));
+        return agency.getUser();
+    }
+
     @Transactional
     public AgencyResponse updateAgency(UUID agencyId, UpdateAgencyRequest request) {
         Agency agency = agencyRepository.findById(agencyId)

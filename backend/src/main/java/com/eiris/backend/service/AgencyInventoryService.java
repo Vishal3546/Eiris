@@ -41,6 +41,15 @@ public class AgencyInventoryService {
             Product product = productRepository.findById(item.getProductId())
                     .orElseThrow(() -> new IllegalArgumentException("Product not found: " + item.getProductId()));
 
+            // Stock validation
+            if (product.getStock() < item.getQuantity()) {
+                throw new IllegalArgumentException("Not enough stock available for product: " + product.getName());
+            }
+
+            // Deduct stock
+            product.setStock(product.getStock() - item.getQuantity());
+            productRepository.save(product);
+
             // 1. Create Order Record
             AgencyOrder order = new AgencyOrder();
             order.setAgencyUser(agencyUser);

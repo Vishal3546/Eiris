@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -398,9 +398,7 @@
         }
 
         function handleViewAgency(id) {
-            // View agency logic (can be expanded later if needed)
-            const agency = agenciesList.find(a => a.id === id);
-            if(agency) alert(`Viewing Agency: ${agency.agencyName}`);
+            window.location.href = `admin-agency-details.html?id=${id}`;
         }
 
         function handleEditAgency(id) {

@@ -1,4 +1,4 @@
-﻿// Product Manager for handling products via Backend API
+// Product Manager for handling products via Backend API
 
 const PRODUCT_API_BASE_URL = 'http://localhost:8080/api/admin/products';
 
@@ -91,4 +91,4 @@ const productManager = {
     }
 };
 
-
+window.productManager = productManager;

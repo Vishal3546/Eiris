@@ -106,4 +106,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // 5. Update Agency Name dynamically in Header
+    if (window.location.pathname.includes('agency-')) {
+        const userStr = localStorage.getItem('agency_user');
+        if (userStr) {
+            try {
+                const user = JSON.parse(userStr);
+                const nameDisplay = user.name || user.email || 'Agency Partner';
+                const initials = nameDisplay.substring(0, 2).toUpperCase();
+
+                const agencyNameEl = document.querySelector('span.text-muted strong.text-night-blue');
+                const agencyInitialsEl = document.querySelector('.text-white.fw-bold.rounded-circle');
+
+                if (agencyNameEl) {
+                    agencyNameEl.textContent = nameDisplay;
+                }
+                if (agencyInitialsEl) {
+                    agencyInitialsEl.textContent = initials;
+                }
+            } catch (e) {
+                console.error('Error parsing agency user data', e);
+            }
+        }
+    }
+
 });

@@ -1,4 +1,4 @@
-﻿// apiService.js
+// apiService.js
 
 // Ensure axios is loaded in your HTML before this script: 
 // <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -139,6 +139,22 @@ const adminAgencyService = {
     },
     async deleteAgency(id) {
         await apiService.delete(`/admin/agencies/${id}`);
+    },
+    async getAgencyById(id) {
+        const response = await apiService.get(`/admin/agencies/${id}`);
+        return response.data;
+    },
+    async getAgencyClients(id) {
+        const response = await apiService.get(`/admin/agencies/${id}/clients`);
+        return response.data;
+    },
+    async getAgencyInventory(id) {
+        const response = await apiService.get(`/admin/agencies/${id}/inventory`);
+        return response.data;
+    },
+    async getAgencyMetrics(id) {
+        const response = await apiService.get(`/admin/agencies/${id}/metrics`);
+        return response.data;
     }
 };
 

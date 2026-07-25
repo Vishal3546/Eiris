@@ -10,6 +10,7 @@ public record AuthResponse(
     public record UserDto(
             UUID id,
             String email,
-            String role
+            String role,
+            String name
     ) {}
 }

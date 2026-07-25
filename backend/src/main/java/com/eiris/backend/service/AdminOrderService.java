@@ -4,6 +4,10 @@ import com.eiris.backend.dto.response.AdminOrderResponse;
 import com.eiris.backend.entity.AgencyOrder;
 import com.eiris.backend.entity.OrderStatus;
 import com.eiris.backend.repository.AgencyOrderRepository;
+import com.eiris.backend.repository.AgencyRepository;
+import com.eiris.backend.repository.ProductRepository;
+import com.eiris.backend.entity.Product;
+import com.eiris.backend.entity.Agency;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +19,13 @@ import java.util.stream.Collectors;
 public class AdminOrderService {
 
     private final AgencyOrderRepository orderRepository;
+    private final ProductRepository productRepository;
+    private final AgencyRepository agencyRepository;
 
-    public AdminOrderService(AgencyOrderRepository orderRepository) {
+    public AdminOrderService(AgencyOrderRepository orderRepository, ProductRepository productRepository, AgencyRepository agencyRepository) {
         this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
+        this.agencyRepository = agencyRepository;
     }
 
     @Transactional(readOnly = true)
@@ -44,6 +52,12 @@ public class AdminOrderService {
             throw new IllegalArgumentException("Cannot change status of a completed/cancelled order");
         }
 
+        if (newStatus == OrderStatus.CANCELLED) {
+            Product product = order.getProduct();
+            product.setStock(product.getStock() + order.getQuantity());
+            productRepository.save(product);
+        }
+
         order.setStatus(newStatus);
         orderRepository.save(order);
     }
@@ -51,7 +65,12 @@ public class AdminOrderService {
     private AdminOrderResponse mapToResponse(AgencyOrder order) {
         AdminOrderResponse resp = new AdminOrderResponse();
         resp.setId(order.getId());
-        resp.setAgencyName(order.getAgencyUser().getEmail()); // Using email as identifier for now
+        
+        String agencyName = agencyRepository.findByUser(order.getAgencyUser())
+                                            .map(Agency::getAgencyName)
+                                            .orElse(order.getAgencyUser().getEmail());
+        resp.setAgencyName(agencyName);
+
         resp.setProductName(order.getProduct().getName());
         resp.setQuantity(order.getQuantity());
         resp.setUnitPrice(order.getUnitPrice());
