@@ -5,7 +5,7 @@ public class AgencyClientRequest {
     private String clientCompany;
     private String clientEmail;
     private String clientContact;
-    private String clientState;
+    private String clientGstNo;
     private String clientCity;
 
     public String getClientName() { return clientName; }
@@ -16,8 +16,8 @@ public class AgencyClientRequest {
     public void setClientEmail(String clientEmail) { this.clientEmail = clientEmail; }
     public String getClientContact() { return clientContact; }
     public void setClientContact(String clientContact) { this.clientContact = clientContact; }
-    public String getClientState() { return clientState; }
-    public void setClientState(String clientState) { this.clientState = clientState; }
+    public String getClientGstNo() { return clientGstNo; }
+    public void setClientGstNo(String clientGstNo) { this.clientGstNo = clientGstNo; }
     public String getClientCity() { return clientCity; }
     public void setClientCity(String clientCity) { this.clientCity = clientCity; }
 }

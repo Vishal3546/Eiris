@@ -517,7 +517,7 @@
             
             clients.forEach((c, index) => {
                 const date = c.createdAt ? new Date(c.createdAt).toLocaleDateString('en-IN') : 'N/A';
-                const location = [c.clientCity, c.clientState].filter(Boolean).join(', ');
+                const location = [c.clientCity, c.clientGstNo ? `GST: ${c.clientGstNo}` : (c.clientState || null)].filter(Boolean).join(' • ');
                 const row = `
                     <tr class="align-middle">
                         <td class="ps-4 fw-bold text-muted">${index + 1}</td>

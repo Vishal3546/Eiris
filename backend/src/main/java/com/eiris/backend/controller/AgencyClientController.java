@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/agency/clients")
@@ -35,5 +36,24 @@ public class AgencyClientController {
         User user = userDetails.getUser();
         List<AgencyClientResponse> clients = agencyClientService.getClientsForAgency(user);
         return ResponseEntity.ok(clients);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AgencyClientResponse> updateClient(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable UUID id,
+            @RequestBody AgencyClientRequest request) {
+        User user = userDetails.getUser();
+        AgencyClientResponse response = agencyClientService.updateClient(id, user, request);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteClient(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable UUID id) {
+        User user = userDetails.getUser();
+        agencyClientService.deleteClient(id, user);
+        return ResponseEntity.noContent().build();
     }
 }

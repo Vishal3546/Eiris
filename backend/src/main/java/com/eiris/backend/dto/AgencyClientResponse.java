@@ -10,7 +10,7 @@ public class AgencyClientResponse {
     private String clientCompany;
     private String clientEmail;
     private String clientContact;
-    private String clientState;
+    private String clientGstNo;
     private String clientCity;
     private Double sales;
     private Integer orders;
@@ -25,7 +25,7 @@ public class AgencyClientResponse {
         this.clientCompany = client.getClientCompany();
         this.clientEmail = client.getClientEmail();
         this.clientContact = client.getClientContact();
-        this.clientState = client.getClientState();
+        this.clientGstNo = client.getClientGstNo();
         this.clientCity = client.getClientCity();
         this.sales = client.getSales();
         this.orders = client.getOrders();
@@ -43,8 +43,8 @@ public class AgencyClientResponse {
     public void setClientEmail(String clientEmail) { this.clientEmail = clientEmail; }
     public String getClientContact() { return clientContact; }
     public void setClientContact(String clientContact) { this.clientContact = clientContact; }
-    public String getClientState() { return clientState; }
-    public void setClientState(String clientState) { this.clientState = clientState; }
+    public String getClientGstNo() { return clientGstNo; }
+    public void setClientGstNo(String clientGstNo) { this.clientGstNo = clientGstNo; }
     public String getClientCity() { return clientCity; }
     public void setClientCity(String clientCity) { this.clientCity = clientCity; }
     public Double getSales() { return sales; }

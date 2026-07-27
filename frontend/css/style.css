@@ -663,3 +663,75 @@ body {
   padding: 0 0.35rem;
   user-select: none;
 }
+
+/* Custom Modern Pill Dropdown Menu (Global for Admin & Agency tables) */
+.custom-modern-dropdown {
+  background: #ffffff !important;
+  border: 2px solid rgba(45, 84, 94, 0.22) !important;
+  border-radius: 1.25rem !important;
+  box-shadow: 0 16px 36px -4px rgba(11, 43, 49, 0.18) !important;
+  min-width: 245px;
+  padding: 0.5rem !important;
+  z-index: 1055 !important;
+}
+
+.custom-modern-dropdown .dropdown-item {
+  border-radius: 0.85rem;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.custom-modern-dropdown .dropdown-item:last-child {
+  margin-bottom: 0;
+}
+
+.custom-modern-dropdown .dropdown-item:hover,
+.custom-modern-dropdown .dropdown-item:focus {
+  background-color: rgba(45, 84, 94, 0.08);
+  color: var(--eiris-night-blue-shadow);
+}
+
+.custom-modern-dropdown .dropdown-item.active {
+  background: linear-gradient(135deg, var(--eiris-night-blue) 0%, var(--eiris-night-blue-shadow) 100%);
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(11, 43, 49, 0.25);
+}
+
+.custom-modern-dropdown .dropdown-item.active i {
+  color: #ffffff !important;
+}
+
+.btn-modern-sort {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 2px solid var(--eiris-night-blue) !important;
+  border-radius: 50rem !important;
+  box-shadow: 0 4px 12px rgba(11, 43, 49, 0.08);
+  transition: all 0.2s ease;
+  color: var(--eiris-night-blue);
+  cursor: pointer;
+}
+
+.btn-modern-sort:hover, .btn-modern-sort:focus, .btn-modern-sort.show {
+  background: #ffffff;
+  border-color: var(--eiris-night-blue-shadow) !important;
+  box-shadow: 0 6px 16px rgba(11, 43, 49, 0.16);
+  transform: translateY(-1px);
+}
+
+.btn-modern-sort.show i.bi-chevron-down {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+.btn-modern-sort i.bi-chevron-down {
+  transition: transform 0.2s ease;
+}
+

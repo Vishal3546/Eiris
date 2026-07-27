@@ -10,6 +10,7 @@ import com.eiris.backend.repository.AgencyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,7 +44,7 @@ public class AgencyClientServiceImpl implements AgencyClientService {
         client.setClientCompany(request.getClientCompany());
         client.setClientEmail(request.getClientEmail());
         client.setClientContact(request.getClientContact());
-        client.setClientState(request.getClientState());
+        client.setClientGstNo(request.getClientGstNo());
         client.setClientCity(request.getClientCity());
 
         client = agencyClientRepository.save(client);
@@ -69,5 +70,23 @@ public class AgencyClientServiceImpl implements AgencyClientService {
                 .stream()
                 .map(AgencyClientResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public AgencyClientResponse updateClient(UUID clientId, User user, AgencyClientRequest request) {
+        AgencyClient client = agencyClientRepository.findById(clientId)
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+        client.setClientName(request.getClientName());
+        client.setClientCompany(request.getClientCompany());
+        client.setClientEmail(request.getClientEmail());
+        client.setClientContact(request.getClientContact());
+        client.setClientGstNo(request.getClientGstNo());
+        client.setClientCity(request.getClientCity());
+        return new AgencyClientResponse(agencyClientRepository.save(client));
+    }
+
+    @Override
+    public void deleteClient(UUID clientId, User user) {
+        agencyClientRepository.deleteById(clientId);
     }
 }

@@ -97,18 +97,45 @@
                     </button>
                 </div>
                 
-                <h5 class="fw-bold text-night-blue-shadow mb-3">Top Clients</h5>
-                <div class="row g-4 mb-4" id="topClientsContainer">
-                    <!-- Rendered by JS -->
-                </div>
-                
                 <!-- Client List Table -->
                 <div class="card shadow-sm rounded-4" style="border: 2px solid var(--eiris-night-blue) !important; overflow: hidden;">
-                    <div class="card-header bg-white border-bottom p-4 d-flex justify-content-between align-items-center">
+                    <div class="card-header bg-white border-bottom p-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <h5 class="mb-0 fw-bold text-night-blue-shadow">All Clients</h5>
-                        <div class="input-group shadow-sm border-0 rounded-pill overflow-hidden bg-white" style="width: 320px; border: 2px solid var(--eiris-night-blue) !important;">
-                            <span class="input-group-text bg-white border-0 text-primary pe-1"><i class="bi bi-search"></i></span>
-                            <input type="text" id="clientSearch" class="form-control border-0 shadow-none bg-white" placeholder="Search name or farm/company...">
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <div class="dropdown">
+                                <input type="hidden" id="salesSortFilter" value="default">
+                                <button class="btn btn-modern-sort rounded-pill px-4 py-2 d-flex align-items-center justify-content-between shadow-sm" type="button" id="sortDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" style="min-width: 245px;">
+                                    <span class="d-flex align-items-center">
+                                        <span class="badge bg-light text-night-blue rounded-circle p-1 me-2 shadow-sm border"><i id="currentSortIcon" class="bi bi-funnel"></i></span>
+                                        <span id="currentSortLabel" class="fw-bold text-night-blue">Sort by: Default</span>
+                                    </span>
+                                    <i class="bi bi-chevron-down ms-3 text-muted small"></i>
+                                </button>
+                                <ul class="dropdown-menu custom-modern-dropdown shadow-lg p-2 border-0" aria-labelledby="sortDropdownBtn">
+                                    <li>
+                                        <a class="dropdown-item active" href="#" data-sort="default">
+                                            <span class="d-flex align-items-center"><i class="bi bi-funnel me-2 text-primary"></i>Default Order</span>
+                                            <i class="bi bi-check-circle-fill fs-6"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" data-sort="high-to-low">
+                                            <span class="d-flex align-items-center"><i class="bi bi-sort-down me-2 text-success"></i>Sales: High to Low (₹)</span>
+                                            <i class="bi bi-check-circle-fill fs-6 d-none"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" data-sort="low-to-high">
+                                            <span class="d-flex align-items-center"><i class="bi bi-sort-up me-2 text-warning"></i>Sales: Low to High (₹)</span>
+                                            <i class="bi bi-check-circle-fill fs-6 d-none"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="input-group shadow-sm border-0 rounded-pill overflow-hidden bg-white" style="width: 320px; border: 2px solid var(--eiris-night-blue) !important;">
+                                <span class="input-group-text bg-white border-0 text-primary pe-1"><i class="bi bi-search"></i></span>
+                                <input type="text" id="clientSearch" class="form-control border-0 shadow-none bg-white" placeholder="Search name, company or GST...">
+                            </div>
                         </div>
                     </div>
                     <div class="card-body p-0">
@@ -119,8 +146,13 @@
                                         <th class="ps-4">Client Name</th>
                                         <th>Company</th>
                                         <th>Contact Info</th>
-                                        <th>Place</th>
-                                        <th>Total Sales</th>
+                                        <th>City / GST No.</th>
+                                        <th id="sortSalesTh" style="cursor: pointer; user-select: none;" title="Click to sort by sales" class="text-nowrap">
+                                            Total Sales 
+                                            <span class="badge bg-white text-night-blue ms-2 px-2 py-1 shadow-sm border rounded-pill" style="border-color: var(--eiris-night-blue) !important; font-size: 0.75rem;">
+                                                <i id="sortSalesIcon" class="bi bi-arrow-down-up fw-bold text-primary"></i>
+                                            </span>
+                                        </th>
                                         
                                         <th class="text-end pe-4">Action</th>
                                     </tr>
@@ -171,16 +203,12 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label class="form-label text-muted fw-bold">State</label>
-                                <select id="clientState" class="form-select select2" required>
-                                    <option value="" disabled selected>Select State</option>
-                                </select>
+                                <label class="form-label text-muted fw-bold">GST No.</label>
+                                <input type="text" id="clientGstNo" class="form-control" placeholder="e.g. 27AAAAA0000A1Z5" required>
                             </div>
                             <div class="col-md-6 mt-3 mt-md-0">
                                 <label class="form-label text-muted fw-bold">City</label>
-                                <select id="clientCity" class="form-select select2" required>
-                                    <option value="" disabled selected>Select City</option>
-                                </select>
+                                <input type="text" id="clientCity" class="form-control" placeholder="Enter city" required>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -228,16 +256,12 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label class="form-label text-muted fw-bold">State</label>
-                                <select id="editClientState" class="form-select select2" required>
-                                    <option value="" disabled selected>Select State</option>
-                                </select>
+                                <label class="form-label text-muted fw-bold">GST No.</label>
+                                <input type="text" id="editClientGstNo" class="form-control" placeholder="e.g. 27AAAAA0000A1Z5" required>
                             </div>
                             <div class="col-md-6 mt-3 mt-md-0">
                                 <label class="form-label text-muted fw-bold">City</label>
-                                <select id="editClientCity" class="form-select select2" required>
-                                    <option value="" disabled selected>Select City</option>
-                                </select>
+                                <input type="text" id="editClientCity" class="form-control" placeholder="Enter city" required>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -331,37 +355,7 @@
                 return;
             }
 
-            // Initialize Select2
-            $('#clientState, #clientCity').select2({
-                theme: 'classic',
-                width: '100%',
-                dropdownParent: $('#addClientModal')
-            });
-
-            // Populate States
-            if (typeof indiaLocations !== 'undefined') {
-                const states = Object.keys(indiaLocations).sort();
-                states.forEach(state => {
-                    $('#clientState').append(new Option(state, state));
-                });
-            }
-
-            // Populate Cities on State change
-            $('#clientState').on('change', function() {
-                const state = $(this).val();
-                const citySelect = $('#clientCity');
-                citySelect.empty().append(new Option('Select City', '', true, true));
-                
-                if(state && typeof indiaLocations !== 'undefined' && indiaLocations[state]) {
-                    const cities = indiaLocations[state].sort();
-                    cities.forEach(city => {
-                        citySelect.append(new Option(city, city));
-                    });
-                }
-                citySelect.trigger('change');
-            });
-
-            // Initial Mock Data and Backend Integration
+            // Backend Integration
             const API_BASE_URL = 'http://localhost:8080/api/agency/clients';
             
             function getAuthHeaders() {
@@ -380,78 +374,23 @@
                     if (!response.ok) throw new Error("Failed to fetch clients");
                     const data = await response.json();
                     
-                    // Map backend properties to frontend properties format if necessary
                     clientsList = data.map(c => ({
                         id: c.id,
                         name: c.clientName,
                         company: c.clientCompany || '-',
                         email: c.clientEmail,
                         phone: c.clientContact,
-                        state: c.clientState || '-',
+                        gstNo: c.clientGstNo || c.clientState || '-',
                         place: c.clientCity || '-',
                         sales: c.sales || 0,
                         orders: c.orders || 0,
                         added: new Date(c.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
                     }));
-                    renderTopClients();
-                    renderClientsTable();
+                    applyFilterAndSort();
                 } catch (e) {
                     console.error("Error fetching clients", e);
                     $('#clientsTableBody').html('<tr><td colspan="6" class="text-center py-4 text-danger"><i class="bi bi-exclamation-triangle me-2"></i>Failed to load clients. Please try again.</td></tr>');
-                    $('#topClientsContainer').html('<div class="col-12 text-center text-muted py-3">Could not load top clients.</div>');
                 }
-            }
-
-            function getInitials(name) {
-                if(!name) return 'C';
-                let parts = name.trim().split(' ');
-                if (parts.length >= 2) {
-                    return (parts[0][0] + parts[1][0]).toUpperCase();
-                } else if (parts.length === 1 && parts[0].length >= 2) {
-                    return parts[0].substring(0, 2).toUpperCase();
-                }
-                return name.substring(0,1).toUpperCase();
-            }
-
-            function getAvatarClass(index) {
-                const classes = [
-                    { bg: 'bg-info bg-opacity-10', text: 'text-info' },
-                    { bg: 'bg-success bg-opacity-10', text: 'text-mint' },
-                    { bg: 'bg-warning bg-opacity-10', text: 'text-warning' }
-                ];
-                return classes[index % classes.length];
-            }
-
-            function renderTopClients() {
-                let sortedClients = [...clientsList].sort((a, b) => b.sales - a.sales).slice(0, 3);
-                let html = '';
-                sortedClients.forEach((client, index) => {
-                    let avatar = getAvatarClass(index);
-                    let initials = getInitials(client.name);
-                    html += `
-                    <div class="col-md-4">
-                        <div class="card border-0 shadow-sm rounded-4 h-100 glass-agency-panel animate-fade-in-up" style="animation-delay: ${index * 0.1}s">
-                            <div class="card-body p-4 text-center">
-                                <div class="${avatar.bg} rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                                    <span class="fs-4 fw-bold ${avatar.text}">${initials}</span>
-                                </div>
-                                <h5 class="fw-bold mb-1">${client.name}</h5>
-                                <p class="text-muted small mb-3">${client.company}</p>
-                                <div class="d-flex justify-content-between text-start border-top pt-3">
-                                    <div>
-                                        <p class="text-muted small mb-0">Total Sales</p>
-                                        <h6 class="fw-bold mb-0">₹${client.sales.toLocaleString('en-IN')}</h6>
-                                    </div>
-                                    <div class="text-end">
-                                        <p class="text-muted small mb-0">Orders</p>
-                                        <h6 class="fw-bold mb-0">${client.orders}</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-                });
-                $('#topClientsContainer').html(html);
             }
 
             let currentClientsPage = 1;
@@ -482,8 +421,10 @@
                                 <div class="text-muted small"><i class="bi bi-telephone-fill me-1"></i>${client.phone}</div>
                             </td>
                             <td>
-                                <div class="mb-1">${client.place}</div>
-                                <div class="text-muted small">${client.state}</div>
+                                <div class="mb-1 fw-semibold text-night-blue">${client.place || '-'}</div>
+                                <div class="text-muted small">
+                                    <span class="badge bg-light text-dark border"><i class="bi bi-file-earmark-text me-1"></i>${client.gstNo || 'N/A'}</span>
+                                </div>
                             </td>
                             <td class="fw-bold text-success">₹${client.sales.toLocaleString('en-IN')}</td>
                             <td class="pe-4 text-end">
@@ -496,6 +437,80 @@
                     }
                 });
             }
+
+            function applyFilterAndSort() {
+                let searchTerm = ($('#clientSearch').val() || '').toLowerCase().trim();
+                let sortType = $('#salesSortFilter').val() || 'default';
+
+                let filtered = clientsList.filter(c => 
+                    (c.name && c.name.toLowerCase().includes(searchTerm)) || 
+                    (c.company && c.company.toLowerCase().includes(searchTerm)) ||
+                    (c.gstNo && c.gstNo.toLowerCase().includes(searchTerm)) ||
+                    (c.place && c.place.toLowerCase().includes(searchTerm))
+                );
+
+                if (sortType === 'high-to-low') {
+                    filtered.sort((a, b) => (b.sales || 0) - (a.sales || 0));
+                } else if (sortType === 'low-to-high') {
+                    filtered.sort((a, b) => (a.sales || 0) - (b.sales || 0));
+                }
+
+                currentClientsPage = 1;
+                renderClientsTable(filtered);
+            }
+
+            $('#clientSearch').on('input', function() {
+                applyFilterAndSort();
+            });
+
+            function setSortOption(sortValue) {
+                $('#salesSortFilter').val(sortValue);
+                
+                // Update active state in menu
+                $('.custom-modern-dropdown .dropdown-item').removeClass('active');
+                $('.custom-modern-dropdown .dropdown-item i.bi-check-circle-fill').addClass('d-none');
+                
+                const selectedItem = $(`.custom-modern-dropdown .dropdown-item[data-sort="${sortValue}"]`);
+                selectedItem.addClass('active');
+                selectedItem.find('i.bi-check-circle-fill').removeClass('d-none');
+                
+                // Update trigger button label and icon
+                const labels = {
+                    'default': { text: 'Sort by: Default', icon: 'bi-funnel' },
+                    'high-to-low': { text: 'Sales: High to Low (₹)', icon: 'bi-sort-down' },
+                    'low-to-high': { text: 'Sales: Low to High (₹)', icon: 'bi-sort-up' }
+                };
+                
+                const itemInfo = labels[sortValue] || labels['default'];
+                $('#currentSortLabel').text(itemInfo.text);
+                $('#currentSortIcon').attr('class', `bi ${itemInfo.icon}`);
+                
+                if (sortValue === 'high-to-low') {
+                    $('#sortSalesIcon').attr('class', 'bi bi-sort-down-alt fw-bold text-success');
+                } else if (sortValue === 'low-to-high') {
+                    $('#sortSalesIcon').attr('class', 'bi bi-sort-up-alt fw-bold text-warning');
+                } else {
+                    $('#sortSalesIcon').attr('class', 'bi bi-arrow-down-up fw-bold text-primary');
+                }
+                
+                applyFilterAndSort();
+            }
+
+            $('.custom-modern-dropdown .dropdown-item').on('click', function(e) {
+                e.preventDefault();
+                const sortVal = $(this).attr('data-sort');
+                setSortOption(sortVal);
+            });
+
+            $('#sortSalesTh').on('click', function() {
+                let current = $('#salesSortFilter').val();
+                if (current === 'high-to-low') {
+                    setSortOption('low-to-high');
+                } else {
+                    setSortOption('high-to-low');
+                }
+            });
+
 
             document.getElementById('clientsTableBody')?.addEventListener('pageChange', (e) => {
                 currentClientsPage = e.detail.page;
@@ -536,50 +551,15 @@
                     
                     let num = client.phone ? client.phone.replace('+91 ', '') : '';
                     $('#editClientContact').val(num);
-                    
-                    $('#editClientState, #editClientCity').select2({
-                        theme: 'classic',
-                        width: '100%',
-                        dropdownParent: $('#editClientModal')
-                    });
-                    
-                    if (typeof indiaLocations !== 'undefined') {
-                        $('#editClientState').empty().append(new Option('Select State', '', true, true));
-                        Object.keys(indiaLocations).sort().forEach(state => {
-                            $('#editClientState').append(new Option(state, state));
-                        });
-                        
-                        if(client.state) {
-                            $('#editClientState').val(client.state).trigger('change');
-                        }
-                        
-                        if(client.place) {
-                            setTimeout(() => {
-                                $('#editClientCity').val(client.place).trigger('change');
-                            }, 50);
-                        }
-                    }
+                    $('#editClientGstNo').val(client.gstNo !== '-' ? client.gstNo : '');
+                    $('#editClientCity').val(client.place !== '-' ? client.place : '');
                     
                     let modal = new bootstrap.Modal(document.getElementById('editClientModal'));
                     modal.show();
                 }
             };
 
-            $('#editClientState').on('change', function() {
-                const state = $(this).val();
-                const citySelect = $('#editClientCity');
-                citySelect.empty().append(new Option('Select City', '', true, true));
-                
-                if(state && typeof indiaLocations !== 'undefined' && indiaLocations[state]) {
-                    const cities = indiaLocations[state].sort();
-                    cities.forEach(city => {
-                        citySelect.append(new Option(city, city));
-                    });
-                }
-                citySelect.trigger('change');
-            });
-
-            $('#updateClientBtn').on('click', function() {
+            $('#updateClientBtn').on('click', async function() {
                 const form = document.getElementById('editClientForm');
                 if (!form.checkValidity()) {
                     form.reportValidity();
@@ -589,40 +569,56 @@
                 let id = $('#editClientId').val();
                 let clientIndex = clientsList.findIndex(c => c.id == id);
                 if(clientIndex !== -1) {
-                    clientsList[clientIndex].name = $('#editClientName').val();
-                    clientsList[clientIndex].company = $('#editClientCompany').val();
-                    clientsList[clientIndex].email = $('#editClientEmail').val();
-                    clientsList[clientIndex].phone = '+91 ' + $('#editClientContact').val();
-                    clientsList[clientIndex].state = $('#editClientState').val() || '-';
-                    clientsList[clientIndex].place = $('#editClientCity').val() || '-';
+                    const updatedPayload = {
+                        clientName: $('#editClientName').val(),
+                        clientCompany: $('#editClientCompany').val(),
+                        clientEmail: $('#editClientEmail').val(),
+                        clientContact: '+91 ' + $('#editClientContact').val(),
+                        clientGstNo: $('#editClientGstNo').val(),
+                        clientCity: $('#editClientCity').val()
+                    };
+
+                    try {
+                        await fetch(`${API_BASE_URL}/${id}`, {
+                            method: 'PUT',
+                            headers: getAuthHeaders(),
+                            body: JSON.stringify(updatedPayload)
+                        });
+                    } catch (err) {
+                        console.warn("PUT update failed or using mock:", err);
+                    }
+
+                    clientsList[clientIndex].name = updatedPayload.clientName;
+                    clientsList[clientIndex].company = updatedPayload.clientCompany;
+                    clientsList[clientIndex].email = updatedPayload.clientEmail;
+                    clientsList[clientIndex].phone = updatedPayload.clientContact;
+                    clientsList[clientIndex].gstNo = updatedPayload.clientGstNo || '-';
+                    clientsList[clientIndex].place = updatedPayload.clientCity || '-';
                     
-                    renderTopClients();
-                    renderClientsTable();
+                    applyFilterAndSort();
                     $('#editClientModal').modal('hide');
                 }
             });
 
             window.confirmDeleteClient = function(id) {
-                showCustomConfirm().then(confirmed => {
+                showCustomConfirm().then(async confirmed => {
                     if(confirmed) {
+                        try {
+                            await fetch(`${API_BASE_URL}/${id}`, {
+                                method: 'DELETE',
+                                headers: getAuthHeaders()
+                            });
+                        } catch (err) {
+                            console.warn("DELETE failed or using mock:", err);
+                        }
+
                         clientsList = clientsList.filter(c => c.id != id);
-                        renderTopClients();
-                        renderClientsTable();
+                        applyFilterAndSort();
                     }
                 });
             };
 
             fetchClients();
-            
-            $('#clientSearch').on('input', function() {
-                let val = $(this).val().toLowerCase();
-                let filtered = clientsList.filter(c => 
-                    c.name.toLowerCase().includes(val) || 
-                    c.company.toLowerCase().includes(val)
-                );
-                currentClientsPage = 1;
-                renderClientsTable(filtered);
-            });
             
             $('#saveClientBtn').on('click', async function() {
                 const form = document.getElementById('addClientForm');
@@ -644,7 +640,7 @@
                     clientCompany: $('#clientCompany').val(),
                     clientEmail: $('#clientEmail').val(),
                     clientContact: '+91 ' + $('#clientContact').val(),
-                    clientState: $('#clientState').val(),
+                    clientGstNo: $('#clientGstNo').val(),
                     clientCity: $('#clientCity').val()
                 };
                 
@@ -662,7 +658,6 @@
                     $('#clientSearch').val('');
                     $('#addClientModal').modal('hide');
                     form.reset();
-                    $('#clientState').val(null).trigger('change');
                 } catch (e) {
                     console.error("Error saving client", e);
                     errorMsg.removeClass('d-none').text('Error saving client. Please try again.');
@@ -675,13 +670,11 @@
             $('#addClientModal').on('hidden.bs.modal', function () {
                 document.getElementById('addClientForm').reset();
                 $('#formErrorMsg').addClass('d-none');
-                $('#clientState').val(null).trigger('change');
             });
 
             $('#editClientModal').on('hidden.bs.modal', function () {
                 document.getElementById('editClientForm').reset();
                 $('#editFormErrorMsg').addClass('d-none');
-                $('#editClientState').val(null).trigger('change');
             });
         });
 

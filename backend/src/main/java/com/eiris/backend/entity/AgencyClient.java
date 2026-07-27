@@ -30,8 +30,8 @@ public class AgencyClient {
     @Column(name = "client_contact")
     private String clientContact;
 
-    @Column(name = "client_state")
-    private String clientState;
+    @Column(name = "client_gst_no")
+    private String clientGstNo;
 
     @Column(name = "client_city")
     private String clientCity;
@@ -64,8 +64,8 @@ public class AgencyClient {
     public void setClientEmail(String clientEmail) { this.clientEmail = clientEmail; }
     public String getClientContact() { return clientContact; }
     public void setClientContact(String clientContact) { this.clientContact = clientContact; }
-    public String getClientState() { return clientState; }
-    public void setClientState(String clientState) { this.clientState = clientState; }
+    public String getClientGstNo() { return clientGstNo; }
+    public void setClientGstNo(String clientGstNo) { this.clientGstNo = clientGstNo; }
     public String getClientCity() { return clientCity; }
     public void setClientCity(String clientCity) { this.clientCity = clientCity; }
     public Double getSales() { return sales; }
