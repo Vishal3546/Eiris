@@ -5,6 +5,7 @@ import com.eiris.backend.dto.request.UpdateAgencyRequest;
 import com.eiris.backend.dto.response.AgencyResponse;
 import com.eiris.backend.dto.response.AgencyInventoryResponse;
 import com.eiris.backend.dto.response.AgencyMetricsResponse;
+import com.eiris.backend.dto.response.AgencySaleResponse;
 import com.eiris.backend.dto.AgencyClientResponse;
 import com.eiris.backend.service.AgencyService;
 import com.eiris.backend.service.AgencyClientService;
@@ -74,5 +75,11 @@ public class AgencyController {
     public ResponseEntity<AgencyMetricsResponse> getAgencyMetrics(@PathVariable UUID id) {
         User user = agencyService.getAgencyUser(id);
         return ResponseEntity.ok(agencyInventoryService.getMetrics(user));
+    }
+
+    @GetMapping("/{id}/sales")
+    public ResponseEntity<List<AgencySaleResponse>> getAgencySales(@PathVariable UUID id) {
+        User user = agencyService.getAgencyUser(id);
+        return ResponseEntity.ok(agencyInventoryService.getSales(user));
     }
 }

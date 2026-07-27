@@ -155,6 +155,10 @@ const adminAgencyService = {
     async getAgencyMetrics(id) {
         const response = await apiService.get(`/admin/agencies/${id}/metrics`);
         return response.data;
+    },
+    async getAgencySales(id) {
+        const response = await apiService.get(`/admin/agencies/${id}/sales`);
+        return response.data;
     }
 };
 

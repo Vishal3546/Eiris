@@ -542,3 +542,124 @@ body {
   border-color: rgba(255, 255, 255, 0.1) !important;
   font-weight: 600;
 }
+
+/* =========================================
+   2026 Eiris Modern Table Loader & Spinner
+   ========================================= */
+@keyframes eiris-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes eiris-pulse-glow {
+  0%, 100% { box-shadow: 0 4px 15px rgba(30, 58, 71, 0.12); }
+  50% { box-shadow: 0 6px 20px rgba(195, 156, 107, 0.28); }
+}
+
+.eiris-table-loader-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.75rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1.5px solid rgba(30, 58, 71, 0.15) !important;
+  border-radius: 50rem;
+  animation: eiris-pulse-glow 2s infinite ease-in-out;
+  color: #1e3a47 !important;
+  font-weight: 700 !important;
+}
+
+.eiris-table-loader-pill span {
+  color: #1e3a47 !important;
+}
+
+.eiris-spinner {
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 3px solid rgba(30, 58, 71, 0.15);
+  border-top-color: #1e3a47;
+  border-right-color: #c39c6b;
+  border-radius: 50%;
+  animation: eiris-spin 0.75s linear infinite;
+  display: inline-block;
+}
+
+/* =========================================
+   2026 Eiris Attractive Premium Pagination
+   ========================================= */
+.eiris-pagination-footer {
+  background: #ffffff;
+  border-top: 1px solid rgba(30, 58, 71, 0.12) !important;
+  padding: 1rem 1.5rem;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.eiris-pagination-info {
+  font-size: 0.875rem;
+  color: #5a6b7c;
+  font-weight: 500;
+}
+
+.eiris-pagination-info strong {
+  color: #1e3a47;
+  font-weight: 700;
+}
+
+.eiris-pagination-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.eiris-page-btn {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 0.85rem;
+  border-radius: 10px;
+  border: 1.5px solid rgba(30, 58, 71, 0.18);
+  background: #ffffff;
+  color: #1e3a47;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.eiris-page-btn:hover:not(:disabled):not(.active) {
+  background: rgba(30, 58, 71, 0.06);
+  border-color: #1e3a47;
+  color: #1e3a47;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(30, 58, 71, 0.15);
+}
+
+.eiris-page-btn.active {
+  background: linear-gradient(135deg, #1e3a47 0%, #2a5068 100%);
+  border-color: #1e3a47;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(30, 58, 71, 0.35);
+  font-weight: 700;
+}
+
+.eiris-page-btn:disabled {
+  background: #f8f9fa;
+  border-color: rgba(30, 58, 71, 0.08);
+  color: #adb5bd;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.eiris-page-dots {
+  color: #8c9ba5;
+  font-weight: 700;
+  padding: 0 0.35rem;
+  user-select: none;
+}

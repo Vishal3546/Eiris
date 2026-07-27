@@ -25,13 +25,6 @@ public class Product {
 
     @Column(name = "stock", nullable = false)
     private Integer stock;
-
-    @Column(name = "details", columnDefinition = "TEXT")
-    private String details;
-
-    @Column(name = "image_url")
-    private String imageUrl;
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private ZonedDateTime createdAt;
@@ -56,12 +49,6 @@ public class Product {
     
     public Integer getStock() { return stock; }
     public void setStock(Integer stock) { this.stock = stock; }
-    
-    public String getDetails() { return details; }
-    public void setDetails(String details) { this.details = details; }
-    
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     
     public ZonedDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(ZonedDateTime createdAt) { this.createdAt = createdAt; }

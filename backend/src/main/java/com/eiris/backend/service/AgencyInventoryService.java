@@ -124,7 +124,7 @@ public class AgencyInventoryService {
                     resp.setName(inv.getProduct().getName());
                     resp.setCategory(inv.getProduct().getCategory());
                     resp.setPrice(inv.getProduct().getPrice());
-                    resp.setImageUrl(inv.getProduct().getImageUrl());
+                    resp.setImageUrl(null);
                     resp.setQuantity(inv.getAvailableQuantity());
                     return resp;
                 })
@@ -192,13 +192,18 @@ public class AgencyInventoryService {
                 .map(sale -> {
                     AgencySaleResponse resp = new AgencySaleResponse();
                     resp.setId(sale.getId());
-                    resp.setProductId(sale.getProduct().getId());
-                    resp.setProductName(sale.getProduct().getName());
-                    resp.setCategory(sale.getProduct().getCategory());
-                    resp.setQuantity(sale.getQuantity());
-                    resp.setUnitPrice(sale.getUnitPrice());
-                    resp.setTotalPrice(sale.getTotalPrice());
-                    resp.setCustomerName(sale.getCustomerName());
+                    if (sale.getProduct() != null) {
+                        resp.setProductId(sale.getProduct().getId());
+                        resp.setProductName(sale.getProduct().getName() != null ? sale.getProduct().getName() : "Unknown Product");
+                        resp.setCategory(sale.getProduct().getCategory() != null ? sale.getProduct().getCategory() : "General");
+                    } else {
+                        resp.setProductName("Deleted Product");
+                        resp.setCategory("General");
+                    }
+                    resp.setQuantity(sale.getQuantity() != null ? sale.getQuantity() : 0);
+                    resp.setUnitPrice(sale.getUnitPrice() != null ? sale.getUnitPrice() : 0.0);
+                    resp.setTotalPrice(sale.getTotalPrice() != null ? sale.getTotalPrice() : 0.0);
+                    resp.setCustomerName(sale.getCustomerName() != null ? sale.getCustomerName() : "Walk-in Customer");
                     resp.setDate(sale.getCreatedAt());
                     return resp;
                 })

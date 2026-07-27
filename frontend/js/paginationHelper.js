@@ -41,38 +41,44 @@
         let footer = tableResponsive.nextElementSibling;
         if (!footer || !footer.classList.contains('eiris-pagination-footer')) {
             footer = document.createElement('div');
-            footer.className = 'd-flex flex-wrap justify-content-between align-items-center p-3 border-top bg-white eiris-pagination-footer gap-2';
+            footer.className = 'd-flex flex-wrap justify-content-between align-items-center eiris-pagination-footer gap-3';
             tableResponsive.parentNode.insertBefore(footer, tableResponsive.nextSibling);
         }
 
         if (totalItems === 0) {
-            footer.innerHTML = `<div class="text-muted small">Showing <strong>0</strong> to <strong>0</strong> of <strong>0</strong> entries</div>`;
+            footer.innerHTML = `<div class="eiris-pagination-info">Showing <strong>0</strong> to <strong>0</strong> of <strong>0</strong> entries</div>`;
             return currentPage;
         }
 
         let pagesHtml = '';
-        pagesHtml += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-            <button class="page-link shadow-sm border" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>
+        pagesHtml += `<li>
+            <button class="eiris-page-btn" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''} title="Previous Page">
+                <i class="bi bi-chevron-left"></i>
+            </button>
         </li>`;
 
         for (let p = 1; p <= totalPages; p++) {
             if (p === 1 || p === totalPages || (p >= currentPage - 1 && p <= currentPage + 1)) {
                 const isActive = p === currentPage;
-                pagesHtml += `<li class="page-item ${isActive ? 'active' : ''}">
-                    <button class="page-link shadow-sm border ${isActive ? 'bg-night-blue border-night-blue text-white fw-bold' : 'text-night-blue'}" data-page="${p}">${p}</button>
+                pagesHtml += `<li>
+                    <button class="eiris-page-btn ${isActive ? 'active' : ''}" data-page="${p}">${p}</button>
                 </li>`;
             } else if (p === currentPage - 2 || p === currentPage + 2) {
-                pagesHtml += `<li class="page-item disabled"><span class="page-link border text-muted">...</span></li>`;
+                pagesHtml += `<li class="eiris-page-dots">...</li>`;
             }
         }
 
-        pagesHtml += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-            <button class="page-link shadow-sm border" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>
+        pagesHtml += `<li>
+            <button class="eiris-page-btn" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''} title="Next Page">
+                <i class="bi bi-chevron-right"></i>
+            </button>
         </li>`;
 
         footer.innerHTML = `
-            <div class="text-muted small">Showing <strong>${startIndex + 1}</strong> to <strong>${endIndex}</strong> of <strong>${totalItems}</strong> entries</div>
-            <ul class="pagination pagination-sm mb-0 gap-1">${pagesHtml}</ul>
+            <div class="eiris-pagination-info">
+                Showing <strong>${startIndex + 1}</strong> to <strong>${endIndex}</strong> of <strong>${totalItems}</strong> entries
+            </div>
+            <ul class="eiris-pagination-nav">${pagesHtml}</ul>
         `;
 
         const buttons = footer.querySelectorAll('button[data-page]');

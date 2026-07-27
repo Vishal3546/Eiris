@@ -13,9 +13,6 @@ public class UpdateProductRequest {
     @PositiveOrZero(message = "Stock must be positive or zero")
     private Integer stock;
 
-    private String details;
-    private String imageUrl;
-
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
@@ -27,10 +24,4 @@ public class UpdateProductRequest {
 
     public Integer getStock() { return stock; }
     public void setStock(Integer stock) { this.stock = stock; }
-
-    public String getDetails() { return details; }
-    public void setDetails(String details) { this.details = details; }
-
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

@@ -10,8 +10,6 @@ public class ProductResponse {
     private String category;
     private Double price;
     private Integer stock;
-    private String details;
-    private String imageUrl;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
@@ -29,12 +27,6 @@ public class ProductResponse {
 
     public Integer getStock() { return stock; }
     public void setStock(Integer stock) { this.stock = stock; }
-
-    public String getDetails() { return details; }
-    public void setDetails(String details) { this.details = details; }
-
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public ZonedDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(ZonedDateTime createdAt) { this.createdAt = createdAt; }

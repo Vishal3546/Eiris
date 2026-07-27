@@ -64,16 +64,6 @@ public class ProductService {
         if (request.getStock() != null) {
             product.setStock(request.getStock());
         }
-        if (request.getDetails() != null) {
-            product.setDetails(request.getDetails());
-        }
-        if (request.getImageUrl() != null && !request.getImageUrl().isBlank()) {
-            // Delete old image if it's changing
-            if (product.getImageUrl() != null && !product.getImageUrl().equals(request.getImageUrl())) {
-                s3StorageService.deleteImage(product.getImageUrl());
-            }
-            product.setImageUrl(request.getImageUrl());
-        }
         
         product = productRepository.save(product);
         return productMapper.toResponse(product);
@@ -83,9 +73,6 @@ public class ProductService {
     public void deleteProduct(UUID id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
-        if (product.getImageUrl() != null) {
-            s3StorageService.deleteImage(product.getImageUrl());
-        }
         productRepository.deleteById(id);
     }
 }
