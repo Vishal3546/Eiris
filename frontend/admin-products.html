@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -104,59 +104,51 @@
             </nav>
 
             <div class="p-4 flex-grow-1 animate-fade-in-up">
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                     <h3 class="fw-bold text-night-blue-shadow mb-0">Manage Products</h3>
-                    <button class="btn btn-primary-custom rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addProductModal">
-                        <i class="bi bi-plus-lg me-2"></i> Add New Product
-                    </button>
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <div class="input-group shadow-sm" style="width: 260px;">
+                            <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                            <input type="text" id="productSearchInput" class="form-control border-start-0 ps-0" placeholder="Search products...">
+                        </div>
+                        <select id="productSortSelect" class="form-select shadow-sm" style="width: 210px;">
+                            <option value="old-to-new">Oldest First (Default)</option>
+                            <option value="new-to-old">Newest First</option>
+                            <option value="price-low-high">Price: Low to High</option>
+                            <option value="price-high-low">Price: High to Low</option>
+                            <option value="stock-low-high">Stock: Low to High</option>
+                            <option value="stock-high-low">Stock: High to Low</option>
+                        </select>
+                        <button class="btn btn-primary-custom rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                            <i class="bi bi-plus-lg me-2"></i> Add New Product
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Tabs -->
-            <ul class="nav nav-pills custom-tabs mb-5 justify-content-center" id="productTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="tab-car-acc" data-bs-toggle="pill" data-bs-target="#pane-car-acc" type="button" role="tab" aria-selected="true">Car Accessories</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-led-lights" data-bs-toggle="pill" data-bs-target="#pane-led-lights" type="button" role="tab" aria-selected="false">LED Lights</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-fan-reg" data-bs-toggle="pill" data-bs-target="#pane-fan-reg" type="button" role="tab" aria-selected="false">Fan Regulator</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-led-bulbs" data-bs-toggle="pill" data-bs-target="#pane-led-bulbs" type="button" role="tab" aria-selected="false">LED Bulbs</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="tab-led-emerg" data-bs-toggle="pill" data-bs-target="#pane-led-emerg" type="button" role="tab" aria-selected="false">LED Emergency Bulbs</button>
-                </li>
-            </ul>
-
-            <!-- Tab Content -->
-            <div class="tab-content" id="productTabsContent">                <!-- Pane: pane-car-acc -->
-                <div class="tab-pane fade show active" id="pane-car-acc" role="tabpanel">
-                    <div class="row g-4">
-                        <!-- Products will be injected here via JavaScript -->
+                <div class="card shadow-sm rounded-4" style="border: 2px solid var(--eiris-night-blue) !important; overflow: hidden;">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0" style="--bs-table-border-color: rgba(45, 84, 94, 0.4);">
+                                <thead class="glass-agency-panel-header">
+                                    <tr class="align-middle text-nowrap">
+                                        <th class="ps-4 py-3" style="width: 70px;">#</th>
+                                        <th class="py-3">Product Name</th>
+                                        <th class="py-3">Category</th>
+                                        <th class="py-3">Price (₹)</th>
+                                        <th class="py-3">Stock Qty</th>
+                                        <th class="pe-4 py-3 text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsTableBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4 text-muted">Loading products...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>                <!-- Pane: pane-led-lights -->
-                <div class="tab-pane fade " id="pane-led-lights" role="tabpanel">
-                    <div class="row g-4">
-                        <!-- Products will be injected here via JavaScript -->
-                    </div>
-                </div>                <!-- Pane: pane-fan-reg -->
-                <div class="tab-pane fade " id="pane-fan-reg" role="tabpanel">
-                    <div class="row g-4">
-                        <!-- Products will be injected here via JavaScript -->
-                    </div>
-                </div>                <!-- Pane: pane-led-bulbs -->
-                <div class="tab-pane fade " id="pane-led-bulbs" role="tabpanel">
-                    <div class="row g-4">
-                        <!-- Products will be injected here via JavaScript -->
-                    </div>
-                </div>                <!-- Pane: pane-led-emerg -->
-                <div class="tab-pane fade " id="pane-led-emerg" role="tabpanel">
-                    <div class="row g-4">
-                        <!-- Products will be injected here via JavaScript -->
-                    </div>
-                </div>            </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -165,9 +157,9 @@
     </div>
 
     
-        <!-- Add New Product Modal -->
+    <!-- Add New Product Modal -->
     <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 shadow-lg" style="border: 3px solid var(--eiris-night-blue) !important;">
                 <div class="modal-header bg-night-blue text-white rounded-top-4 border-0">
                     <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
@@ -176,15 +168,11 @@
                 <div class="modal-body p-4">
                     <form id="addProductForm">
                         <div class="row g-3">
-                            <div class="col-md-12">
-                                <label for="productImage" class="form-label text-muted fw-bold">Product Image</label>
-                                <input type="file" class="form-control" id="productImage" accept="image/*">
-                            </div>
                             <div class="col-md-6">
                                 <label for="productName" class="form-label text-muted fw-bold">Product Name</label>
                                 <input type="text" class="form-control" id="productName" placeholder="e.g. FMBT Player Radio" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="productCategory" class="form-label text-muted fw-bold">Category</label>
                                 <select class="form-select" id="productCategory" required>
                                     <option value="" selected disabled>Select Category</option>
@@ -193,19 +181,16 @@
                                     <option value="Fan Regulator">Fan Regulator</option>
                                     <option value="LED Bulbs">LED Bulbs</option>
                                     <option value="Emergency LED">Emergency LED</option>
+                                    <option value="Quality control">Quality control</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="productPrice" class="form-label text-muted fw-bold">Price (₹)</label>
                                 <input type="number" class="form-control" id="productPrice" placeholder="e.g. 1299" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="productStock" class="form-label text-muted fw-bold">Stock Qty</label>
                                 <input type="number" class="form-control" id="productStock" placeholder="e.g. 50" required>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="productDetails" class="form-label text-muted fw-bold">Details (comma separated or bullet points)</label>
-                                <textarea class="form-control" id="productDetails" rows="3" placeholder="e.g. High Quality Audio, Bluetooth 5.0, FM Radio Support"></textarea>
                             </div>
                         </div>
                     </form>
@@ -219,7 +204,7 @@
     </div>
     <!-- Edit Product Modal -->
     <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 shadow-lg" style="border: 3px solid var(--eiris-night-blue) !important;">
                 <div class="modal-header bg-night-blue text-white rounded-top-4 border-0">
                     <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
@@ -228,15 +213,11 @@
                 <div class="modal-body p-4">
                     <form id="editProductForm">
                         <div class="row g-3">
-                            <div class="col-md-12">
-                                <label for="editProductImage" class="form-label text-muted fw-bold">Product Image (Leave empty to keep current)</label>
-                                <input type="file" class="form-control" id="editProductImage" accept="image/*">
-                            </div>
                             <div class="col-md-6">
                                 <label for="editProductName" class="form-label text-muted fw-bold">Product Name</label>
                                 <input type="text" class="form-control" id="editProductName" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="editProductCategory" class="form-label text-muted fw-bold">Category</label>
                                 <select class="form-select" id="editProductCategory" required>
                                     <option value="" disabled>Select Category</option>
@@ -245,19 +226,16 @@
                                     <option value="Fan Regulator">Fan Regulator</option>
                                     <option value="LED Bulbs">LED Bulbs</option>
                                     <option value="Emergency LED">Emergency LED</option>
+                                    <option value="Quality control">Quality control</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="editProductPrice" class="form-label text-muted fw-bold">Price (₹)</label>
                                 <input type="number" class="form-control" id="editProductPrice" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="editProductStock" class="form-label text-muted fw-bold">Stock Qty</label>
                                 <input type="number" class="form-control" id="editProductStock" required>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="editProductDetails" class="form-label text-muted fw-bold">Details (comma separated)</label>
-                                <textarea class="form-control" id="editProductDetails" rows="3"></textarea>
                             </div>
                         </div>
                     </form>
@@ -309,6 +287,7 @@
     </div>
 
     <script src="js/productManager.js"></script>
+    <script src="js/paginationHelper.js"></script>
     <script>
         function performLogout() {
             if (typeof authService !== 'undefined') {
@@ -322,107 +301,169 @@
         }
 
         document.addEventListener('DOMContentLoaded', async function() {
-            // Render custom products from backend
-            async function renderCustomProducts() {
-                const products = window.productManager ? await window.productManager.getProducts() : [];
-                // First remove all previously rendered products (including hardcoded)
-                document.querySelectorAll('.tab-pane .row').forEach(row => row.innerHTML = '');
+            let allProductsList = [];
+            let currentEditId = null;
+            let currentDeleteId = null;
 
-                products.forEach(p => {
-                    let targetPaneId = '';
-                    switch(p.category) {
-                        case 'Car Accessories': targetPaneId = 'pane-car-acc'; break;
-                        case 'LED Lights': targetPaneId = 'pane-led-lights'; break;
-                        case 'Fan Regulator': targetPaneId = 'pane-fan-reg'; break;
-                        case 'LED Bulbs': targetPaneId = 'pane-led-bulbs'; break;
-                        case 'Emergency LED': targetPaneId = 'pane-led-emerg'; break;
+            function sortProducts(list, sortBy) {
+                const sorted = [...list];
+                sorted.sort((a, b) => {
+                    if (sortBy === 'old-to-new') {
+                        const tA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                        const tB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                        return tA - tB;
+                    } else if (sortBy === 'new-to-old') {
+                        const tA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                        const tB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                        return tB - tA;
+                    } else if (sortBy === 'price-low-high') {
+                        return (Number(a.price) || 0) - (Number(b.price) || 0);
+                    } else if (sortBy === 'price-high-low') {
+                        return (Number(b.price) || 0) - (Number(a.price) || 0);
+                    } else if (sortBy === 'stock-low-high') {
+                        return (Number(a.stock) || 0) - (Number(b.stock) || 0);
+                    } else if (sortBy === 'stock-high-low') {
+                        return (Number(b.stock) || 0) - (Number(a.stock) || 0);
                     }
-                    const targetPane = document.getElementById(targetPaneId);
-                    if (targetPane) {
-                        const row = targetPane.querySelector('.row');
-                        if (row) {
-                            const detailsList = p.details ? p.details.split(',').map(d => `<li>${d.trim()}</li>`).join('') : '';
-                            const newId = 'detailsProductPage_' + p.id;
-                            const productCard = `
-                            <div class="col-md-6 col-lg-4 custom-added-product" data-id="${p.id}">
-                                <div class="h-100">
-                                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden product-card">
-                                        <div style="height: 200px; background-color: #f0f0f0; position: relative;">
-                                            <img src="${p.imageUrl || 'https://via.placeholder.com/200x200?text=No+Image'}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover;">
-                                            <span class="badge bg-night-blue position-absolute top-0 end-0 m-3 p-2">${p.category}</span>
-                                        </div>
-                                        <div class="card-body d-flex flex-column p-4">
-                                            <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">${p.name}</h5>
-                                            <div class="collapse" id="${newId}">
-                                                <ul class="text-start small text-dark mb-0 ps-3 mt-2">
-                                                    ${detailsList}
-                                                </ul>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
-                                                <span class="fw-bold fs-5 text-sand-tan-shadow" data-price="${p.price}">₹${p.price || 0}</span>
-                                                <span class="badge bg-${p.stock > 0 ? 'success' : 'danger'} ms-2" data-stock="${p.stock}">Stock: ${p.stock || 0}</span>
-                                                <button class="btn btn-outline-primary btn-sm btn-secondary-custom rounded-pill px-2 ms-auto" data-bs-toggle="collapse" data-bs-target="#${newId}">Details</button>
-                                                <div class="ms-2 d-flex gap-1">
-                                                    <button class="btn btn-sm btn-outline-primary rounded-circle edit-btn"><i class="bi bi-pencil-fill"></i></button>
-                                                    <button class="btn btn-sm btn-outline-danger rounded-circle delete-btn"><i class="bi bi-trash-fill"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                            row.insertAdjacentHTML('beforeend', productCard);
+                    return 0;
+                });
+                return sorted;
+            }
+
+            let currentProductsPage = 1;
+            const productsPageSize = 10;
+
+            function renderProductsTable() {
+                const tbody = document.getElementById('productsTableBody');
+                if (!tbody) return;
+
+                const searchQuery = (document.getElementById('productSearchInput')?.value || '').toLowerCase().trim();
+                const sortBy = document.getElementById('productSortSelect')?.value || 'old-to-new';
+
+                let filtered = allProductsList.filter(p => {
+                    if (!searchQuery) return true;
+                    return (p.name || '').toLowerCase().includes(searchQuery);
+                });
+
+                filtered = sortProducts(filtered, sortBy);
+
+                currentProductsPage = window.renderTableWithPagination({
+                    tableBodyId: 'productsTableBody',
+                    data: filtered,
+                    currentPage: currentProductsPage,
+                    pageSize: productsPageSize,
+                    colspan: 6,
+                    emptyMessage: "No products found.",
+                    renderRow: (p, index) => {
+                        const priceFormatted = Number(p.price || 0).toLocaleString('en-IN');
+                        let stockBadge = '';
+                        if (p.stock > 10) {
+                            stockBadge = `<span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-3 py-2 rounded-pill fw-semibold">${p.stock} in stock</span>`;
+                        } else if (p.stock > 0) {
+                            stockBadge = `<span class="badge bg-warning-subtle text-warning-emphasis border border-warning border-opacity-25 px-3 py-2 rounded-pill fw-semibold">Low: ${p.stock}</span>`;
+                        } else {
+                            stockBadge = `<span class="badge bg-danger-subtle text-danger border border-danger border-opacity-25 px-3 py-2 rounded-pill fw-semibold">Out of Stock</span>`;
                         }
+
+                        const categoryBadge = `<span class="badge bg-night-blue bg-opacity-75 text-white px-3 py-1 rounded-pill small">${p.category || 'General'}</span>`;
+
+                        return `
+                        <tr class="align-middle" data-id="${p.id}">
+                            <td class="ps-4 fw-bold text-muted">${index + 1}</td>
+                            <td class="fw-bold text-night-blue-shadow">${p.name || '-'}</td>
+                            <td>${categoryBadge}</td>
+                            <td class="fw-bold text-sand-tan-shadow">₹${priceFormatted}</td>
+                            <td>${stockBadge}</td>
+                            <td class="pe-4 text-end">
+                                <button class="btn btn-sm btn-outline-primary rounded-circle edit-btn me-1" title="Edit Product" data-id="${p.id}" style="width: 34px; height: 34px;">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger rounded-circle delete-btn" title="Delete Product" data-id="${p.id}" style="width: 34px; height: 34px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`;
                     }
                 });
             }
 
-            await renderCustomProducts();
+            async function loadAndRenderProducts() {
+                allProductsList = window.productManager ? await window.productManager.getProducts() : [];
+                renderProductsTable();
+            }
 
-            // fileToBase64 removed, now using productManager.uploadImage
+            await loadAndRenderProducts();
+
+            document.getElementById('productSearchInput')?.addEventListener('input', () => {
+                currentProductsPage = 1;
+                renderProductsTable();
+            });
+            document.getElementById('productSortSelect')?.addEventListener('change', () => {
+                currentProductsPage = 1;
+                renderProductsTable();
+            });
+            document.getElementById('productsTableBody')?.addEventListener('pageChange', (e) => {
+                currentProductsPage = e.detail.page;
+                renderProductsTable();
+            });
+
+            const tbody = document.getElementById('productsTableBody');
+            if (tbody) {
+                tbody.addEventListener('click', function(e) {
+                    const btn = e.target.closest('button');
+                    if (!btn) return;
+                    const tr = btn.closest('tr');
+                    const productId = tr ? tr.getAttribute('data-id') : null;
+                    if (!productId) return;
+
+                    if (btn.classList.contains('edit-btn') || btn.querySelector('.bi-pencil-fill')) {
+                        currentEditId = productId;
+                        const p = allProductsList.find(prod => prod.id === productId);
+                        if (p) {
+                            document.getElementById('editProductName').value = p.name || '';
+                            document.getElementById('editProductCategory').value = p.category || '';
+                            document.getElementById('editProductPrice').value = p.price || '';
+                            document.getElementById('editProductStock').value = p.stock || 0;
+                            const editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+                            editModal.show();
+                        }
+                    } else if (btn.classList.contains('delete-btn') || btn.querySelector('.bi-trash-fill')) {
+                        currentDeleteId = productId;
+                        const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+                        deleteModal.show();
+                    }
+                });
+            }
 
             const saveBtn = document.getElementById('saveProductBtn');
-            if(saveBtn) {
+            if (saveBtn) {
                 saveBtn.addEventListener('click', async function() {
                     const name = document.getElementById('productName').value;
                     const category = document.getElementById('productCategory').value;
                     const price = document.getElementById('productPrice').value;
                     const stock = document.getElementById('productStock').value;
-                    const detailsStr = document.getElementById('productDetails').value;
-                    const imageInput = document.getElementById('productImage');
-                    
-                    if(!name || !category) {
-                        alert("Please fill in Product Name and Category.");
+
+                    if (!name || !category) {
+                        alert("Please enter Product Name and select Category.");
                         return;
                     }
 
-                    let imageUrl = 'https://via.placeholder.com/200x200?text=No+Image';
-                    if (imageInput.files && imageInput.files[0]) {
-                        try {
-                            imageUrl = await window.productManager.uploadImage(imageInput.files[0]);
-                        } catch (e) {
-                            console.error("Error uploading image", e);
-                            alert("Failed to upload image. Please try again.");
-                            return;
-                        }
-                    }
-
                     const product = {
-                        name: name,
+                        name: name.trim(),
                         category: category,
                         price: parseFloat(price) || 0,
                         stock: parseInt(stock, 10) || 0,
-                        details: detailsStr,
-                        imageUrl: imageUrl
+                        details: "",
+                        imageUrl: ""
                     };
 
                     saveBtn.disabled = true;
                     try {
                         await window.productManager.addProduct(product);
-                        await renderCustomProducts();
+                        await loadAndRenderProducts();
                         const modalEl = document.getElementById('addProductModal');
                         const modal = bootstrap.Modal.getInstance(modalEl);
-                        modal.hide();
+                        if (modal) modal.hide();
                         document.getElementById('addProductForm').reset();
                     } catch(err) {
                         alert("Failed to save product.");
@@ -432,89 +473,37 @@
                 });
             }
 
-            let currentEditId = null;
-            let currentDeleteId = null;
-
-            const tabsContent = document.getElementById('productTabsContent');
-            if(tabsContent) {
-                tabsContent.addEventListener('click', async function(e) {
-                    const btn = e.target.closest('button');
-                    if(!btn) return;
-
-                    const card = btn.closest('.col-md-6'); 
-                    if(!card) return;
-
-                    const customCardWrapper = btn.closest('.custom-added-product');
-                    const productId = customCardWrapper ? customCardWrapper.getAttribute('data-id') : null;
-
-                    if(btn.classList.contains('edit-btn') || btn.querySelector('.bi-pencil-fill')) {
-                        if (productId) {
-                            currentEditId = productId;
-                            const products = await window.productManager.getProducts();
-                            const p = products.find(prod => prod.id === productId);
-                            if(p) {
-                                document.getElementById('editProductName').value = p.name;
-                                document.getElementById('editProductCategory').value = p.category;
-                                document.getElementById('editProductPrice').value = p.price || '';
-                                document.getElementById('editProductStock').value = p.stock || 0;
-                                document.getElementById('editProductDetails').value = p.details || '';
-                                document.getElementById('editProductImage').value = '';
-                                const editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
-                                editModal.show();
-                            }
-                        }
-                    }
-
-                    if(btn.classList.contains('delete-btn') || btn.querySelector('.bi-trash-fill')) {
-                        if (productId) {
-                            currentDeleteId = productId;
-                            const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-                            deleteModal.show();
-                        }
-                    }
-                });
-            }
-
             const updateBtn = document.getElementById('updateProductBtn');
-            if(updateBtn) {
+            if (updateBtn) {
                 updateBtn.addEventListener('click', async function() {
                     const name = document.getElementById('editProductName').value;
                     const category = document.getElementById('editProductCategory').value;
                     const price = document.getElementById('editProductPrice').value;
                     const stock = document.getElementById('editProductStock').value;
-                    const detailsStr = document.getElementById('editProductDetails').value;
-                    const imageInput = document.getElementById('editProductImage');
 
-                    if(!name || !category) {
-                        alert("Please fill in Product Name and Category.");
+                    if (!name || !category) {
+                        alert("Please enter Product Name and select Category.");
                         return;
                     }
 
                     if (currentEditId) {
+                        const existing = allProductsList.find(p => p.id === currentEditId) || {};
                         const updated = {
-                            name: name,
+                            name: name.trim(),
                             category: category,
                             price: parseFloat(price) || 0,
                             stock: parseInt(stock, 10) || 0,
-                            details: detailsStr
+                            details: existing.details || "",
+                            imageUrl: existing.imageUrl || ""
                         };
-                        if (imageInput.files && imageInput.files[0]) {
-                            try {
-                                updated.imageUrl = await window.productManager.uploadImage(imageInput.files[0]);
-                            } catch(e) {
-                                console.error("Error uploading image for update", e);
-                                alert("Failed to upload image. Please try again.");
-                                return;
-                            }
-                        }
-                        
+
                         updateBtn.disabled = true;
                         try {
                             await window.productManager.updateProduct(currentEditId, updated);
-                            await renderCustomProducts();
+                            await loadAndRenderProducts();
                             const editModalEl = document.getElementById('editProductModal');
                             const editModal = bootstrap.Modal.getInstance(editModalEl);
-                            if(editModal) editModal.hide();
+                            if (editModal) editModal.hide();
                         } catch(err) {
                             alert("Failed to update product.");
                         } finally {
@@ -525,16 +514,16 @@
             }
 
             const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-            if(confirmDeleteBtn) {
+            if (confirmDeleteBtn) {
                 confirmDeleteBtn.addEventListener('click', async function() {
                     if (currentDeleteId) {
                         confirmDeleteBtn.disabled = true;
                         try {
                             await window.productManager.deleteProduct(currentDeleteId);
-                            await renderCustomProducts();
+                            await loadAndRenderProducts();
                             const deleteModalEl = document.getElementById('deleteConfirmModal');
                             const deleteModal = bootstrap.Modal.getInstance(deleteModalEl);
-                            if(deleteModal) deleteModal.hide();
+                            if (deleteModal) deleteModal.hide();
                         } catch (err) {
                             alert("Failed to delete product.");
                         } finally {

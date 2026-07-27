@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -93,7 +93,7 @@
                                         <th class="pe-4 py-3 text-end">Date</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="salesTableBody">
                                     <!-- Sales will be populated dynamically -->
                                 </tbody>
                             </table>
@@ -135,33 +135,45 @@
                 return;
             }
 
-            async function loadSales() {
-                if (window.agencyInventoryManager) {
-                    const sales = await window.agencyInventoryManager.getSales();
-                    const tbody = document.querySelector('tbody');
-                    
-                    if (sales.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">No sales records found</td></tr>';
-                        return;
-                    }
+            let currentSalesPage = 1;
+            const salesPageSize = 10;
+            let salesList = [];
 
-                    let html = '';
-                    sales.forEach(sale => {
+            function renderSalesTable() {
+                currentSalesPage = window.renderTableWithPagination({
+                    tableBodyId: 'salesTableBody',
+                    data: salesList,
+                    currentPage: currentSalesPage,
+                    pageSize: salesPageSize,
+                    colspan: 6,
+                    emptyMessage: "No sales records found",
+                    renderRow: (sale) => {
                         const date = new Date(sale.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
                         const shortId = sale.id.split('-')[0].toUpperCase();
                         
-                        html += `
+                        return `
                             <tr>
                                 <td class="ps-4 fw-bold text-primary">#SALE-${shortId}</td>
-                                <td>${sale.customerName || 'N/A'}</td>
+                                <td class="fw-bold text-night-blue-shadow">${sale.customerName || 'N/A'}</td>
                                 <td>${sale.productName}</td>
                                 <td>${sale.quantity}</td>
-                                <td class="fw-bold">₹${sale.totalPrice}</td>
+                                <td class="fw-bold text-success">₹${sale.totalPrice}</td>
                                 <td class="pe-4 text-end text-muted small">${date}</td>
                             </tr>
                         `;
-                    });
-                    tbody.innerHTML = html;
+                    }
+                });
+            }
+
+            document.getElementById('salesTableBody')?.addEventListener('pageChange', (e) => {
+                currentSalesPage = e.detail.page;
+                renderSalesTable();
+            });
+
+            async function loadSales() {
+                if (window.agencyInventoryManager) {
+                    salesList = await window.agencyInventoryManager.getSales();
+                    renderSalesTable();
                 }
             }
             
@@ -184,6 +196,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <script src="js/agencyInventoryManager.js"></script>
+    <script src="js/paginationHelper.js"></script>
     <!-- Custom JS -->
     <script src="js/script.js"></script>
 </body>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -265,6 +265,7 @@
 
     <!-- Managers -->
     <script src="js/agencyInventoryManager.js"></script>
+    <script src="js/paginationHelper.js"></script>
 
     <script>
         // UI Logic for Inventory
@@ -299,66 +300,79 @@
                 renderOrdersTable(orders);
             }
 
+            let currentOrdersPage = 1;
+            const ordersPageSize = 10;
+            let currentOrdersList = [];
+
+            let currentInventoryPage = 1;
+            const inventoryPageSize = 10;
+
             function renderOrdersTable(orders) {
-                const tbody = document.getElementById('ordersTableBody');
+                currentOrdersList = orders;
                 const emptyState = document.getElementById('emptyOrdersState');
-                
                 if (orders.length === 0) {
-                    tbody.innerHTML = '';
                     emptyState.classList.remove('d-none');
-                    return;
+                } else {
+                    emptyState.classList.add('d-none');
                 }
-                
-                emptyState.classList.add('d-none');
-                let html = '';
-                
-                orders.forEach(order => {
-                    let statusBadge = '';
-                    let actionBtn = '';
-                    
-                    switch(order.status) {
-                        case 'PENDING':
-                            statusBadge = '<span class="badge bg-warning text-dark">Pending</span>';
-                            actionBtn = '<button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>Waiting...</button>';
-                            break;
-                        case 'APPROVED':
-                            statusBadge = '<span class="badge bg-info text-dark">Approved</span>';
-                            actionBtn = '<button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>Processing...</button>';
-                            break;
-                        case 'SHIPPED':
-                            statusBadge = '<span class="badge bg-primary">Shipped</span>';
-                            actionBtn = `<button class="btn btn-sm btn-success rounded-pill px-3 receive-order-btn" data-id="${order.id}">Mark Received</button>`;
-                            break;
-                        case 'DELIVERED':
-                        case 'COMPLETED':
-                            statusBadge = '<span class="badge bg-success">Delivered</span>';
-                            actionBtn = '<button class="btn btn-sm btn-outline-success rounded-pill px-3" disabled><i class="bi bi-check-circle"></i></button>';
-                            break;
-                        case 'CANCELLED':
-                            statusBadge = '<span class="badge bg-danger">Cancelled</span>';
-                            actionBtn = '-';
-                            break;
+
+                currentOrdersPage = window.renderTableWithPagination({
+                    tableBodyId: 'ordersTableBody',
+                    data: orders,
+                    currentPage: currentOrdersPage,
+                    pageSize: ordersPageSize,
+                    colspan: 6,
+                    emptyMessage: "",
+                    renderRow: (order) => {
+                        let statusBadge = '';
+                        let actionBtn = '';
+                        
+                        switch(order.status) {
+                            case 'PENDING':
+                                statusBadge = '<span class="badge bg-warning text-dark">Pending</span>';
+                                actionBtn = '<button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>Waiting...</button>';
+                                break;
+                            case 'APPROVED':
+                                statusBadge = '<span class="badge bg-info text-dark">Approved</span>';
+                                actionBtn = '<button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>Processing...</button>';
+                                break;
+                            case 'SHIPPED':
+                                statusBadge = '<span class="badge bg-primary">Shipped</span>';
+                                actionBtn = `<button class="btn btn-sm btn-success rounded-pill px-3 receive-order-btn" data-id="${order.id}">Mark Received</button>`;
+                                break;
+                            case 'DELIVERED':
+                            case 'COMPLETED':
+                                statusBadge = '<span class="badge bg-success">Delivered</span>';
+                                actionBtn = '<button class="btn btn-sm btn-outline-success rounded-pill px-3" disabled><i class="bi bi-check-circle"></i></button>';
+                                break;
+                            case 'CANCELLED':
+                                statusBadge = '<span class="badge bg-danger">Cancelled</span>';
+                                actionBtn = '-';
+                                break;
+                        }
+                        
+                        const dateStr = new Date(order.date).toLocaleDateString('en-IN');
+                        
+                        return `
+                            <tr>
+                                <td class="ps-4 fw-bold text-primary" style="font-size: 0.85rem;">${order.id.split('-')[0]}...</td>
+                                <td class="fw-bold text-night-blue-shadow">${order.productName}</td>
+                                <td>${order.quantity}</td>
+                                <td class="fw-bold">₹${order.totalPrice.toLocaleString('en-IN')}</td>
+                                <td>${statusBadge} <div class="small text-muted mt-1">${dateStr}</div></td>
+                                <td class="pe-4 text-end">${actionBtn}</td>
+                            </tr>
+                        `;
                     }
-                    
-                    // Simple formatting for date
-                    const dateStr = new Date(order.date).toLocaleDateString('en-IN');
-                    
-                    html += `
-                        <tr>
-                            <td class="ps-4 fw-bold text-primary" style="font-size: 0.85rem;">${order.id.split('-')[0]}...</td>
-                            <td class="fw-bold text-night-blue-shadow">${order.productName}</td>
-                            <td>${order.quantity}</td>
-                            <td class="fw-bold">₹${order.totalPrice.toLocaleString('en-IN')}</td>
-                            <td>${statusBadge} <div class="small text-muted mt-1">${dateStr}</div></td>
-                            <td class="pe-4 text-end">${actionBtn}</td>
-                        </tr>
-                    `;
                 });
-                tbody.innerHTML = html;
             }
+
+            document.getElementById('ordersTableBody')?.addEventListener('pageChange', (e) => {
+                currentOrdersPage = e.detail.page;
+                renderOrdersTable(currentOrdersList);
+            });
             
             function renderTable(inventoryData) {
-                const tbody = document.getElementById('inventoryTableBody');
                 const emptyState = document.getElementById('emptyState');
                 if(!window.agencyInventoryManager) return;
                 
@@ -375,52 +389,61 @@
                 });
                 
                 if (inventory.length === 0) {
-                    tbody.innerHTML = '';
                     emptyState.classList.remove('d-none');
-                    return;
+                } else {
+                    emptyState.classList.add('d-none');
                 }
-                
-                emptyState.classList.add('d-none');
-                let html = '';
-                
-                inventory.forEach(item => {
-                    let statusBadge = '<span class="badge bg-success">In Stock</span>';
-                    let stockClass = '';
-                    if (item.quantity <= 0) {
-                        statusBadge = '<span class="badge bg-dark">Out of Stock</span>';
-                        stockClass = 'text-muted text-decoration-line-through';
-                    } else if (item.quantity <= 20) {
-                        statusBadge = '<span class="badge bg-danger">Low Stock</span>';
-                        stockClass = 'text-danger';
-                    }
-                    
-                    const img = item.imageUrl || 'https://via.placeholder.com/40';
-                    
-                    html += `
-                        <tr>
-                            <td class="ps-4">
-                                <div class="d-flex align-items-center">
-                                    <img src="${img}" class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
-                                    <div>
-                                        <div class="fw-bold text-night-blue-shadow">${item.name}</div>
-                                        <div class="text-muted small">₹${item.price}</div>
+
+                currentInventoryPage = window.renderTableWithPagination({
+                    tableBodyId: 'inventoryTableBody',
+                    data: inventory,
+                    currentPage: currentInventoryPage,
+                    pageSize: inventoryPageSize,
+                    colspan: 5,
+                    emptyMessage: "",
+                    renderRow: (item) => {
+                        let statusBadge = '<span class="badge bg-success">In Stock</span>';
+                        let stockClass = '';
+                        if (item.quantity <= 0) {
+                            statusBadge = '<span class="badge bg-dark">Out of Stock</span>';
+                            stockClass = 'text-muted text-decoration-line-through';
+                        } else if (item.quantity <= 20) {
+                            statusBadge = '<span class="badge bg-danger">Low Stock</span>';
+                            stockClass = 'text-danger';
+                        }
+                        
+                        const img = item.imageUrl || 'https://via.placeholder.com/40';
+                        
+                        return `
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="${img}" class="rounded me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                                        <div>
+                                            <div class="fw-bold text-night-blue-shadow">${item.name}</div>
+                                            <div class="text-muted small">₹${item.price}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td><span class="badge bg-light text-dark border">${item.category || 'General'}</span></td>
-                            <td><span class="fw-bold fs-5 ${stockClass}">${item.quantity}</span> units</td>
-                            <td>${statusBadge}</td>
-                            <td class="pe-4 text-end">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <button class="btn btn-sm btn-outline-success rounded-pill px-3 record-sale-btn" data-id="${item.id}" data-name="${item.name}" data-qty="${item.quantity}" ${item.quantity <= 0 ? 'disabled' : ''}><i class="bi bi-currency-rupee me-1"></i>Sell</button>
-                                    <a href="agency-purchase.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">Restock</a>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
+                                </td>
+                                <td><span class="badge bg-light text-dark border">${item.category || 'General'}</span></td>
+                                <td><span class="fw-bold fs-5 ${stockClass}">${item.quantity}</span> units</td>
+                                <td>${statusBadge}</td>
+                                <td class="pe-4 text-end">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <button class="btn btn-sm btn-outline-success rounded-pill px-3 record-sale-btn" data-id="${item.id}" data-name="${item.name}" data-qty="${item.quantity}" ${item.quantity <= 0 ? 'disabled' : ''}><i class="bi bi-currency-rupee me-1"></i>Sell</button>
+                                        <a href="agency-purchase.html" class="btn btn-sm btn-outline-primary rounded-pill px-3">Restock</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }
                 });
-                tbody.innerHTML = html;
             }
+
+            document.getElementById('inventoryTableBody')?.addEventListener('pageChange', (e) => {
+                currentInventoryPage = e.detail.page;
+                renderTable();
+            });
             
             function populateCategories(inventoryData) {
                 if(!window.agencyInventoryManager) return;
@@ -438,8 +461,14 @@
             }
             
             // Event Listeners for Filters
-            document.getElementById('searchInput').addEventListener('input', () => renderTable());
-            document.getElementById('categoryFilter').addEventListener('change', () => renderTable());
+            document.getElementById('searchInput').addEventListener('input', () => {
+                currentInventoryPage = 1;
+                renderTable();
+            });
+            document.getElementById('categoryFilter').addEventListener('change', () => {
+                currentInventoryPage = 1;
+                renderTable();
+            });
             
             // Record Sale Modal Logic
             let currentSaleModal = null;

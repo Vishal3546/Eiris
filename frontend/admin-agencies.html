@@ -310,6 +310,7 @@
 
     <!-- Custom JS -->
     <script src="js/script.js"></script>
+    <script src="js/paginationHelper.js"></script>
 
     <!-- jQuery and Select2 JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -330,23 +331,21 @@
             loadAgencies();
         });
 
-        async function loadAgencies() {
-            const tableBody = document.getElementById('agencyTableBody');
-            try {
-                const agencies = await adminAgencyService.getAllAgencies();
-                agenciesList = agencies;
-                tableBody.innerHTML = ''; // Clear table
-                
-                if (agencies.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No agencies found. Add a new one!</td></tr>';
-                    return;
-                }
+        let currentPage = 1;
+        const pageSize = 10;
 
-                agencies.forEach(agency => {
+        function renderAgenciesTable() {
+            currentPage = window.renderTableWithPagination({
+                tableBodyId: 'agencyTableBody',
+                data: agenciesList,
+                currentPage: currentPage,
+                pageSize: pageSize,
+                colspan: 5,
+                emptyMessage: "No agencies found. Add a new one!",
+                renderRow: (agency) => {
                     const rawPassword = agency.rawPassword || 'N/A';
                     const hiddenPassword = '•'.repeat(8);
-                    
-                    const row = `
+                    return `
                         <tr>
                             <td class="ps-4 fw-bold">
                                 ${agency.agencyName}
@@ -377,13 +376,26 @@
                             </td>
                         </tr>
                     `;
-                    tableBody.insertAdjacentHTML('beforeend', row);
-                });
+                }
+            });
+        }
+
+        async function loadAgencies() {
+            const tableBody = document.getElementById('agencyTableBody');
+            try {
+                const agencies = await adminAgencyService.getAllAgencies();
+                agenciesList = agencies;
+                renderAgenciesTable();
             } catch (error) {
                 console.error("Error loading agencies:", error);
                 tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-danger">Failed to load agencies.</td></tr>';
             }
         }
+
+        document.getElementById('agencyTableBody')?.addEventListener('pageChange', (e) => {
+            currentPage = e.detail.page;
+            renderAgenciesTable();
+        });
 
         function togglePassword(id, rawPassword) {
             const textEl = document.getElementById(`pwd-text-${id}`);

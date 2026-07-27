@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -311,6 +311,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="js/locations.js"></script>
+    <script src="js/paginationHelper.js"></script>
     
     <script>
         $(document).ready(function() {
@@ -446,13 +447,21 @@
                 $('#topClientsContainer').html(html);
             }
 
+            let currentClientsPage = 1;
+            const clientsPageSize = 10;
+            let currentClientsData = [];
+
             function renderClientsTable(data = clientsList) {
-                let html = '';
-                if(data.length === 0) {
-                    html = '<tr><td colspan="6" class="text-center py-4 text-muted">No clients found</td></tr>';
-                } else {
-                    data.forEach(client => {
-                        html += `
+                currentClientsData = data;
+                currentClientsPage = window.renderTableWithPagination({
+                    tableBodyId: 'clientsTableBody',
+                    data: data,
+                    currentPage: currentClientsPage,
+                    pageSize: clientsPageSize,
+                    colspan: 6,
+                    emptyMessage: "No clients found",
+                    renderRow: (client) => {
+                        return `
                         <tr>
                             <td class="ps-4">
                                 <div>
@@ -477,10 +486,14 @@
                                 </div>
                             </td>
                         </tr>`;
-                    });
-                }
-                $('#clientsTableBody').html(html);
+                    }
+                });
             }
+
+            document.getElementById('clientsTableBody')?.addEventListener('pageChange', (e) => {
+                currentClientsPage = e.detail.page;
+                renderClientsTable(currentClientsData);
+            });
 
             function showCustomConfirm() {
                 return new Promise((resolve) => {
@@ -600,6 +613,7 @@
                     c.name.toLowerCase().includes(val) || 
                     c.company.toLowerCase().includes(val)
                 );
+                currentClientsPage = 1;
                 renderClientsTable(filtered);
             });
             
