@@ -735,3 +735,279 @@ body {
   transition: transform 0.2s ease;
 }
 
+/* ==========================================================================
+   GLOBAL ADD & EDIT FORM STYLES (1px Night-Blue Border & Attractive Dropdowns)
+   ========================================================================== */
+
+/* 1. All Inputs, Textareas, and Controls in Add & Edit Forms / Modals */
+.modal-body .form-control:not(.border-0),
+.modal-body input[type="text"]:not(.border-0),
+.modal-body input[type="number"]:not(.border-0),
+.modal-body input[type="password"]:not(.border-0),
+.modal-body input[type="email"]:not(.border-0),
+.modal-body input[type="tel"]:not(.border-0),
+.modal-body input[type="date"]:not(.border-0),
+.modal-body textarea:not(.border-0),
+.form-control:not(.border-0) {
+  border: 1px solid var(--eiris-night-blue) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.65rem 1.15rem !important;
+  color: var(--eiris-night-blue) !important;
+  font-weight: 500 !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(45, 84, 94, 0.08) !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* 1b. Fix Table Small Inputs & Quantity Controls (Prevent enlarged table rows & show default value 1) */
+input.form-control.qty-input,
+input.form-control.form-control-sm,
+input.form-control.cart-qty-input,
+table input.form-control,
+.qty-input {
+  padding: 0px !important;
+  height: 34px !important;
+  width: 60px !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+  text-align: center !important;
+  font-size: 1rem !important;
+  border-radius: 8px !important;
+  border: 2px solid var(--eiris-night-blue) !important;
+  box-shadow: none !important;
+  color: var(--eiris-night-blue) !important;
+  font-weight: 700 !important;
+  background-color: #ffffff !important;
+}
+
+/* Hide Chrome/Safari/Edge spin buttons on table quantity inputs so number 1 is centered and never pushed out */
+input.qty-input::-webkit-outer-spin-button,
+input.qty-input::-webkit-inner-spin-button,
+input.cart-qty-input::-webkit-outer-spin-button,
+input.cart-qty-input::-webkit-inner-spin-button,
+table input[type="number"]::-webkit-outer-spin-button,
+table input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+input.qty-input[type="number"],
+input.cart-qty-input[type="number"],
+table input[type="number"] {
+  -moz-appearance: textfield !important;
+  appearance: none !important;
+}
+
+.modal-body .form-control:not(.border-0):focus,
+.modal-body input:not(.border-0):focus,
+.modal-body textarea:not(.border-0):focus,
+.form-control:not(.border-0):focus {
+  border-color: var(--eiris-night-blue) !important;
+  box-shadow: 0 0 0 4px rgba(45, 84, 94, 0.18), 0 4px 14px rgba(45, 84, 94, 0.12) !important;
+  outline: none !important;
+  background-color: #ffffff !important;
+}
+
+.modal-body .form-control:not(.border-0):hover,
+.modal-body input:not(.border-0):hover,
+.modal-body textarea:not(.border-0):hover,
+.form-control:not(.border-0):hover {
+  border-color: var(--eiris-night-blue-shadow) !important;
+  box-shadow: 0 4px 12px rgba(45, 84, 94, 0.12) !important;
+}
+
+/* Input Group Text (e.g. +91 prefix or buttons in forms) */
+.modal-body .input-group-text:not(.border-0),
+.input-group-text:not(.border-0) {
+  border: 1px solid var(--eiris-night-blue) !important;
+  border-radius: 0.75rem 0 0 0.75rem !important;
+  background-color: rgba(45, 84, 94, 0.07) !important;
+  color: var(--eiris-night-blue) !important;
+  font-weight: 600 !important;
+}
+
+.input-group > .form-control:not(:first-child) {
+  border-left: none !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.input-group > .form-control:not(:last-child) {
+  border-right: none !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.input-group > .btn:not(.border-0),
+.input-group > .input-group-text:not(.border-0) {
+  border: 1px solid var(--eiris-night-blue) !important;
+}
+
+.input-group > .btn:not(:first-child) {
+  border-left: none !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* 2. Attractive Simple Dropdown (<select> / .form-select) matching Custom Modern Dropdown style */
+.modal-body .form-select:not(.border-0),
+.modal-body select:not(.border-0),
+.form-select:not(.border-0) {
+  border: 1px solid var(--eiris-night-blue) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.65rem 2.75rem 0.65rem 1.15rem !important;
+  color: var(--eiris-night-blue) !important;
+  font-weight: 600 !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(45, 84, 94, 0.08) !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%232D545E' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1.15rem center !important;
+  background-size: 16px 12px !important;
+}
+
+.modal-body .form-select:not(.border-0):hover,
+.modal-body select:not(.border-0):hover,
+.form-select:not(.border-0):hover {
+  border-color: var(--eiris-night-blue-shadow) !important;
+  box-shadow: 0 4px 14px rgba(45, 84, 94, 0.14) !important;
+  transform: translateY(-1px);
+}
+
+.modal-body .form-select:not(.border-0):focus,
+.modal-body select:not(.border-0):focus,
+.form-select:not(.border-0):focus {
+  border-color: var(--eiris-night-blue) !important;
+  box-shadow: 0 0 0 4px rgba(45, 84, 94, 0.18), 0 4px 14px rgba(45, 84, 94, 0.12) !important;
+  outline: none !important;
+}
+
+/* Style <option> tags inside select */
+select option,
+.form-select option {
+  font-weight: 600 !important;
+  color: #334155 !important;
+  padding: 0.85rem 1rem !important;
+  background-color: #ffffff !important;
+}
+
+/* 3. Stunning Select2 Dropdowns inside Modals/Forms matching Custom Modern Dropdown style */
+.select2-container--default .select2-selection--single {
+  height: 44px !important;
+  border: 1px solid var(--eiris-night-blue) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 2px 8px rgba(45, 84, 94, 0.08) !important;
+  background-color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  transition: all 0.25s ease !important;
+}
+
+.select2-container--default .select2-selection--single:hover,
+.select2-container--default.select2-container--open .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--single {
+  border-color: var(--eiris-night-blue) !important;
+  box-shadow: 0 0 0 4px rgba(45, 84, 94, 0.18), 0 4px 12px rgba(45, 84, 94, 0.12) !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: var(--eiris-night-blue) !important;
+  font-weight: 600 !important;
+  padding-left: 1.15rem !important;
+  line-height: 42px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 42px !important;
+  right: 12px !important;
+  width: 24px !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%232D545E' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 14px 10px !important;
+  transition: transform 0.2s ease !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  display: none !important;
+}
+
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow {
+  transform: rotate(180deg) !important;
+}
+
+.select2-dropdown {
+  border: 1px solid var(--eiris-night-blue) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 16px 36px -4px rgba(11, 43, 49, 0.22) !important;
+  background: #ffffff !important;
+  padding: 0.5rem !important;
+  overflow: hidden !important;
+  z-index: 1060 !important;
+  margin-top: 6px !important;
+}
+
+/* Beautiful Search Input inside Dropdown */
+.select2-search--dropdown {
+  padding: 0.5rem 0.5rem 0.65rem 0.5rem !important;
+  border-bottom: 1px solid rgba(45, 84, 94, 0.12) !important;
+  margin-bottom: 0.35rem !important;
+}
+
+.select2-search--dropdown .select2-search__field {
+  border: 1px solid var(--eiris-night-blue) !important;
+  border-radius: 0.6rem !important;
+  padding: 0.5rem 0.85rem !important;
+  font-size: 0.875rem !important;
+  color: var(--eiris-night-blue) !important;
+  font-weight: 600 !important;
+  outline: none !important;
+  box-shadow: 0 2px 6px rgba(45, 84, 94, 0.06) !important;
+  width: 100% !important;
+}
+
+.select2-search--dropdown .select2-search__field:focus {
+  box-shadow: 0 0 0 3px rgba(45, 84, 94, 0.18) !important;
+}
+
+/* Options container & items */
+.select2-results__options {
+  max-height: 240px !important;
+  overflow-y: auto !important;
+  padding: 0.2rem !important;
+}
+
+.select2-results__option {
+  border-radius: 0.6rem !important;
+  padding: 0.65rem 1rem !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+  margin-bottom: 0.25rem !important;
+  font-size: 0.925rem !important;
+  line-height: 1.4 !important;
+  transition: all 0.15s ease !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.select2-results__option:last-child {
+  margin-bottom: 0 !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected],
+.select2-container--default .select2-results__option--highlighted[aria-selected=true],
+.select2-results__option:hover {
+  background: rgba(45, 84, 94, 0.08) !important;
+  color: var(--eiris-night-blue) !important;
+  transform: translateX(4px) !important;
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+  background: linear-gradient(135deg, var(--eiris-night-blue) 0%, var(--eiris-night-blue-shadow) 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(11, 43, 49, 0.25) !important;
+}
+
+

@@ -12,29 +12,6 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-        .select2-container--default .select2-selection--single {
-            height: 38px;
-            border: 1px solid #ced4da;
-            border-radius: 0.375rem;
-            padding: 5px 12px;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 36px;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            line-height: 24px;
-            padding-left: 0;
-            color: var(--eiris-night-blue);
-            font-weight: 600;
-        }
-        .select2-dropdown {
-            z-index: 9999 !important;
-        }
-        .select2-container {
-            width: 100% !important;
-        }
-    </style>
 </head>
 <body class="bg-light">
 
@@ -301,11 +278,11 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Quantity Sold</label>
-                        <input type="number" class="form-control fw-bold border-secondary text-night-blue" id="saleQuantity" min="1" value="1">
+                        <input type="number" class="form-control fw-bold text-night-blue" id="saleQuantity" min="1" value="1">
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Customer Name / Client</label>
-                        <select class="form-select border-secondary text-night-blue select2" id="saleCustomerName" style="width: 100%;">
+                        <select class="form-select text-night-blue select2" id="saleCustomerName" style="width: 100%;">
                             <option value="" disabled selected>Search & select a client...</option>
                         </select>
                     </div>

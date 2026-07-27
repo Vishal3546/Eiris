@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/style.css">
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         /* Custom Tab Styles based on the image */
         .custom-tabs {
@@ -219,7 +221,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="productCategory" class="form-label text-muted fw-bold">Category</label>
-                                <select class="form-select" id="productCategory" required>
+                                <select class="form-select select2" id="productCategory" required>
                                     <option value="" selected disabled>Select Category</option>
                                     <option value="Car Accessories">Car Accessories</option>
                                     <option value="LED Lights">LED Lights</option>
@@ -264,7 +266,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="editProductCategory" class="form-label text-muted fw-bold">Category</label>
-                                <select class="form-select" id="editProductCategory" required>
+                                <select class="form-select select2" id="editProductCategory" required>
                                     <option value="" disabled>Select Category</option>
                                     <option value="Car Accessories">Car Accessories</option>
                                     <option value="LED Lights">LED Lights</option>
@@ -597,6 +599,28 @@
                             confirmDeleteBtn.disabled = false;
                         }
                     }
+                });
+            }
+        });
+    </script>
+
+    <!-- jQuery and Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            if ($.fn.select2) {
+                $('#productCategory').select2({
+                    width: '100%',
+                    dropdownParent: $('#addProductModal'),
+                    dropdownPosition: 'below',
+                    minimumResultsForSearch: Infinity
+                });
+                $('#editProductCategory').select2({
+                    width: '100%',
+                    dropdownParent: $('#editProductModal'),
+                    dropdownPosition: 'below',
+                    minimumResultsForSearch: Infinity
                 });
             }
         });
