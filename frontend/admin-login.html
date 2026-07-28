@@ -49,7 +49,7 @@
                     <h3 class="fw-bold text-night-blue-shadow mb-4" id="formTitle">Welcome Back Admin!</h3>
                     <p class="text-muted mb-4" id="formSubtitle">Please enter your admin credentials to access the portal.</p>
 
-                    <form id="loginFormElement">
+                    <form id="loginFormElement" onsubmit="handleAdminLogin(event)">
                         <div class="mb-3">
                             <label class="form-label fw-bold text-night-blue-shadow">Email Id</label>
                             <input type="email" id="adminEmail" class="form-control form-control-lg bg-light border-0"
@@ -75,7 +75,7 @@
                             </div>
                             <a href="#" onclick="showForgotPassword(event)" class="text-decoration-none small fw-bold text-primary">Forgot Password?</a>
                         </div>
-                        <button type="button" id="loginBtn" onclick="handleAdminLogin()"
+                        <button type="submit" id="loginBtn"
                             class="btn btn-secondary-custom btn-lg rounded-pill w-100 shadow-sm fw-bold">Login to
                             Dashboard</button>
                     </form>
@@ -121,6 +121,20 @@
                 document.getElementById('adminEmail').value = savedEmail;
                 document.getElementById('rememberMe').checked = true;
             }
+
+            // Auto redirect if already logged in
+            const token = localStorage.getItem('admin_accessToken');
+            const userStr = localStorage.getItem('admin_user');
+            if (token && userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    if (user && user.role === 'ADMIN') {
+                        window.location.href = 'admin-dashboard.html';
+                    }
+                } catch(e) {
+                    console.error("Error parsing user data for redirect", e);
+                }
+            }
         });
 
         function showForgotPassword(e) {
@@ -154,7 +168,8 @@
             }
         }
 
-        async function handleAdminLogin() {
+        async function handleAdminLogin(e) {
+            if (e) e.preventDefault();
             const email = document.getElementById('adminEmail').value;
             const password = document.getElementById('adminPassword').value;
             const rememberMe = document.getElementById('rememberMe').checked;

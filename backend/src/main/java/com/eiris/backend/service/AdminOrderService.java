@@ -30,8 +30,16 @@ public class AdminOrderService {
 
     @Transactional(readOnly = true)
     public List<AdminOrderResponse> getAllOrders() {
+        java.util.Map<UUID, String> agencyMap = agencyRepository.findAll().stream()
+                .filter(a -> a.getUser() != null)
+                .collect(Collectors.toMap(
+                        a -> a.getUser().getId(),
+                        Agency::getAgencyName,
+                        (name1, name2) -> name1
+                ));
+
         return orderRepository.findAll().stream()
-                .map(this::mapToResponse)
+                .map(order -> mapToResponse(order, agencyMap))
                 // Sort by date descending (null-safe)
                 .sorted((a, b) -> {
                     if (a.getDate() == null && b.getDate() == null) return 0;
@@ -62,13 +70,14 @@ public class AdminOrderService {
         orderRepository.save(order);
     }
 
-    private AdminOrderResponse mapToResponse(AgencyOrder order) {
+    private AdminOrderResponse mapToResponse(AgencyOrder order, java.util.Map<UUID, String> agencyMap) {
         AdminOrderResponse resp = new AdminOrderResponse();
         resp.setId(order.getId());
         
-        String agencyName = agencyRepository.findByUser(order.getAgencyUser())
-                                            .map(Agency::getAgencyName)
-                                            .orElse(order.getAgencyUser().getEmail());
+        String agencyName = "Unknown Agency";
+        if (order.getAgencyUser() != null) {
+            agencyName = agencyMap.getOrDefault(order.getAgencyUser().getId(), order.getAgencyUser().getEmail());
+        }
         resp.setAgencyName(agencyName);
 
         resp.setProductName(order.getProduct().getName());

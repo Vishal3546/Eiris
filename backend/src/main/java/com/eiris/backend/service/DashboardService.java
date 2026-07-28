@@ -67,11 +67,21 @@ public class DashboardService {
                 });
         response.setMonthlyRevenue(monthlyRevenue);
 
+        // Pre-fetch agencies to avoid N+1 queries
+        List<Agency> allAgenciesList = agencyRepository.findAll();
+        Map<UUID, String> agencyMap = allAgenciesList.stream()
+                .filter(a -> a.getUser() != null)
+                .collect(Collectors.toMap(
+                        a -> a.getUser().getId(),
+                        Agency::getAgencyName,
+                        (name1, name2) -> name1
+                ));
+
         // Top 50 recent orders
         List<AgencyOrderResponse> recentOrders = allOrders.stream()
                 .sorted(Comparator.comparing(AgencyOrder::getCreatedAt).reversed())
                 .limit(50)
-                .map(this::mapToOrderResponse)
+                .map(order -> mapToOrderResponse(order, agencyMap))
                 .collect(Collectors.toList());
         response.setRecentOrders(recentOrders);
 
@@ -124,16 +134,13 @@ public class DashboardService {
         return response;
     }
 
-    private AgencyOrderResponse mapToOrderResponse(AgencyOrder order) {
+    private AgencyOrderResponse mapToOrderResponse(AgencyOrder order, Map<UUID, String> agencyMap) {
         AgencyOrderResponse resp = new AgencyOrderResponse();
         resp.setId(order.getId());
         
         String agencyName = "Unknown Agency";
-        if (order.getAgencyUser() != null) {
-            java.util.Optional<Agency> agencyOpt = agencyRepository.findByUser(order.getAgencyUser());
-            if (agencyOpt.isPresent()) {
-                agencyName = agencyOpt.get().getAgencyName();
-            }
+        if (order.getAgencyUser() != null && agencyMap.containsKey(order.getAgencyUser().getId())) {
+            agencyName = agencyMap.get(order.getAgencyUser().getId());
         }
         resp.setAgencyName(agencyName);
         

@@ -58,8 +58,13 @@
                         </div>
                         <div class="mb-4">
                             <label class="form-label fw-bold text-night-blue-shadow">Password</label>
-                            <input type="password" id="agencyPassword" class="form-control form-control-lg bg-light border-0"
-                                placeholder="Enter your password" required>
+                            <div class="input-group">
+                                <input type="password" id="agencyPassword" class="form-control form-control-lg bg-light border-0"
+                                    placeholder="Enter your password" required>
+                                <button class="btn bg-light border-0 text-secondary px-3" type="button" onclick="togglePasswordVisibility('agencyPassword', 'eyeIcon')">
+                                    <i class="bi bi-eye-slash" id="eyeIcon"></i>
+                                </button>
+                            </div>
                             <div id="loginErrorMsg" class="text-danger small fw-bold mt-2 d-none">Invalid Credentials</div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -91,11 +96,40 @@
 
     <!-- Login Logic -->
     <script>
+        function togglePasswordVisibility(inputId, iconId) {
+            const passwordInput = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(iconId);
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('bi-eye-slash');
+                eyeIcon.classList.add('bi-eye');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('bi-eye');
+                eyeIcon.classList.add('bi-eye-slash');
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             const savedEmail = localStorage.getItem('rememberedAgencyEmail');
             if (savedEmail) {
                 document.getElementById('agencyEmail').value = savedEmail;
                 document.getElementById('rememberMe').checked = true;
+            }
+
+            // Auto redirect if already logged in
+            const token = localStorage.getItem('agency_accessToken');
+            const userStr = localStorage.getItem('agency_user');
+            if (token && userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    if (user && user.role === 'AGENCY') {
+                        window.location.href = 'agency-dashboard.html';
+                    }
+                } catch(e) {
+                    console.error("Error parsing user data for redirect", e);
+                }
             }
         });
 
