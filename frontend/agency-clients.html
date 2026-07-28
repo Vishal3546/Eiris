@@ -685,14 +685,12 @@
             if ($.fn.select2) {
                 $('#clientCity').select2({
                     width: '100%',
-                    dropdownParent: $('#addClientModal'),
-                    dropdownPosition: 'below',
+                    dropdownParent: $('#clientCity').parent(),
                     placeholder: "Search / Select City"
                 });
                 $('#editClientCity').select2({
                     width: '100%',
-                    dropdownParent: $('#editClientModal'),
-                    dropdownPosition: 'below',
+                    dropdownParent: $('#editClientCity').parent(),
                     placeholder: "Search / Select City"
                 });
             }

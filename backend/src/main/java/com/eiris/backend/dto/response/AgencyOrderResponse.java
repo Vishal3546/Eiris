@@ -13,7 +13,12 @@ public class AgencyOrderResponse {
     private OrderStatus status;
     private LocalDateTime date;
 
+    private String agencyName;
+
     public AgencyOrderResponse() {}
+
+    public String getAgencyName() { return agencyName; }
+    public void setAgencyName(String agencyName) { this.agencyName = agencyName; }
 
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }

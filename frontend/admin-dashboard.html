@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/style.css">
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 <body class="bg-light">
 
@@ -71,84 +73,94 @@
                 
                 <div class="row g-4 mb-4">
                     <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card kpi-card shadow-sm rounded-4 h-100">
                             <div class="card-body p-4 d-flex align-items-center">
                                 <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3 text-primary">
                                     <i class="bi bi-buildings fs-3"></i>
                                 </div>
                                 <div>
                                     <p class="text-muted mb-0 small fw-bold text-uppercase">Total Agencies</p>
-                                    <h4 class="mb-0 fw-bold">15</h4>
+                                    <h4 class="mb-0 fw-bold" id="totalAgencies">0</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card kpi-card shadow-sm rounded-4 h-100">
                             <div class="card-body p-4 d-flex align-items-center">
                                 <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3 text-success">
                                     <i class="bi bi-box-seam fs-3"></i>
                                 </div>
                                 <div>
                                     <p class="text-muted mb-0 small fw-bold text-uppercase">Total Products</p>
-                                    <h4 class="mb-0 fw-bold">120</h4>
+                                    <h4 class="mb-0 fw-bold" id="totalProducts">0</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card kpi-card shadow-sm rounded-4 h-100">
                             <div class="card-body p-4 d-flex align-items-center">
                                 <div class="bg-warning bg-opacity-10 rounded-circle p-3 me-3 text-warning">
                                     <i class="bi bi-cart-check fs-3"></i>
                                 </div>
                                 <div>
                                     <p class="text-muted mb-0 small fw-bold text-uppercase">Pending Orders</p>
-                                    <h4 class="mb-0 fw-bold">8</h4>
+                                    <h4 class="mb-0 fw-bold" id="pendingOrders">0</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                        <div class="card kpi-card shadow-sm rounded-4 h-100">
                             <div class="card-body p-4 d-flex align-items-center">
                                 <div class="bg-info bg-opacity-10 rounded-circle p-3 me-3 text-info">
                                     <i class="bi bi-currency-rupee fs-3"></i>
                                 </div>
                                 <div>
-                                    <p class="text-muted mb-0 small fw-bold text-uppercase">Monthly Revenue</p>
-                                    <h4 class="mb-0 fw-bold">â‚¹8,50,000</h4>
+                                    <p class="text-muted mb-0 small fw-bold text-uppercase">Total Revenue</p>
+                                    <h4 class="mb-0 fw-bold" id="totalRevenue">₹0</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
+                <!-- Chart Section -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-header bg-white border-bottom p-4">
+                        <h5 class="mb-0 fw-bold text-night-blue-shadow">Revenue Trend (Last 6 Months)</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div id="revenueChart" style="min-height: 350px;"></div>
+                    </div>
+                </div>
+                
                 <!-- Recent Activity Table -->
-                <div class="card border-0 shadow-sm rounded-4">
+                <!-- Recent Activity Table -->
+                <div class="card shadow-sm rounded-4" style="border: 2px solid var(--eiris-night-blue) !important; overflow: hidden;">
                     <div class="card-header bg-white border-bottom p-4">
                         <h5 class="mb-0 fw-bold text-night-blue-shadow">Recent Activities</h5>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light">
+                            <table class="table table-hover align-middle mb-0" style="--bs-table-border-color: rgba(45, 84, 94, 0.4);">
+                                <thead class="glass-agency-panel-header">
                                     <tr>
-                                        <th class="ps-4">Activity</th>
+                                        <th class="ps-4">Agency</th>
+                                        <th>Product</th>
                                         <th>Date</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="recentOrdersTableBody">
                                     <tr>
-                                        <td class="ps-4">Agency 'AutoTech' requested 500 LED Headlights</td>
-                                        <td>Today, 10:30 AM</td>
-                                        <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="ps-4">New Agency 'Speedy Lights' registered</td>
-                                        <td>Yesterday, 2:15 PM</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <td colspan="4" class="text-center py-5">
+                                            <div class="eiris-table-loader-pill shadow-sm">
+                                                <span class="eiris-spinner"></span>
+                                                <span class="fw-bold text-night-blue-shadow fs-6">Loading recent orders...</span>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -198,6 +210,8 @@
     
     <!-- Custom JS -->
     <script src="js/script.js"></script>
+    <script src="js/paginationHelper.js"></script>
+    <script src="js/adminDashboardManager.js"></script>
 </body>
 </html>
 

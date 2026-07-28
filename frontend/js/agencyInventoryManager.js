@@ -1,4 +1,4 @@
-﻿const AGENCY_API_BASE_URL = 'http://localhost:8080/api/agency';
+const AGENCY_API_BASE_URL = 'http://localhost:8080/api/agency';
 
 function getAuthHeaders() {
     const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
@@ -60,12 +60,13 @@ const agencyInventoryManager = {
         }
     },
 
-    recordSale: async function(productId, quantitySold, customerName = "Walk-in Customer") {
+    recordSale: async function(productId, quantitySold, customerName = "Walk-in Customer", clientId = null) {
         try {
             const payload = {
                 productId: productId,
                 quantity: parseInt(quantitySold, 10),
-                customerName: customerName
+                customerName: customerName,
+                clientId: clientId
             };
             const response = await fetch(`${AGENCY_API_BASE_URL}/sales`, {
                 method: 'POST',

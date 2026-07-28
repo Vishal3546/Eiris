@@ -589,17 +589,11 @@
 
         // Initialize Select2 with dropdownParent for Modals
         $(document).ready(function() {
-            $('#agencyState, #agencyCity').select2({
-                width: '100%',
-                dropdownParent: $('#addAgencyModal'),
-                dropdownPosition: 'below'
-            });
+            $('#agencyState').select2({ width: '100%', dropdownParent: $('#agencyState').parent() });
+            $('#agencyCity').select2({ width: '100%', dropdownParent: $('#agencyCity').parent() });
             
-            $('#editAgencyState, #editAgencyCity').select2({
-                width: '100%',
-                dropdownParent: $('#editAgencyModal'),
-                dropdownPosition: 'below'
-            });
+            $('#editAgencyState').select2({ width: '100%', dropdownParent: $('#editAgencyState').parent() });
+            $('#editAgencyCity').select2({ width: '100%', dropdownParent: $('#editAgencyCity').parent() });
 
             // Populate States
             const states = Object.keys(indiaLocations).sort();

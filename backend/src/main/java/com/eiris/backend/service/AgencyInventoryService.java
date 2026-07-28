@@ -11,6 +11,7 @@ import com.eiris.backend.repository.AgencyInventoryRepository;
 import com.eiris.backend.repository.AgencyOrderRepository;
 import com.eiris.backend.repository.AgencySaleRepository;
 import com.eiris.backend.repository.ProductRepository;
+import com.eiris.backend.repository.AgencyClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +25,18 @@ public class AgencyInventoryService {
     private final AgencyOrderRepository orderRepository;
     private final AgencySaleRepository saleRepository;
     private final ProductRepository productRepository;
+    private final AgencyClientRepository clientRepository;
 
     public AgencyInventoryService(AgencyInventoryRepository inventoryRepository,
                                   AgencyOrderRepository orderRepository,
                                   AgencySaleRepository saleRepository,
-                                  ProductRepository productRepository) {
+                                  ProductRepository productRepository,
+                                  AgencyClientRepository clientRepository) {
         this.inventoryRepository = inventoryRepository;
         this.orderRepository = orderRepository;
         this.saleRepository = saleRepository;
         this.productRepository = productRepository;
+        this.clientRepository = clientRepository;
     }
 
     @Transactional
@@ -182,7 +186,21 @@ public class AgencyInventoryService {
         sale.setCustomerName(request.getCustomerName());
         sale.setQuantity(request.getQuantity());
         sale.setUnitPrice(product.getPrice());
-        sale.setTotalPrice(product.getPrice() * request.getQuantity());
+        
+        double totalPrice = product.getPrice() * request.getQuantity();
+        sale.setTotalPrice(totalPrice);
+        
+        if (request.getClientId() != null) {
+            AgencyClient client = clientRepository.findById(request.getClientId())
+                    .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+            sale.setClient(client);
+            
+            // Update client totals
+            client.setSales((client.getSales() != null ? client.getSales() : 0.0) + totalPrice);
+            client.setOrders((client.getOrders() != null ? client.getOrders() : 0) + 1);
+            clientRepository.save(client);
+        }
+        
         saleRepository.save(sale);
     }
 

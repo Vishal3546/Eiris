@@ -824,29 +824,39 @@ table input[type="number"] {
   background-color: rgba(45, 84, 94, 0.07) !important;
   color: var(--eiris-night-blue) !important;
   font-weight: 600 !important;
+  padding: 0.65rem 1.15rem !important;
 }
 
+.modal-body .input-group > .form-control:not(:first-child),
+.modal-body .input-group > input:not(:first-child),
 .input-group > .form-control:not(:first-child) {
   border-left: none !important;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
 
+.modal-body .input-group > .form-control:not(:last-child),
+.modal-body .input-group > input:not(:last-child),
 .input-group > .form-control:not(:last-child) {
   border-right: none !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
 
+.modal-body .input-group > .btn:not(.border-0),
 .input-group > .btn:not(.border-0),
+.modal-body .input-group > .input-group-text:not(.border-0),
 .input-group > .input-group-text:not(.border-0) {
   border: 1px solid var(--eiris-night-blue) !important;
 }
 
+.modal-body .input-group > .btn:not(:first-child),
 .input-group > .btn:not(:first-child) {
   border-left: none !important;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0.75rem !important;
+  border-bottom-right-radius: 0.75rem !important;
 }
 
 /* 2. Attractive Simple Dropdown (<select> / .form-select) matching Custom Modern Dropdown style */
@@ -946,7 +956,14 @@ select option,
   padding: 0.5rem !important;
   overflow: hidden !important;
   z-index: 1060 !important;
+}
+
+.select2-dropdown.select2-dropdown--below {
   margin-top: 6px !important;
+}
+
+.select2-dropdown.select2-dropdown--above {
+  margin-top: -6px !important;
 }
 
 /* Beautiful Search Input inside Dropdown */
@@ -974,7 +991,7 @@ select option,
 
 /* Options container & items */
 .select2-results__options {
-  max-height: 240px !important;
+  max-height: 138px !important;
   overflow-y: auto !important;
   padding: 0.2rem !important;
 }
@@ -1011,3 +1028,13 @@ select option,
 }
 
 
+
+/* KPI Card Styles */
+.kpi-card {
+  border: 1px solid var(--eiris-night-blue) !important;
+  transition: all 0.3s ease;
+}
+.kpi-card:hover {
+  box-shadow: 0 8px 25px rgba(11, 43, 49, 0.35) !important;
+  transform: translateY(-5px);
+}
