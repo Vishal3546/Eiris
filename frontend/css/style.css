@@ -343,10 +343,19 @@ body {
     transition: transform 0.3s ease-in-out;
     box-shadow: 2px 0 10px rgba(0,0,0,0.2);
     animation: none !important;
+    overflow-y: auto; /* Ensure sidebar is scrollable on small devices */
   }
   
   .sidebar.show-sidebar {
     transform: translateX(0);
+  }
+
+  /* Fix for Logout button hiding on mobile */
+  .sidebar .position-absolute.bottom-0 {
+    position: relative !important;
+    bottom: auto !important;
+    margin-top: auto !important;
+    padding-bottom: 2rem !important; /* Extra padding at bottom for safety */
   }
 }
 
