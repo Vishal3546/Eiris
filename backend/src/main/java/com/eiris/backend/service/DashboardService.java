@@ -18,20 +18,17 @@ public class DashboardService {
     private final AgencyRepository agencyRepository;
     private final ProductRepository productRepository;
     private final AgencyOrderRepository orderRepository;
-    private final AgencyClientRepository clientRepository;
     private final AgencySaleRepository saleRepository;
     private final AgencyInventoryRepository inventoryRepository;
 
     public DashboardService(AgencyRepository agencyRepository,
                             ProductRepository productRepository,
                             AgencyOrderRepository orderRepository,
-                            AgencyClientRepository clientRepository,
                             AgencySaleRepository saleRepository,
                             AgencyInventoryRepository inventoryRepository) {
         this.agencyRepository = agencyRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
-        this.clientRepository = clientRepository;
         this.saleRepository = saleRepository;
         this.inventoryRepository = inventoryRepository;
     }

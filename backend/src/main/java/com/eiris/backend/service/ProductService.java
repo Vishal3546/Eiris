@@ -18,12 +18,10 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-    private final S3StorageService s3StorageService;
 
-    public ProductService(ProductRepository productRepository, ProductMapper productMapper, S3StorageService s3StorageService) {
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
-        this.s3StorageService = s3StorageService;
     }
 
     @Transactional
@@ -73,6 +71,6 @@ public class ProductService {
     public void deleteProduct(UUID id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
-        productRepository.deleteById(id);
+        productRepository.delete(product);
     }
 }
