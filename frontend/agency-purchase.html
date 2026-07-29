@@ -182,7 +182,7 @@
     <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content glass-modal-content">
-                <div class="modal-body text-center p-5">
+                <div class="modal-body text-center p-4 p-md-5">
                     <div class="glass-icon-container">
                         <i class="bi bi-box-arrow-right"></i>
                     </div>
@@ -424,7 +424,7 @@
                         if (val < maxStock) {
                             input.value = val + 1;
                         } else {
-                            alert("Cannot exceed available stock of " + maxStock);
+                            customAlert("Cannot exceed available stock of " + maxStock);
                         }
                     } else if (btn.classList.contains('minus-btn') && val > 1) {
                         input.value = val - 1;
@@ -440,7 +440,7 @@
                     const maxStock = input.getAttribute('data-max-stock') ? parseInt(input.getAttribute('data-max-stock')) : Infinity;
                     
                     if (quantity > maxStock) {
-                        alert("Quantity cannot exceed available stock of " + maxStock);
+                        customAlert("Quantity cannot exceed available stock of " + maxStock);
                         return;
                     }
                     
@@ -513,7 +513,7 @@
             document.getElementById('checkoutBtn').addEventListener('click', async function() {
                 const cart = window.cartManager ? window.cartManager.getCart() : [];
                 if (cart.length === 0) {
-                    alert("Your cart is empty!");
+                    customAlert("Your cart is empty!");
                     return;
                 }
                 
@@ -551,7 +551,7 @@
                     window.location.href = 'agency-stocks.html';
                 } catch (error) {
                     console.error("Checkout error:", error);
-                    alert("Failed to process order. Please try again.");
+                    customAlert("Failed to process order. Please try again.");
                 }
             });
         });

@@ -130,4 +130,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // 6. Fix for Bootstrap 5 aria-hidden accessibility warning on modal close
+    document.addEventListener('hide.bs.modal', function(event) {
+        if (document.activeElement && document.activeElement.closest('.modal')) {
+            document.activeElement.blur();
+        }
+    });
+
 });
+
+// 7. Global Custom Alert to replace default browser alert()
+window.customAlert = function(message) {
+    let modalEl = document.getElementById('globalCustomAlertModal');
+    if (!modalEl) {
+        const modalHtml = `
+            <div class="modal fade" id="globalCustomAlertModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 350px;">
+                    <div class="modal-content glass-modal-content text-center p-4">
+                        <div class="glass-icon-container mx-auto mb-3" style="border-color: var(--eiris-sand-tan); width: 60px; height: 60px;">
+                            <i class="bi bi-info-circle" style="color: var(--eiris-sand-tan); font-size: 30px;"></i>
+                        </div>
+                        <h5 class="mb-3 fw-bold text-white">Notification</h5>
+                        <p class="text-white-50 mb-4" id="globalCustomAlertMessage" style="font-size: 0.95rem; line-height: 1.5;"></p>
+                        <button type="button" class="btn btn-secondary-custom rounded-pill px-4 w-100 fw-bold shadow-sm" data-bs-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        modalEl = document.getElementById('globalCustomAlertModal');
+    }
+    
+    document.getElementById('globalCustomAlertMessage').textContent = message;
+    
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+};

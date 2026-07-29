@@ -299,7 +299,7 @@
     <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content glass-modal-content">
-                <div class="modal-body text-center p-5">
+                <div class="modal-body text-center p-4 p-md-5">
                     <div class="glass-icon-container">
                         <i class="bi bi-trash-fill"></i>
                     </div>
@@ -318,7 +318,7 @@
     <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content glass-modal-content">
-                <div class="modal-body text-center p-5">
+                <div class="modal-body text-center p-4 p-md-5">
                     <div class="glass-icon-container">
                         <i class="bi bi-box-arrow-right"></i>
                     </div>
@@ -422,12 +422,14 @@
                             <td class="fw-bold text-sand-tan-shadow">₹${priceFormatted}</td>
                             <td>${stockBadge}</td>
                             <td class="pe-4 text-end">
-                                <button class="btn btn-sm btn-outline-primary rounded-circle edit-btn me-1" title="Edit Product" data-id="${p.id}" style="width: 34px; height: 34px;">
-                                    <i class="bi bi-pencil-fill"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger rounded-circle delete-btn" title="Delete Product" data-id="${p.id}" style="width: 34px; height: 34px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
+                                <div class="d-flex justify-content-end gap-2 flex-nowrap">
+                                    <button class="btn btn-sm btn-outline-primary rounded-circle edit-btn" title="Edit Product" data-id="${p.id}" style="width: 34px; height: 34px; flex-shrink: 0;">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-circle delete-btn" title="Delete Product" data-id="${p.id}" style="width: 34px; height: 34px; flex-shrink: 0;">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>`;
                     }
@@ -513,7 +515,7 @@
                     const stock = document.getElementById('productStock').value;
 
                     if (!name || !category) {
-                        alert("Please enter Product Name and select Category.");
+                        customAlert("Please enter Product Name and select Category.");
                         return;
                     }
 
@@ -535,7 +537,7 @@
                         if (modal) modal.hide();
                         document.getElementById('addProductForm').reset();
                     } catch(err) {
-                        alert("Failed to save product.");
+                        customAlert("Failed to save product.");
                     } finally {
                         saveBtn.disabled = false;
                     }
@@ -551,7 +553,7 @@
                     const stock = document.getElementById('editProductStock').value;
 
                     if (!name || !category) {
-                        alert("Please enter Product Name and select Category.");
+                        customAlert("Please enter Product Name and select Category.");
                         return;
                     }
 
@@ -574,7 +576,7 @@
                             const editModal = bootstrap.Modal.getInstance(editModalEl);
                             if (editModal) editModal.hide();
                         } catch(err) {
-                            alert("Failed to update product.");
+                            customAlert("Failed to update product.");
                         } finally {
                             updateBtn.disabled = false;
                         }
@@ -594,7 +596,7 @@
                             const deleteModal = bootstrap.Modal.getInstance(deleteModalEl);
                             if (deleteModal) deleteModal.hide();
                         } catch (err) {
-                            alert("Failed to delete product.");
+                            customAlert("Failed to delete product.");
                         } finally {
                             confirmDeleteBtn.disabled = false;
                         }

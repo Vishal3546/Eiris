@@ -370,7 +370,7 @@
     <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content glass-modal-content">
-                <div class="modal-body text-center p-5">
+                <div class="modal-body text-center p-4 p-md-5">
                     <div class="glass-icon-container">
                         <i class="bi bi-box-arrow-right"></i>
                     </div>
@@ -417,7 +417,7 @@
             const agencyId = urlParams.get('id');
             
             if(!agencyId) {
-                alert("Invalid Agency ID");
+                customAlert("Invalid Agency ID");
                 window.location.href = 'admin-agencies.html';
                 return;
             }
@@ -468,7 +468,7 @@
 
             } catch (error) {
                 console.error("Error loading agency details:", error);
-                alert("Failed to load agency details.");
+                customAlert("Failed to load agency details.");
             }
         }
 

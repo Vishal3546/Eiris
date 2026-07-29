@@ -243,7 +243,7 @@
     <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content glass-modal-content">
-                <div class="modal-body text-center p-5">
+                <div class="modal-body text-center p-4 p-md-5">
                     <div class="glass-icon-container">
                         <i class="bi bi-box-arrow-right"></i>
                     </div>
@@ -621,7 +621,7 @@
                 const customerName = $('#saleCustomerName option:selected').attr('data-name');
                 
                 if (!clientId) {
-                    alert("Please select a client from the dropdown before confirming the sale.");
+                    customAlert("Please select a client from the dropdown before confirming the sale.");
                     return;
                 }
 
@@ -631,9 +631,9 @@
                     await updateDashboard();
                     
                     // Show small success toast or alert
-                    alert(qty + " units sold to " + customerName + "!");
+                    customAlert(qty + " units sold to " + customerName + "!");
                 } else {
-                    alert(result.message);
+                    customAlert(result.message);
                 }
             });
 
@@ -647,11 +647,11 @@
                     
                     const result = await window.agencyInventoryManager.receiveOrder(orderId);
                     if (result.success) {
-                        alert("Order marked as received! Your stock has been updated.");
+                        customAlert("Order marked as received! Your stock has been updated.");
                         await updateDashboard();
                         await updateOrders();
                     } else {
-                        alert(result.message);
+                        customAlert(result.message);
                         btn.disabled = false;
                         btn.innerHTML = 'Mark Received';
                     }
