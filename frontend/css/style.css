@@ -355,7 +355,7 @@ body {
     position: relative !important;
     bottom: auto !important;
     margin-top: auto !important;
-    padding-bottom: 2rem !important; /* Extra padding at bottom for safety */
+    /* padding-bottom: 2rem !important; Extra padding at bottom for safety */
   }
 }
 
