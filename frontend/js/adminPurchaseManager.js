@@ -1,4 +1,4 @@
-﻿const API_BASE_URL_ADMIN_ORDERS = 'http://localhost:8080/api/admin/orders';
+const API_BASE_URL_ADMIN_ORDERS = 'https://eiris.onrender.com/api/admin/orders';
 
 function getAdminAuthHeaders() {
     const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');

@@ -520,7 +520,7 @@
                 try {
                     const items = cart.map(item => ({ productId: item.id, quantity: item.quantity }));
                     
-                    const response = await fetch('http://localhost:8080/api/agency/orders', {
+                    const response = await fetch('https://eiris.onrender.com/api/agency/orders', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

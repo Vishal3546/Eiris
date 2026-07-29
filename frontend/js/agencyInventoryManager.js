@@ -1,4 +1,4 @@
-const AGENCY_API_BASE_URL = 'http://localhost:8080/api/agency';
+const AGENCY_API_BASE_URL = 'https://eiris.onrender.com/api/agency';
 
 function getAuthHeaders() {
     const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');

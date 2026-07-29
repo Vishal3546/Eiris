@@ -1,4 +1,4 @@
-const ADMIN_DASHBOARD_API = 'http://localhost:8080/api/admin/dashboard';
+const ADMIN_DASHBOARD_API = 'https://eiris.onrender.com/api/admin/dashboard';
 
 window.adminDashboardManager = {
     recentOrdersData: [],

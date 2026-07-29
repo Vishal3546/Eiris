@@ -562,7 +562,7 @@
                 if (!selectEl.length) return;
                 try {
                     const token = localStorage.getItem('agency_accessToken');
-                    const resp = await fetch('http://localhost:8080/api/agency/clients', {
+                    const resp = await fetch('https://eiris.onrender.com/api/agency/clients', {
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': token ? `Bearer ${token}` : ''

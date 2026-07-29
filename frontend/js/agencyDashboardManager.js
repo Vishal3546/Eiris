@@ -1,4 +1,4 @@
-const AGENCY_DASHBOARD_API = 'http://localhost:8080/api/agency/dashboard';
+const AGENCY_DASHBOARD_API = 'https://eiris.onrender.com/api/agency/dashboard';
 
 window.agencyDashboardManager = {
     recentSalesData: [],

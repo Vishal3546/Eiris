@@ -1,6 +1,6 @@
 // Product Manager for handling products via Backend API
 
-const PRODUCT_API_BASE_URL = 'http://localhost:8080/api/admin/products';
+const PRODUCT_API_BASE_URL = 'https://eiris.onrender.com/api/admin/products';
 
 function getAuthHeaders() {
     const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
@@ -13,7 +13,7 @@ function getAuthHeaders() {
 const productManager = {
     getProducts: async function() {
         try {
-            const response = await fetch('http://localhost:8080/api/public/products');
+            const response = await fetch('https://eiris.onrender.com/api/public/products');
             if (!response.ok) throw new Error("Failed to fetch products");
             return await response.json();
         } catch (e) {

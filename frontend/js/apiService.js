@@ -3,7 +3,7 @@
 // Ensure axios is loaded in your HTML before this script: 
 // <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'https://eiris.onrender.com/api';
 
 const apiService = axios.create({
     baseURL: API_BASE_URL,
