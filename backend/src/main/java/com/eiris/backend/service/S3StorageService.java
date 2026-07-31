@@ -51,14 +51,21 @@ public class S3StorageService {
     }
 
     public String uploadImage(MultipartFile file) throws IOException {
+        return uploadImage(file, "Admin_Products_Imagies");
+    }
+
+    public String uploadImage(MultipartFile file, String folderName) throws IOException {
         String originalFilename = file.getOriginalFilename();
         String extension = "";
         if (originalFilename != null && originalFilename.contains(".")) {
             extension = originalFilename.substring(originalFilename.lastIndexOf("."));
         }
         
+        // Ensure folderName ends with / if not empty
+        String prefix = folderName != null && !folderName.isEmpty() ? (folderName.endsWith("/") ? folderName : folderName + "/") : "";
+        
         // Use UUID to ensure unique filenames
-        String fileName = "Admin_Products_Imagies/" + UUID.randomUUID().toString() + extension;
+        String fileName = prefix + UUID.randomUUID().toString() + extension;
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
