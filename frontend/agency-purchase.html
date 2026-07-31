@@ -382,11 +382,12 @@
                 }
 
                 let html = '';
-                cart.forEach(item => {
-                    const img = item.imageUrl || item.image || 'https://via.placeholder.com/60';
+                cart.forEach((item, index) => {
                     html += `
                     <div class="d-flex gap-3 border-bottom pb-3 mb-3 cart-item" data-id="${item.id}">
-                        <img src="${img}" alt="${item.name}" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div class="d-flex align-items-center justify-content-center bg-light rounded text-night-blue-shadow fw-bold fs-5 shadow-sm" style="width: 60px; height: 60px; border: 2px solid var(--eiris-night-blue) !important;">
+                            #${index + 1}
+                        </div>
                         <div class="flex-grow-1">
                             <h6 class="fw-bold mb-1 text-night-blue-shadow">${item.name}</h6>
                             <div class="text-muted small mb-2">₹${item.price} / unit</div>

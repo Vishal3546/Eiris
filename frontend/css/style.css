@@ -1068,3 +1068,11 @@ select option,
   box-shadow: 0 8px 25px rgba(11, 43, 49, 0.35) !important;
   transform: translateY(-5px);
 }
+
+/* Responsive Table Text Wrap Fix (Mobile Only) */
+@media (max-width: 768px) {
+  .table-responsive .table th,
+  .table-responsive .table td {
+    white-space: nowrap !important;
+  }
+}
