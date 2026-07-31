@@ -121,6 +121,11 @@ const authService = {
     async forgotPassword(email) {
         const response = await apiService.post('/auth/forgot-password', { email });
         return response.data;
+    },
+
+    getAuthHeader() {
+        const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+        return token ? { 'Authorization': `Bearer ${token}` } : {};
     }
 };
 
