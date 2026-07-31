@@ -1,3 +1,45 @@
+// 0. Global Auth Check and Fetch Interceptor
+(function() {
+    const currentPath = window.location.pathname.split('/').pop();
+    
+    // Auth Check
+    if (currentPath && currentPath.startsWith('agency-') && currentPath !== 'agency-login.html') {
+        if (!localStorage.getItem('agency_accessToken')) {
+            window.location.href = 'agency-login.html';
+            return;
+        }
+    } else if (currentPath && currentPath.startsWith('admin-') && currentPath !== 'admin-login.html') {
+        if (!localStorage.getItem('admin_accessToken')) {
+            window.location.href = 'admin-login.html';
+            return;
+        }
+    }
+
+    // Global fetch interceptor to catch 401/403
+    const originalFetch = window.fetch;
+    window.fetch = async function(...args) {
+        const response = await originalFetch.apply(this, args);
+        if (response.status === 401 || response.status === 403) {
+            if (currentPath && (currentPath.startsWith('agency-') || currentPath.startsWith('admin-')) 
+                && currentPath !== 'agency-login.html' && currentPath !== 'admin-login.html') {
+                console.error("Authentication failed. Redirecting to login...");
+                if (currentPath.startsWith('agency-')) {
+                    localStorage.removeItem('agency_accessToken');
+                    localStorage.removeItem('agency_refreshToken');
+                    localStorage.removeItem('agency_user');
+                    window.location.href = 'agency-login.html';
+                } else {
+                    localStorage.removeItem('admin_accessToken');
+                    localStorage.removeItem('admin_refreshToken');
+                    localStorage.removeItem('admin_user');
+                    window.location.href = 'admin-login.html';
+                }
+            }
+        }
+        return response;
+    };
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     
     // 1. Setup Intersection Observer for scroll animations
