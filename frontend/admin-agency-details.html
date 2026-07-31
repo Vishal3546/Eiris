@@ -108,39 +108,49 @@
 
         <!-- Main Content -->
         <div class="flex-grow-1 d-flex flex-column" style="overflow-y: auto; height: 100vh;">
-            <nav class="navbar navbar-expand-lg bg-white border-bottom px-4 py-3 shadow-sm animate-slide-down">
-                <div class="container-fluid">
-                    <button class="sidebar-toggle-btn d-lg-none me-auto" id="sidebarToggle">
-                        <i class="bi bi-list fs-3"></i>
-                    </button>
-                    <a href="admin-agencies.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
-                        <i class="bi bi-arrow-left me-1"></i> Back to Agencies
-                    </a>
-                    <div class="ms-auto d-flex align-items-center gap-3">
-                        <span class="text-muted">Welcome, <strong class="text-night-blue">Super Admin</strong></span>
-                        <div class="bg-sand-tan text-night-blue fw-bold rounded-circle d-flex align-items-center justify-content-center shadow-sm"
-                            style="width: 40px; height: 40px;">
-                            A
+            <nav class="navbar navbar-expand-lg bg-white border-bottom px-3 px-md-4 py-2 py-md-3 shadow-sm animate-slide-down">
+                <div class="container-fluid d-flex flex-column flex-md-row align-items-start align-items-md-center">
+                    <div class="d-flex w-100 justify-content-between align-items-center mb-2 mb-md-0">
+                        <div class="d-flex align-items-center gap-2 gap-md-3">
+                            <button class="sidebar-toggle-btn d-lg-none" id="sidebarToggle" style="background:none; border:none; padding:0;">
+                                <i class="bi bi-list fs-3 text-night-blue"></i>
+                            </button>
+                            <a href="admin-agencies.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3 d-none d-md-inline-flex align-items-center">
+                                <i class="bi bi-arrow-left me-1"></i> Back to Agencies
+                            </a>
                         </div>
+                        <div class="d-flex align-items-center gap-2 gap-md-3">
+                            <span class="text-muted small d-md-inline">Welcome, <strong class="text-night-blue">Super Admin</strong></span>
+                            <div class="bg-sand-tan text-night-blue fw-bold rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 35px; height: 35px; font-size: 14px;">
+                                A
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100 d-md-none mt-1">
+                        <a href="admin-agencies.html" class="btn btn-sm btn-outline-secondary rounded-pill px-3 w-100 d-flex justify-content-center align-items-center">
+                            <i class="bi bi-arrow-left me-2"></i> Back to Agencies
+                        </a>
                     </div>
                 </div>
             </nav>
 
             <div class="p-4 flex-grow-1 animate-fade-in-up">
                 <!-- Agency Header -->
-                <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom">
-                    <div>
-                        <h2 class="fw-bold text-night-blue-shadow mb-1" id="agencyNameHeader">Loading...</h2>
-                        <div class="d-flex gap-3 text-muted small">
-                            <span id="agencyLocation"><i class="bi bi-geo-alt-fill me-1"></i> ...</span>
-                            <span id="agencyContact"><i class="bi bi-telephone-fill me-1"></i> ...</span>
-                            <span id="agencyEmail"><i class="bi bi-envelope-fill me-1"></i> ...</span>
+                <div class="mb-4 pb-3 border-bottom">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
+                                <h2 class="fw-bold text-night-blue-shadow mb-0" id="agencyNameHeader">Loading...</h2>
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill shadow-sm mt-1 mt-md-0" id="agencyStatus">
+                                    ACTIVE
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column flex-md-row gap-2 gap-md-3 text-muted small mt-2 mt-md-0">
+                                <span id="agencyLocation"><i class="bi bi-geo-alt-fill me-1"></i> ...</span>
+                                <span id="agencyContact"><i class="bi bi-telephone-fill me-1"></i> ...</span>
+                                <span id="agencyEmail"><i class="bi bi-envelope-fill me-1"></i> ...</span>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill shadow-sm" id="agencyStatus">
-                            ACTIVE
-                        </span>
                     </div>
                 </div>
 
@@ -316,10 +326,12 @@
                     <div class="tab-pane fade" id="sales" role="tabpanel">
                         <div class="card shadow-sm rounded-4 mb-4" style="border: 1px solid rgba(45, 84, 94, 0.2); background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
                             <div class="card-body p-3 d-flex flex-wrap justify-content-between align-items-center gap-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-funnel-fill text-primary"></i>
-                                    <span class="fw-bold text-night-blue-shadow">Filter by Client:</span>
-                                    <select id="salesClientFilter" class="form-select form-select-sm text-night-blue" style="width: 260px;">
+                                <div class="d-flex align-items-center flex-wrap gap-2 w-100 w-md-auto">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="bi bi-funnel-fill text-primary"></i>
+                                        <span class="fw-bold text-night-blue-shadow text-nowrap">Filter by Client:</span>
+                                    </div>
+                                    <select id="salesClientFilter" class="form-select form-select-sm text-night-blue" style="max-width: 100%; width: 260px;">
                                         <option value="ALL">All Clients / Walk-in</option>
                                     </select>
                                 </div>
