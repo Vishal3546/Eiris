@@ -22,6 +22,21 @@ const PublicIndexManager = {
         }
     },
 
+    formatDetailsAsBullets(details) {
+        if (!details) return '<div class="text-muted small">No details available</div>';
+        let lines = details.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+        if (lines.length === 1 && lines[0].includes(',')) {
+            lines = lines[0].split(',').map(s => s.trim()).filter(Boolean);
+        }
+        return lines.map(line => {
+            const cleaned = line.replace(/^[•*\-\s]+/, '');
+            return `<div class="d-flex align-items-start mb-1 text-start">
+                <span class="me-2 fw-bold" style="color: #ea580c; font-size: 1.1rem; line-height: 1;">•</span>
+                <span class="text-dark small">${cleaned}</span>
+            </div>`;
+        }).join('');
+    },
+
     renderProducts(products, container) {
         if (!products || products.length === 0) {
             container.innerHTML = '<div class="col-12 text-center py-5 text-muted">No products available.</div>';
@@ -31,6 +46,7 @@ const PublicIndexManager = {
         let html = '';
         products.forEach((product, idx) => {
             const collapseId = `detailsIndexProduct_${product.id || idx}`;
+            const formattedDetails = this.formatDetailsAsBullets(product.details);
             
             html += `
                 <div class="col-md-6 col-lg-4">
@@ -42,8 +58,8 @@ const PublicIndexManager = {
                             </div>
                             <div class="card-body d-flex flex-column p-4">
                                 <h5 class="card-title fw-bold mb-2 text-night-blue-shadow">${product.name}</h5>
-                                <div class="collapse" id="${collapseId}">
-                                    <p class="text-start small text-dark mb-0 mt-2" style="white-space: pre-wrap;">${product.details}</p>
+                                <div class="collapse mt-2" id="${collapseId}">
+                                    ${formattedDetails}
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-3 mt-auto">
                                     <span class="fw-bold fs-5 text-sand-tan-shadow"></span>

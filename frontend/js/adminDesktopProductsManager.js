@@ -383,13 +383,28 @@ const AdminDesktopProductsManager = {
         }
     },
 
+    formatDetailsAsBullets(details) {
+        if (!details) return '<span class="text-muted">No details provided</span>';
+        let lines = details.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+        if (lines.length === 1 && lines[0].includes(',')) {
+            lines = lines[0].split(',').map(s => s.trim()).filter(Boolean);
+        }
+        return lines.map(line => {
+            const cleaned = line.replace(/^[•*\-\s]+/, '');
+            return `<div class="d-flex align-items-start mb-2">
+                <span class="me-2 fw-bold" style="color: #ea580c; font-size: 1.2rem; line-height: 1;">•</span>
+                <span class="text-dark" style="font-size: 0.95rem;">${cleaned}</span>
+            </div>`;
+        }).join('');
+    },
+
     viewDetails(id) {
         const product = (this.products || []).find(p => p.id === id);
         if (!product) return;
 
         const content = document.getElementById('viewDetailsContent');
         if (content) {
-            content.innerHTML = `<p style="white-space: pre-wrap;">${product.details || ''}</p>`;
+            content.innerHTML = this.formatDetailsAsBullets(product.details);
         }
         
         const modalEl = document.getElementById('viewDetailsModal');
