@@ -203,7 +203,7 @@ const AdminDesktopProductsManager = {
         
         try {
             const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
-            const response = await fetch('https://eiris.onrender.com/api/admin/index-products/upload-image', {
+            const response = await fetch('https://eiris.onrender.com/api/admin/products/upload-image', {
                 method: 'POST',
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : ''
