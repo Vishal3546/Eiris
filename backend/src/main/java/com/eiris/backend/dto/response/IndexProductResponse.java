@@ -9,8 +9,7 @@ public class IndexProductResponse {
     private UUID id;
     private String name;
     private String category;
-    private Double price;
-    private Integer stock;
+
     private String imageUrl;
     private String details;
     private ZonedDateTime createdAt;
@@ -22,8 +21,7 @@ public class IndexProductResponse {
         this.id = product.getId();
         this.name = product.getName();
         this.category = product.getCategory();
-        this.price = product.getPrice();
-        this.stock = product.getStock();
+
         this.imageUrl = product.getImageUrl();
         this.details = product.getDetails();
         this.createdAt = product.getCreatedAt();
@@ -39,11 +37,7 @@ public class IndexProductResponse {
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
 
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
 
-    public Integer getStock() { return stock; }
-    public void setStock(Integer stock) { this.stock = stock; }
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }

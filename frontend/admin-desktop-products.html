@@ -144,26 +144,14 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#" data-sort="price-low-high" data-label="Price: Low to High" data-icon="bi-sort-numeric-up">
-                                        <span class="d-flex align-items-center"><i class="bi bi-sort-numeric-up me-2 text-success"></i>Price: Low to High</span>
+                                    <a class="dropdown-item" href="#" data-sort="name-a-z" data-label="Name: A to Z" data-icon="bi-sort-alpha-down">
+                                        <span class="d-flex align-items-center"><i class="bi bi-sort-alpha-down me-2 text-success"></i>Name: A to Z</span>
                                         <i class="bi bi-check-circle-fill fs-6 d-none"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#" data-sort="price-high-low" data-label="Price: High to Low" data-icon="bi-sort-numeric-down">
-                                        <span class="d-flex align-items-center"><i class="bi bi-sort-numeric-down me-2 text-warning"></i>Price: High to Low</span>
-                                        <i class="bi bi-check-circle-fill fs-6 d-none"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#" data-sort="stock-low-high" data-label="Stock: Low to High" data-icon="bi-bar-chart">
-                                        <span class="d-flex align-items-center"><i class="bi bi-bar-chart me-2 text-secondary"></i>Stock: Low to High</span>
-                                        <i class="bi bi-check-circle-fill fs-6 d-none"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#" data-sort="stock-high-low" data-label="Stock: High to Low" data-icon="bi-bar-chart-fill">
-                                        <span class="d-flex align-items-center"><i class="bi bi-bar-chart-fill me-2 text-primary"></i>Stock: High to Low</span>
+                                    <a class="dropdown-item" href="#" data-sort="name-z-a" data-label="Name: Z to A" data-icon="bi-sort-alpha-up">
+                                        <span class="d-flex align-items-center"><i class="bi bi-sort-alpha-up me-2 text-warning"></i>Name: Z to A</span>
                                         <i class="bi bi-check-circle-fill fs-6 d-none"></i>
                                     </a>
                                 </li>
@@ -182,11 +170,9 @@
                                 <thead class="glass-agency-panel-header">
                                     <tr class="align-middle text-nowrap">
                                         <th class="ps-4 py-3" style="width: 70px;">#</th>
+                                        <th class="py-3" style="width: 80px;">Image</th>
                                         <th class="py-3">Product Name</th>
                                         <th class="py-3">Category</th>
-                                        <th class="py-3">Price (₹)</th>
-                                        <th class="py-3">Stock Qty</th>
-                                        <th class="py-3">Image</th>
                                         <th class="py-3">Details</th>
                                         <th class="pe-4 py-3 text-end">Actions</th>
                                     </tr>
@@ -241,14 +227,7 @@
                                     <option value="Control Products">Control Products</option>
                                 </select>
                             </div>
-                            <div class="col-md-6">
-                                <label for="productPrice" class="form-label text-muted fw-bold">Price (₹)</label>
-                                <input type="number" class="form-control" id="productPrice" placeholder="e.g. 1299" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="productStock" class="form-label text-muted fw-bold">Stock Qty</label>
-                                <input type="number" class="form-control" id="productStock" placeholder="e.g. 50" required>
-                            </div>
+
                             <div class="col-12">
                                 <label for="productImage" class="form-label text-muted fw-bold">Product Image</label>
                                 <input type="file" class="form-control" id="productImage" accept="image/*" required>
@@ -294,14 +273,7 @@
                                     <option value="Control Products">Control Products</option>
                                 </select>
                             </div>
-                            <div class="col-md-6">
-                                <label for="editProductPrice" class="form-label text-muted fw-bold">Price (₹)</label>
-                                <input type="number" class="form-control" id="editProductPrice" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="editProductStock" class="form-label text-muted fw-bold">Stock Qty</label>
-                                <input type="number" class="form-control" id="editProductStock" required>
-                            </div>
+
                             <div class="col-12">
                                 <label for="editProductImage" class="form-label text-muted fw-bold">Update Image (Optional)</label>
                                 <input type="file" class="form-control" id="editProductImage" accept="image/*">

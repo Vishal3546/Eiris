@@ -26,8 +26,7 @@ public class IndexProductService {
         IndexProduct product = new IndexProduct();
         product.setName(request.getName());
         product.setCategory(request.getCategory());
-        product.setPrice(request.getPrice());
-        product.setStock(request.getStock());
+
         product.setImageUrl(request.getImageUrl());
         product.setDetails(request.getDetails());
 
@@ -65,8 +64,7 @@ public class IndexProductService {
 
         if (request.getName() != null) product.setName(request.getName());
         if (request.getCategory() != null) product.setCategory(request.getCategory());
-        if (request.getPrice() != null) product.setPrice(request.getPrice());
-        if (request.getStock() != null) product.setStock(request.getStock());
+
         if (request.getDetails() != null) product.setDetails(request.getDetails());
 
         // If a new image is provided, delete the old one

@@ -120,14 +120,10 @@ const AdminDesktopProductsManager = {
                 const tA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
                 const tB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
                 return tB - tA;
-            } else if (this.sortBy === 'price-low-high') {
-                return (Number(a.price) || 0) - (Number(b.price) || 0);
-            } else if (this.sortBy === 'price-high-low') {
-                return (Number(b.price) || 0) - (Number(a.price) || 0);
-            } else if (this.sortBy === 'stock-low-high') {
-                return (Number(a.stock) || 0) - (Number(b.stock) || 0);
-            } else if (this.sortBy === 'stock-high-low') {
-                return (Number(b.stock) || 0) - (Number(a.stock) || 0);
+            } else if (this.sortBy === 'name-a-z') {
+                return (a.name || '').localeCompare(b.name || '');
+            } else if (this.sortBy === 'name-z-a') {
+                return (b.name || '').localeCompare(a.name || '');
             }
             return 0;
         });
@@ -138,24 +134,17 @@ const AdminDesktopProductsManager = {
                 data: filtered,
                 currentPage: this.currentPage,
                 pageSize: this.pageSize,
-                colspan: 8,
+                colspan: 6,
                 emptyMessage: "No products found",
                 renderRow: (p, index) => {
-                    const priceFormatted = Number(p.price || 0).toLocaleString('en-IN');
                     return `
                         <tr>
                             <td class="ps-4 fw-bold text-muted">${index + 1}</td>
-                            <td class="fw-semibold text-night-blue">${p.name || '-'}</td>
-                            <td><span class="badge bg-light text-night-blue border px-2 py-1 rounded-pill">${p.category || 'General'}</span></td>
-                            <td class="fw-bold text-success">₹${priceFormatted}</td>
-                            <td>
-                                <span class="badge ${p.stock <= 10 ? 'bg-danger' : 'bg-primary'} bg-opacity-10 ${p.stock <= 10 ? 'text-danger' : 'text-primary'} border ${p.stock <= 10 ? 'border-danger' : 'border-primary'} px-2 py-1 rounded-pill">
-                                    ${p.stock || 0}
-                                </span>
-                            </td>
                             <td>
                                 <img src="${p.imageUrl || 'images/placeholder.jpg'}" alt="${p.name || 'Product'}" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
                             </td>
+                            <td class="fw-semibold text-night-blue">${p.name || '-'}</td>
+                            <td><span class="badge bg-light text-night-blue border px-2 py-1 rounded-pill">${p.category || 'General'}</span></td>
                             <td>
                                 <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="AdminDesktopProductsManager.viewDetails('${p.id}')">View</button>
                             </td>
@@ -175,26 +164,19 @@ const AdminDesktopProductsManager = {
             });
         } else {
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">No products found</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">No products found</td></tr>`;
                 return;
             }
             let html = '';
             filtered.forEach((p, index) => {
-                const priceFormatted = Number(p.price || 0).toLocaleString('en-IN');
                 html += `
                     <tr>
                         <td class="ps-4 fw-bold text-muted">${index + 1}</td>
-                        <td class="fw-semibold text-night-blue">${p.name || '-'}</td>
-                        <td><span class="badge bg-light text-night-blue border px-2 py-1 rounded-pill">${p.category || 'General'}</span></td>
-                        <td class="fw-bold text-success">₹${priceFormatted}</td>
-                        <td>
-                            <span class="badge ${p.stock <= 10 ? 'bg-danger' : 'bg-primary'} bg-opacity-10 ${p.stock <= 10 ? 'text-danger' : 'text-primary'} border ${p.stock <= 10 ? 'border-danger' : 'border-primary'} px-2 py-1 rounded-pill">
-                                ${p.stock || 0}
-                            </span>
-                        </td>
                         <td>
                             <img src="${p.imageUrl || 'images/placeholder.jpg'}" alt="${p.name || 'Product'}" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
                         </td>
+                        <td class="fw-semibold text-night-blue">${p.name || '-'}</td>
+                        <td><span class="badge bg-light text-night-blue border px-2 py-1 rounded-pill">${p.category || 'General'}</span></td>
                         <td>
                             <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="AdminDesktopProductsManager.viewDetails('${p.id}')">View</button>
                         </td>
@@ -254,8 +236,7 @@ const AdminDesktopProductsManager = {
             const payload = {
                 name: document.getElementById('productName').value,
                 category: document.getElementById('productCategory').value,
-                price: parseFloat(document.getElementById('productPrice').value),
-                stock: parseInt(document.getElementById('productStock').value, 10),
+
                 imageUrl: imageUrl || '',
                 details: document.getElementById('productDetails')?.value || ''
             };
@@ -296,8 +277,6 @@ const AdminDesktopProductsManager = {
         if (window.$ && $('#editProductCategory').hasClass('select2-hidden-accessible')) {
             $('#editProductCategory').val(product.category || '').trigger('change');
         }
-        document.getElementById('editProductPrice').value = product.price || 0;
-        document.getElementById('editProductStock').value = product.stock || 0;
         if (document.getElementById('editProductDetails')) {
             document.getElementById('editProductDetails').value = product.details || '';
         }
@@ -337,8 +316,7 @@ const AdminDesktopProductsManager = {
             const payload = {
                 name: document.getElementById('editProductName').value,
                 category: document.getElementById('editProductCategory').value,
-                price: parseFloat(document.getElementById('editProductPrice').value),
-                stock: parseInt(document.getElementById('editProductStock').value, 10),
+
                 details: document.getElementById('editProductDetails')?.value || ''
             };
 
