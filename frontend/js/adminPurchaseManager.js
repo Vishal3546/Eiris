@@ -32,6 +32,9 @@ const adminPurchaseManager = {
                 return { success: false, message: errorData.message || "Failed to update order status" };
             }
             
+            if (typeof window.updateAdminPurchaseRequestBadge === 'function') {
+                window.updateAdminPurchaseRequestBadge();
+            }
             return { success: true, message: "Order status updated to " + newStatus };
         } catch (e) {
             console.error("Error in updateOrderStatus:", e);

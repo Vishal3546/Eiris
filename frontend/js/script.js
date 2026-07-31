@@ -179,7 +179,51 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // 7. Global Admin Purchase Requests Pending Counter Badge in Sidebar
+    if (typeof window.updateAdminPurchaseRequestBadge === 'function') {
+        window.updateAdminPurchaseRequestBadge();
+        setInterval(window.updateAdminPurchaseRequestBadge, 30000);
+    }
+
 });
+
+// Global function to update Admin Purchase Requests Badge in sidebar
+window.updateAdminPurchaseRequestBadge = function() {
+    if (window.location.pathname.includes('admin-') && !window.location.pathname.includes('admin-login.html')) {
+        const adminToken = localStorage.getItem('admin_accessToken');
+        if (adminToken) {
+            fetch('https://eiris.onrender.com/api/admin/orders', {
+                headers: { 'Authorization': `Bearer ${adminToken}` }
+            })
+            .then(res => res.ok ? res.json() : [])
+            .then(orders => {
+                if (Array.isArray(orders)) {
+                    const pendingCount = orders.filter(o => o.status === 'PENDING').length;
+                    const purchaseLinks = document.querySelectorAll('a[href="admin-purchase.html"]');
+                    purchaseLinks.forEach(purchaseLink => {
+                        purchaseLink.classList.add('d-flex', 'align-items-center');
+                        let badge = purchaseLink.querySelector('#sidebarPurchaseRequestBadge');
+                        if (!badge) {
+                            badge = document.createElement('span');
+                            badge.id = 'sidebarPurchaseRequestBadge';
+                            badge.className = 'eiris-sidebar-badge d-none';
+                            purchaseLink.appendChild(badge);
+                        }
+                        if (pendingCount > 0) {
+                            badge.textContent = pendingCount > 99 ? '99+' : pendingCount;
+                            badge.classList.remove('d-none');
+                            badge.classList.add('d-inline-flex');
+                        } else {
+                            badge.classList.add('d-none');
+                            badge.classList.remove('d-inline-flex');
+                        }
+                    });
+                }
+            })
+            .catch(err => console.error("Error fetching purchase requests count for sidebar badge:", err));
+        }
+    }
+};
 
 // 7. Global Custom Alert to replace default browser alert()
 window.customAlert = function(message) {
