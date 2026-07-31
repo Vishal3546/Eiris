@@ -34,7 +34,8 @@ const PublicProductsManager = {
     async loadProducts() {
         try {
             // We use the public endpoint to get all products
-            const response = await fetch(`${API_BASE_URL || ''}/api/public/index-products`);
+            const baseUrl = typeof API_BASE_URL !== 'undefined' ? API_BASE_URL.replace(/\/api$/, '') : 'https://eiris.onrender.com';
+            const response = await fetch(`${baseUrl}/api/public/index-products`);
             if (response.ok) {
                 this.products = await response.json();
                 this.renderProducts();

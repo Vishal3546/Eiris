@@ -8,7 +8,8 @@ const PublicIndexManager = {
         if (!container) return;
 
         try {
-            const response = await fetch(`${API_BASE_URL || ''}/api/public/index-products/latest-per-category`);
+            const baseUrl = typeof API_BASE_URL !== 'undefined' ? API_BASE_URL.replace(/\/api$/, '') : 'https://eiris.onrender.com';
+            const response = await fetch(`${baseUrl}/api/public/index-products/latest-per-category`);
             if (response.ok) {
                 const products = await response.json();
                 this.renderProducts(products, container);
