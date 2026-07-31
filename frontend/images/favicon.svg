@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="favGradPrimary" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#f5e3ce" />
+      <stop offset="60%" stop-color="#e1b382" />
+      <stop offset="100%" stop-color="#c89666" />
+    </radialGradient>
+    <radialGradient id="favGradSecondary" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#e1b382" />
+      <stop offset="70%" stop-color="#c89666" />
+      <stop offset="100%" stop-color="#a87545" />
+    </radialGradient>
+    <radialGradient id="favGradLight" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="60%" stop-color="#e1b382" />
+      <stop offset="100%" stop-color="#c89666" />
+    </radialGradient>
+  </defs>
+  
+  <g>
+    <!-- Outer Ring (8 Dots, Center=200,200, R=130, r=28) -->
+    <!-- 0 deg (East) -->
+    <circle cx="330" cy="200" r="28" fill="url(#favGradLight)" />
+    <!-- 45 deg (South-East) -->
+    <circle cx="292" cy="292" r="28" fill="url(#favGradLight)" />
+    <!-- 90 deg (South) -->
+    <circle cx="200" cy="330" r="28" fill="url(#favGradPrimary)" />
+    <!-- 135 deg (South-West) -->
+    <circle cx="108" cy="292" r="28" fill="url(#favGradPrimary)" />
+    <!-- 180 deg (West) -->
+    <circle cx="70" cy="200" r="28" fill="url(#favGradPrimary)" />
+    <!-- 225 deg (North-West) -->
+    <circle cx="108" cy="108" r="28" fill="url(#favGradPrimary)" />
+    <!-- 270 deg (North) -->
+    <circle cx="200" cy="70" r="28" fill="url(#favGradPrimary)" />
+    <!-- 315 deg (North-East) -->
+    <circle cx="292" cy="108" r="28" fill="url(#favGradSecondary)" />
+
+    <!-- Inner Ring (8 Smaller Dots, Center=200,200, R=68, r=16) -->
+    <!-- 0 deg (East) -->
+    <circle cx="268" cy="200" r="16" fill="url(#favGradLight)" />
+    <!-- 45 deg (South-East) -->
+    <circle cx="248" cy="248" r="16" fill="url(#favGradLight)" />
+    <!-- 90 deg (South) -->
+    <circle cx="200" cy="268" r="16" fill="url(#favGradPrimary)" />
+    <!-- 135 deg (South-West) -->
+    <circle cx="152" cy="248" r="16" fill="url(#favGradPrimary)" />
+    <!-- 180 deg (West) -->
+    <circle cx="132" cy="200" r="16" fill="url(#favGradPrimary)" />
+    <!-- 225 deg (North-West) -->
+    <circle cx="152" cy="152" r="16" fill="url(#favGradPrimary)" />
+    <!-- 270 deg (North) -->
+    <circle cx="200" cy="132" r="16" fill="url(#favGradPrimary)" />
+    <!-- 315 deg (North-East) -->
+    <circle cx="248" cy="152" r="16" fill="url(#favGradSecondary)" />
+  </g>
+</svg>

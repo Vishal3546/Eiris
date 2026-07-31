@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <filter id="subtle-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <radialGradient id="dotGradPrimary" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#f5e3ce" />
+      <stop offset="60%" stop-color="#e1b382" />
+      <stop offset="100%" stop-color="#c89666" />
+    </radialGradient>
+    <radialGradient id="dotGradSecondary" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#e1b382" />
+      <stop offset="70%" stop-color="#c89666" />
+      <stop offset="100%" stop-color="#a87545" />
+    </radialGradient>
+    <radialGradient id="dotGradLight" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="60%" stop-color="#e1b382" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#c89666" stop-opacity="0.8" />
+    </radialGradient>
+  </defs>
+  
+  <g filter="url(#subtle-glow)">
+    <!-- Outer Ring (8 Dots, Center=200,200, R=130, r=26) -->
+    <!-- 0 deg (East) -->
+    <circle cx="330" cy="200" r="26" fill="url(#dotGradLight)" />
+    <!-- 45 deg (South-East) -->
+    <circle cx="292" cy="292" r="26" fill="url(#dotGradLight)" />
+    <!-- 90 deg (South) -->
+    <circle cx="200" cy="330" r="26" fill="url(#dotGradPrimary)" />
+    <!-- 135 deg (South-West) -->
+    <circle cx="108" cy="292" r="26" fill="url(#dotGradPrimary)" />
+    <!-- 180 deg (West) -->
+    <circle cx="70" cy="200" r="26" fill="url(#dotGradPrimary)" />
+    <!-- 225 deg (North-West) -->
+    <circle cx="108" cy="108" r="26" fill="url(#dotGradPrimary)" />
+    <!-- 270 deg (North) -->
+    <circle cx="200" cy="70" r="26" fill="url(#dotGradPrimary)" />
+    <!-- 315 deg (North-East) -->
+    <circle cx="292" cy="108" r="26" fill="url(#dotGradSecondary)" />
+
+    <!-- Inner Ring (8 Smaller Dots, Center=200,200, R=68, r=14) -->
+    <!-- 0 deg (East) -->
+    <circle cx="268" cy="200" r="14" fill="url(#dotGradLight)" />
+    <!-- 45 deg (South-East) -->
+    <circle cx="248" cy="248" r="14" fill="url(#dotGradLight)" />
+    <!-- 90 deg (South) -->
+    <circle cx="200" cy="268" r="14" fill="url(#dotGradPrimary)" />
+    <!-- 135 deg (South-West) -->
+    <circle cx="152" cy="248" r="14" fill="url(#dotGradPrimary)" />
+    <!-- 180 deg (West) -->
+    <circle cx="132" cy="200" r="14" fill="url(#dotGradPrimary)" />
+    <!-- 225 deg (North-West) -->
+    <circle cx="152" cy="152" r="14" fill="url(#dotGradPrimary)" />
+    <!-- 270 deg (North) -->
+    <circle cx="200" cy="132" r="14" fill="url(#dotGradPrimary)" />
+    <!-- 315 deg (North-East) -->
+    <circle cx="248" cy="152" r="14" fill="url(#dotGradSecondary)" />
+  </g>
+</svg>
