@@ -202,12 +202,19 @@ const AdminDesktopProductsManager = {
         formData.append('image', file);
         
         try {
-            const response = await apiService.post('/admin/index-products/upload-image', formData, {
+            const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
+            const response = await fetch('https://eiris.onrender.com/api/admin/index-products/upload-image', {
+                method: 'POST',
                 headers: {
-                    'Content-Type': undefined
-                }
+                    'Authorization': token ? `Bearer ${token}` : ''
+                },
+                body: formData
             });
-            return response.data.url;
+            if (!response.ok) {
+                throw new Error(`Request failed with status ${response.status}`);
+            }
+            const data = await response.json();
+            return data.url;
         } catch (error) {
             console.error('Error uploading image:', error);
             throw new Error('Image upload failed');
