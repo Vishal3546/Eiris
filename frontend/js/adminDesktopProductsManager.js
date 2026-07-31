@@ -202,11 +202,7 @@ const AdminDesktopProductsManager = {
         formData.append('image', file);
         
         try {
-            const response = await apiService.post('/admin/index-products/upload-image', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            const response = await apiService.post('/admin/index-products/upload-image', formData);
             return response.data.url;
         } catch (error) {
             console.error('Error uploading image:', error);
