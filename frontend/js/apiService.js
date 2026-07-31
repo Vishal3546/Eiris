@@ -123,6 +123,11 @@ const authService = {
         return response.data;
     },
 
+    async resetPassword(token, newPassword) {
+        const response = await apiService.post('/auth/reset-password', { token, newPassword });
+        return response.data;
+    },
+
     getAuthHeader() {
         const token = localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_accessToken' : 'agency_accessToken');
         return token ? { 'Authorization': `Bearer ${token}` } : {};

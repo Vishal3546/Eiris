@@ -44,4 +44,10 @@ public class AuthController {
         authService.forgotPassword(request.email());
         return ResponseEntity.ok("If this email is registered, a password reset link has been sent.");
     }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@Valid @RequestBody com.eiris.backend.dto.request.ResetPasswordRequest request) {
+        authService.resetPassword(request.token(), request.newPassword());
+        return ResponseEntity.ok("Password has been reset successfully.");
+    }
 }

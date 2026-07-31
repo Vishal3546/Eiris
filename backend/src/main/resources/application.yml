@@ -60,3 +60,15 @@ aws:
     endpoint: https://cjktlszbeasdlqpdhjtw.supabase.co/storage/v1/s3
     region: ap-northeast-1
     bucket: Eiris
+
+spring.mail:
+  host: smtp.gmail.com
+  port: 587
+  username: anil9824530099@gmail.com
+  password: favbmtzswaaglohb
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true

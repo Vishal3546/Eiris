@@ -24,14 +24,16 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final UserMapper userMapper;
+    private final EmailService emailService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, AuthenticationManager authenticationManager, UserDetailsService userDetailsService, UserMapper userMapper) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, AuthenticationManager authenticationManager, UserDetailsService userDetailsService, UserMapper userMapper, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.userMapper = userMapper;
+        this.emailService = emailService;
     }
 
     public AuthResponse register(RegisterRequest request) {
@@ -89,13 +91,33 @@ public class AuthService {
     }
 
     public void forgotPassword(String email) {
-        // In a real application, you would generate a secure reset token, save it to the DB,
-        // and send an email using an SMTP service like JavaMailSender.
-        // For now, we mock it and just log to the console.
         userRepository.findByEmail(email).ifPresentOrElse(
-                user -> System.out.println("MOCK EMAIL SENT: Password reset link sent to " + user.getEmail()),
+                user -> {
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+                    // Generate a temporary JWT token for password reset (valid for 15 minutes usually, but we use the regular generator for simplicity here)
+                    String resetToken = jwtUtil.generateToken(userDetails); 
+                    emailService.sendPasswordResetEmail(user.getEmail(), resetToken);
+                    System.out.println("Email sent to: " + user.getEmail());
+                },
                 () -> System.out.println("MOCK EMAIL SKIPPED: Email not found " + email)
         );
-        // We do not throw an error if the email is not found to prevent email enumeration attacks.
+    }
+
+    public void resetPassword(String token, String newPassword) {
+        String userEmail = jwtUtil.extractUsername(token);
+        
+        if (userEmail != null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+            
+            if (jwtUtil.validateToken(token, userDetails)) {
+                User user = userRepository.findByEmail(userEmail)
+                        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                
+                user.setPassword(passwordEncoder.encode(newPassword));
+                userRepository.save(user);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Invalid or expired password reset token");
     }
 }
