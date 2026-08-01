@@ -39,6 +39,20 @@ spring:
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: anil9824530099@gmail.com
+    password: favbmtzswaaglohb
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 jwt:
   secret: EirisSuperSecretKeyThatNeedsToBeVeryLongAndSecureEnoughForHS256Algorithm
   expiration: 86400000 # 24 hours in ms
@@ -61,17 +75,3 @@ aws:
     region: ap-northeast-1
     bucket: Eiris
 
-spring.mail:
-  host: smtp.gmail.com
-  port: 587
-  username: anil9824530099@gmail.com
-  password: favbmtzswaaglohb
-  properties:
-    mail:
-      smtp:
-        auth: true
-        starttls:
-          enable: true
-        connectiontimeout: 5000
-        timeout: 5000
-        writetimeout: 5000
