@@ -15,7 +15,7 @@ public class TestBackend {
         
         // Generate JWT token for admin
         String token = Jwts.builder()
-                .subject("admin@eiris.in")
+                .subject("anil9824530099@gmail.com")
                 .claim("role", "ROLE_ADMIN")
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 86400000))

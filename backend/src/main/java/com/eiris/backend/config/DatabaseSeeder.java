@@ -28,7 +28,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         logger.info("Running Database Seeder...");
 
         // Ensure Admin user exists
-        String adminEmail = "admin@eiris.in";
+        String adminEmail = "anil9824530099@gmail.com";
         if (userRepository.findByEmail(adminEmail).isEmpty()) {
             User admin = new User();
             admin.setId(UUID.randomUUID());
@@ -38,12 +38,13 @@ public class DatabaseSeeder implements CommandLineRunner {
             userRepository.save(admin);
             logger.info("Created default Admin user: {}", adminEmail);
         } else {
-            logger.info("Admin user already exists.");
-            // Update password just in case it was inserted incorrectly
+            logger.info("Admin user already exists: {}", adminEmail);
             User admin = userRepository.findByEmail(adminEmail).get();
-            admin.setPassword(passwordEncoder.encode("admin123"));
-            userRepository.save(admin);
-            logger.info("Updated Admin password to match BCrypt formatting.");
+            if (!"ADMIN".equals(admin.getRole())) {
+                admin.setRole("ADMIN");
+                userRepository.save(admin);
+                logger.info("Updated user role to ADMIN: {}", adminEmail);
+            }
         }
 
         // Ensure Agency user exists
