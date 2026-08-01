@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,7 +27,7 @@
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar text-white position-relative animate-slide-right" style="width: 280px; background-color: var(--eiris-night-blue-shadow);">
             <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
-                <i class="bi bi-shield-fill-exclamation text-sand-tan me-2" style="font-size: 30px;"></i>
+                <img src="images/logo-icon.svg" alt="Eiris Logo" style="width: 34px; height: 34px; object-fit: contain;" class="me-2">
                 <h4 class="mb-0 fw-bold text-sand-tan">Agency Portal</h4>
             </div>
             <ul class="nav flex-column p-3 gap-2">
@@ -156,7 +156,7 @@
                                         <th class="ps-4 py-3" style="width: 70px;">#</th>
                                         <th class="py-3">Product Name</th>
                                         <th class="py-3">Category</th>
-                                        <th class="py-3">Price (₹)</th>
+                                        <th class="py-3">Price (â‚¹)</th>
                                         <th class="py-3">Availability</th>
                                         <th class="py-3 text-center" style="width: 160px;">Quantity</th>
                                         <th class="pe-4 py-3 text-end" style="width: 180px;">Action</th>
@@ -282,7 +282,7 @@
                         const inStock = (!p.hasOwnProperty('stock') || p.stock > 0);
                         let availabilityBadge = '';
                         if (p.stock > 10 || !p.hasOwnProperty('stock')) {
-                            availabilityBadge = `<span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-3 py-2 rounded-pill fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> In Stock (${p.stock || '∞'})</span>`;
+                            availabilityBadge = `<span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-3 py-2 rounded-pill fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> In Stock (${p.stock || 'âˆž'})</span>`;
                         } else if (p.stock > 0) {
                             availabilityBadge = `<span class="badge bg-warning-subtle text-warning-emphasis border border-warning border-opacity-25 px-3 py-2 rounded-pill fw-semibold"><i class="bi bi-exclamation-circle-fill me-1"></i> Low: ${p.stock}</span>`;
                         } else {
@@ -296,7 +296,7 @@
                             <td class="ps-4 fw-bold text-muted">${index + 1}</td>
                             <td class="fw-bold text-night-blue-shadow">${p.name || '-'}</td>
                             <td>${categoryBadge}</td>
-                            <td class="fw-bold text-sand-tan-shadow">₹${priceFormatted} / unit</td>
+                            <td class="fw-bold text-sand-tan-shadow">â‚¹${priceFormatted} / unit</td>
                             <td>${availabilityBadge}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center align-items-center gap-2">
@@ -380,7 +380,7 @@
                 
                 if (cart.length === 0) {
                     container.innerHTML = '<div class="text-center text-muted mt-5"><i class="bi bi-cart-x fs-1"></i><p class="mt-2">Your cart is empty</p></div>';
-                    totalEl.innerText = '₹0';
+                    totalEl.innerText = 'â‚¹0';
                     return;
                 }
 
@@ -393,7 +393,7 @@
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="fw-bold mb-1 text-night-blue-shadow">${item.name}</h6>
-                            <div class="text-muted small mb-2">₹${item.price} / unit</div>
+                            <div class="text-muted small mb-2">â‚¹${item.price} / unit</div>
                             <div class="d-flex align-items-center gap-2">
                                 <button class="btn btn-sm btn-outline-secondary rounded-circle cart-minus-btn" style="width: 24px; height: 24px; padding: 0; line-height: 1;">-</button>
                                 <input type="number" class="form-control form-control-sm text-center fw-bold cart-qty-input" value="${item.quantity}" min="1" style="width: 48px !important; height: 26px !important; padding: 0 !important; text-align: center !important; font-size: 0.9rem !important; color: #2D545E !important; background-color: #ffffff !important;">
@@ -401,13 +401,13 @@
                             </div>
                         </div>
                         <div class="text-end">
-                            <div class="fw-bold text-sand-tan-shadow mb-2">₹${item.price * item.quantity}</div>
+                            <div class="fw-bold text-sand-tan-shadow mb-2">â‚¹${item.price * item.quantity}</div>
                             <button class="btn btn-sm text-danger cart-remove-btn p-0"><i class="bi bi-trash"></i></button>
                         </div>
                     </div>`;
                 });
                 container.innerHTML = html;
-                totalEl.innerText = '₹' + window.cartManager.getTotalPrice();
+                totalEl.innerText = 'â‚¹' + window.cartManager.getTotalPrice();
             }
 
             window.addEventListener('cartChanged', () => {
@@ -574,7 +574,7 @@
             <div class="border-top p-3 bg-light mt-auto shadow">
                 <div class="d-flex justify-content-between mb-3 fw-bold fs-5">
                     <span>Total Estimate:</span>
-                    <span id="cartTotal" class="text-sand-tan-shadow">₹0</span>
+                    <span id="cartTotal" class="text-sand-tan-shadow">â‚¹0</span>
                 </div>
                 <button class="btn btn-secondary-custom w-100 rounded-pill py-2 fw-bold" id="checkoutBtn">Proceed to Checkout</button>
             </div>

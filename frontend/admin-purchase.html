@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,7 @@
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar bg-night-blue text-white position-relative animate-slide-right" style="width: 280px;">
             <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
-                <i class="bi bi-car-front-fill text-sand-tan me-2" style="font-size: 30px;"></i>
+                <img src="images/logo-icon.svg" alt="Eiris Logo" style="width: 34px; height: 34px; object-fit: contain;" class="me-2">
                 <h4 class="mb-0 fw-bold text-sand-tan">Admin Portal</h4>
             </div>
             <ul class="nav flex-column p-3 gap-2">
@@ -296,10 +296,10 @@
                                 <td>
                                     <div class="fw-bold">${order.productName || '-'}</div>
                                     <div class="text-muted small">
-                                        Qty: <span class="badge bg-night-blue bg-opacity-75 text-white px-2 py-0 rounded-pill">${order.quantity || 1}</span> • ₹${unitPriceFormatted}/unit
+                                        Qty: <span class="badge bg-night-blue bg-opacity-75 text-white px-2 py-0 rounded-pill">${order.quantity || 1}</span> â€¢ â‚¹${unitPriceFormatted}/unit
                                     </div>
                                 </td>
-                                <td class="fw-bold text-sand-tan-shadow fs-6">₹${totalPriceFormatted}</td>
+                                <td class="fw-bold text-sand-tan-shadow fs-6">â‚¹${totalPriceFormatted}</td>
                                 <td>${statusBadge}</td>
                                 <td class="text-muted small">${dateStr}</td>
                                 <td class="pe-4 text-end">${actionBtns}</td>

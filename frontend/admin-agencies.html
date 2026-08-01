@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -24,7 +24,7 @@
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar bg-night-blue text-white position-relative animate-slide-right" style="width: 280px;">
             <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
-                <i class="bi bi-car-front-fill text-sand-tan me-2" style="font-size: 30px;"></i>
+                <img src="images/logo-icon.svg" alt="Eiris Logo" style="width: 34px; height: 34px; object-fit: contain;" class="me-2">
                 <h4 class="mb-0 fw-bold text-sand-tan">Admin Portal</h4>
             </div>
             <ul class="nav flex-column p-3 gap-2">
@@ -341,7 +341,7 @@
                 emptyMessage: "No agencies found. Add a new one!",
                 renderRow: (agency) => {
                     const rawPassword = agency.rawPassword || 'N/A';
-                    const hiddenPassword = '•'.repeat(8);
+                    const hiddenPassword = 'â€¢'.repeat(8);
                     return `
                         <tr>
                             <td class="ps-4 fw-bold">
@@ -401,7 +401,7 @@
                 textEl.textContent = rawPassword;
                 iconEl.classList.replace('bi-eye-slash-fill', 'bi-eye-fill');
             } else {
-                textEl.textContent = '••••••••';
+                textEl.textContent = 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢';
                 iconEl.classList.replace('bi-eye-fill', 'bi-eye-slash-fill');
             }
         }

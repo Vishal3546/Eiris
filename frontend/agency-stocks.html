@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -22,7 +22,7 @@
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar text-white position-relative animate-slide-right" style="width: 280px; background-color: var(--eiris-night-blue-shadow);">
             <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
-                <i class="bi bi-shield-fill-exclamation text-sand-tan me-2" style="font-size: 30px;"></i>
+                <img src="images/logo-icon.svg" alt="Eiris Logo" style="width: 34px; height: 34px; object-fit: contain;" class="me-2">
                 <h4 class="mb-0 fw-bold text-sand-tan">Agency Portal</h4>
             </div>
             <ul class="nav flex-column p-3 gap-2">
@@ -102,7 +102,7 @@
                                     <h6 class="text-white-50 text-uppercase fw-bold mb-0 text-dark">Estimated Value</h6>
                                     <i class="bi bi-currency-rupee fs-3 opacity-50 text-dark"></i>
                                 </div>
-                                <h2 class="fw-bold mb-0 text-dark">₹<span id="metricTotalValue">0</span></h2>
+                                <h2 class="fw-bold mb-0 text-dark">â‚¹<span id="metricTotalValue">0</span></h2>
                             </div>
                         </div>
                     </div>
@@ -405,7 +405,7 @@
                                 <td>
                                     <span class="badge bg-night-blue bg-opacity-75 text-white px-3 py-1 rounded-pill">${order.quantity || 1} units</span>
                                 </td>
-                                <td class="fw-bold text-sand-tan-shadow fs-6">₹${Number(order.totalPrice || 0).toLocaleString('en-IN')}</td>
+                                <td class="fw-bold text-sand-tan-shadow fs-6">â‚¹${Number(order.totalPrice || 0).toLocaleString('en-IN')}</td>
                                 <td>
                                     <div>${statusBadge}</div>
                                     <div class="small text-muted mt-1">${dateStr}</div>
@@ -467,7 +467,7 @@
                                 <td class="ps-4 fw-bold text-muted">${index + 1}</td>
                                 <td>
                                     <div class="fw-bold text-night-blue-shadow fs-6">${item.name}</div>
-                                    <div class="text-muted small">₹${Number(item.price || 0).toLocaleString('en-IN')}/unit</div>
+                                    <div class="text-muted small">â‚¹${Number(item.price || 0).toLocaleString('en-IN')}/unit</div>
                                 </td>
                                 <td><span class="badge bg-light text-dark border px-3 py-2 rounded-pill">${item.category || 'General'}</span></td>
                                 <td><span class="fw-bold fs-6 ${stockClass}">${item.quantity}</span> <span class="text-muted small">units</span></td>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -49,7 +49,7 @@
         <!-- Sidebar -->
         <div id="sidebar" class="sidebar bg-night-blue text-white position-relative animate-slide-right" style="width: 280px;">
             <div class="p-4 d-flex align-items-center border-bottom border-secondary border-opacity-25">
-                <i class="bi bi-car-front-fill text-sand-tan me-2" style="font-size: 30px;"></i>
+                <img src="images/logo-icon.svg" alt="Eiris Logo" style="width: 34px; height: 34px; object-fit: contain;" class="me-2">
                 <h4 class="mb-0 fw-bold text-sand-tan">Admin Portal</h4>
             </div>
             <ul class="nav flex-column p-3 gap-2">
@@ -184,7 +184,7 @@
                                         <th class="ps-4 py-3" style="width: 70px;">#</th>
                                         <th class="py-3">Product Name</th>
                                         <th class="py-3">Category</th>
-                                        <th class="py-3">Price (₹)</th>
+                                        <th class="py-3">Price (â‚¹)</th>
                                         <th class="py-3">Stock Qty</th>
                                         <th class="pe-4 py-3 text-end">Actions</th>
                                     </tr>
@@ -240,7 +240,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="productPrice" class="form-label text-muted fw-bold">Price (₹)</label>
+                                <label for="productPrice" class="form-label text-muted fw-bold">Price (â‚¹)</label>
                                 <input type="number" class="form-control" id="productPrice" placeholder="e.g. 1299" required>
                             </div>
                             <div class="col-md-6">
@@ -285,7 +285,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="editProductPrice" class="form-label text-muted fw-bold">Price (₹)</label>
+                                <label for="editProductPrice" class="form-label text-muted fw-bold">Price (â‚¹)</label>
                                 <input type="number" class="form-control" id="editProductPrice" required>
                             </div>
                             <div class="col-md-6">
@@ -427,7 +427,7 @@
                             <td class="ps-4 fw-bold text-muted">${index + 1}</td>
                             <td class="fw-bold text-night-blue-shadow">${p.name || '-'}</td>
                             <td>${categoryBadge}</td>
-                            <td class="fw-bold text-sand-tan-shadow">₹${priceFormatted}</td>
+                            <td class="fw-bold text-sand-tan-shadow">â‚¹${priceFormatted}</td>
                             <td>${stockBadge}</td>
                             <td class="pe-4 text-end">
                                 <div class="d-flex justify-content-end gap-2 flex-nowrap">
