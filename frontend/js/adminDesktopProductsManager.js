@@ -11,7 +11,7 @@ const AdminDesktopProductsManager = {
         if (typeof authService !== 'undefined') {
             const user = authService.getCurrentUser();
             if (!user || user.role !== 'ADMIN') {
-                window.location.href = 'admin-login.html';
+                window.location.replace('admin-login.html');
                 return;
             }
         }

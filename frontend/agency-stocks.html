@@ -314,7 +314,7 @@
             const user = JSON.parse(localStorage.getItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user') || '{}');
             
             if (!token || user.role !== 'AGENCY') {
-                window.location.href = 'index.html';
+                window.location.replace('agency-login.html');
                 return;
             }
 
@@ -673,7 +673,7 @@
                 localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken');
                 localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user');
             }
-            window.location.href = 'index.html';
+            window.location.replace('index.html');
         }
     </script>
 

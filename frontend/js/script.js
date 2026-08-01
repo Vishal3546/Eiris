@@ -5,15 +5,28 @@
     // Auth Check
     if (currentPath && currentPath.startsWith('agency-') && currentPath !== 'agency-login.html') {
         if (!localStorage.getItem('agency_accessToken')) {
-            window.location.href = 'agency-login.html';
+            window.location.replace('agency-login.html');
             return;
         }
-    } else if (currentPath && currentPath.startsWith('admin-') && currentPath !== 'admin-login.html') {
+    } else if (currentPath && currentPath.startsWith('admin-') && currentPath !== 'admin-login.html' && currentPath !== 'admin-reset-password.html') {
         if (!localStorage.getItem('admin_accessToken')) {
-            window.location.href = 'admin-login.html';
+            window.location.replace('admin-login.html');
             return;
         }
     }
+
+    // Prevent mobile back-button BFCache from showing protected page after logout
+    window.addEventListener('pageshow', function(event) {
+        if (currentPath && currentPath.startsWith('agency-') && currentPath !== 'agency-login.html') {
+            if (!localStorage.getItem('agency_accessToken')) {
+                window.location.replace('agency-login.html');
+            }
+        } else if (currentPath && currentPath.startsWith('admin-') && currentPath !== 'admin-login.html' && currentPath !== 'admin-reset-password.html') {
+            if (!localStorage.getItem('admin_accessToken')) {
+                window.location.replace('admin-login.html');
+            }
+        }
+    });
 
     // Global fetch interceptor to catch 401/403
     const originalFetch = window.fetch;
@@ -27,12 +40,12 @@
                     localStorage.removeItem('agency_accessToken');
                     localStorage.removeItem('agency_refreshToken');
                     localStorage.removeItem('agency_user');
-                    window.location.href = 'agency-login.html';
+                    window.location.replace('agency-login.html');
                 } else {
                     localStorage.removeItem('admin_accessToken');
                     localStorage.removeItem('admin_refreshToken');
                     localStorage.removeItem('admin_user');
-                    window.location.href = 'admin-login.html';
+                    window.location.replace('admin-login.html');
                 }
             }
         }

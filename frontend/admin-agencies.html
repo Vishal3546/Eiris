@@ -294,7 +294,7 @@
                 localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_refreshToken' : 'agency_refreshToken');
                 localStorage.removeItem(window.location.pathname.includes('admin-') ? 'admin_user' : 'agency_user');
             }
-            window.location.href = 'index.html';
+            window.location.replace('index.html');
         }
     </script>
 
@@ -322,7 +322,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             const user = authService.getCurrentUser();
             if (!user || user.role !== 'ADMIN') {
-                window.location.href = 'admin-login.html';
+                window.location.replace('admin-login.html');
                 return;
             }
             loadAgencies();
