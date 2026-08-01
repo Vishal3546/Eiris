@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -188,7 +188,7 @@
                                     </div>
                                     <div>
                                         <p class="text-muted mb-0 small fw-bold text-uppercase">Total Revenue</p>
-                                        <h4 class="mb-1 fw-bold" id="metricRevenue">â‚¹0</h4>
+                                        <h4 class="mb-1 fw-bold" id="metricRevenue">₹0</h4>
                                         <span class="text-success fw-semibold" style="font-size: 12px;">View Sales <i class="bi bi-arrow-right"></i></span>
                                     </div>
                                 </div>
@@ -461,7 +461,7 @@
                 // Fetch Metrics
                 const metrics = await adminAgencyService.getAgencyMetrics(id);
                 document.getElementById('metricStock').textContent = metrics.totalItems;
-                document.getElementById('metricRevenue').textContent = 'â‚¹' + metrics.totalValue.toLocaleString('en-IN');
+                document.getElementById('metricRevenue').textContent = '₹' + metrics.totalValue.toLocaleString('en-IN');
                 document.getElementById('metricLowStock').textContent = metrics.lowStockCount;
 
                 // Fetch Clients
@@ -535,7 +535,7 @@
             
             clients.forEach((c, index) => {
                 const date = c.createdAt ? new Date(c.createdAt).toLocaleDateString('en-IN') : 'N/A';
-                const location = [c.clientCity, c.clientGstNo ? `GST: ${c.clientGstNo}` : (c.clientState || null)].filter(Boolean).join(' â€¢ ');
+                const location = [c.clientCity, c.clientGstNo ? `GST: ${c.clientGstNo}` : (c.clientState || null)].filter(Boolean).join(' • ');
                 const row = `
                     <tr class="align-middle">
                         <td class="ps-4 fw-bold text-muted">${index + 1}</td>
@@ -644,7 +644,7 @@
                             <div class="fw-bold text-night-blue-shadow fs-6">${item.name}</div>
                         </td>
                         <td><span class="badge bg-light text-dark border px-3 py-2 rounded-pill">${item.category || 'General'}</span></td>
-                        <td class="fw-bold text-muted">â‚¹${Number(item.price || 0).toLocaleString('en-IN')}/unit</td>
+                        <td class="fw-bold text-muted">₹${Number(item.price || 0).toLocaleString('en-IN')}/unit</td>
                         <td>
                             <span class="fw-bold fs-6 ${stockClass}">${item.quantity}</span> <span class="text-muted small">units</span>
                         </td>
@@ -681,7 +681,7 @@
 
             if (summaryText) {
                 const totalRevenue = filtered.reduce((acc, s) => acc + (s.totalPrice || 0), 0);
-                summaryText.innerHTML = `Showing <strong>${filtered.length}</strong> transactions | Total: <strong class="text-success fs-6">â‚¹${totalRevenue.toLocaleString('en-IN')}</strong>`;
+                summaryText.innerHTML = `Showing <strong>${filtered.length}</strong> transactions | Total: <strong class="text-success fs-6">₹${totalRevenue.toLocaleString('en-IN')}</strong>`;
             }
             
             if(filtered.length === 0) {
@@ -702,8 +702,8 @@
                         <td class="fw-bold text-night-blue-shadow">${sale.productName || '-'}</td>
                         <td><span class="badge bg-light text-dark border px-2 py-1 rounded-pill">${sale.category || 'General'}</span></td>
                         <td><span class="fw-bold">${sale.quantity}</span> units</td>
-                        <td class="text-muted">â‚¹${Number(sale.unitPrice || 0).toLocaleString('en-IN')}</td>
-                        <td class="pe-4 text-end fw-bold text-sand-tan-shadow fs-6">â‚¹${Number(sale.totalPrice || 0).toLocaleString('en-IN')}</td>
+                        <td class="text-muted">₹${Number(sale.unitPrice || 0).toLocaleString('en-IN')}</td>
+                        <td class="pe-4 text-end fw-bold text-sand-tan-shadow fs-6">₹${Number(sale.totalPrice || 0).toLocaleString('en-IN')}</td>
                     </tr>
                 `;
                 tbody.insertAdjacentHTML('beforeend', row);

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -107,13 +107,13 @@
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="#" data-sort="high-to-low">
-                                            <span class="d-flex align-items-center"><i class="bi bi-sort-down me-2 text-success"></i>Sales: High to Low (â‚¹)</span>
+                                            <span class="d-flex align-items-center"><i class="bi bi-sort-down me-2 text-success"></i>Sales: High to Low (₹)</span>
                                             <i class="bi bi-check-circle-fill fs-6 d-none"></i>
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="#" data-sort="low-to-high">
-                                            <span class="d-flex align-items-center"><i class="bi bi-sort-up me-2 text-warning"></i>Sales: Low to High (â‚¹)</span>
+                                            <span class="d-flex align-items-center"><i class="bi bi-sort-up me-2 text-warning"></i>Sales: Low to High (₹)</span>
                                             <i class="bi bi-check-circle-fill fs-6 d-none"></i>
                                         </a>
                                     </li>
@@ -417,7 +417,7 @@
                                     <span class="badge bg-light text-dark border"><i class="bi bi-file-earmark-text me-1"></i>${client.gstNo || 'N/A'}</span>
                                 </div>
                             </td>
-                            <td class="fw-bold text-success">â‚¹${client.sales.toLocaleString('en-IN')}</td>
+                            <td class="fw-bold text-success">₹${client.sales.toLocaleString('en-IN')}</td>
                             <td class="pe-4 text-end">
                                 <div class="d-flex justify-content-end gap-2 flex-nowrap">
                                     <button class="btn btn-sm btn-outline-primary rounded-circle" title="Edit" onclick="openEditClient('${client.id}')"><i class="bi bi-pencil-fill"></i></button>
@@ -468,8 +468,8 @@
                 // Update trigger button label and icon
                 const labels = {
                     'default': { text: 'Sort by: Default', icon: 'bi-funnel' },
-                    'high-to-low': { text: 'Sales: High to Low (â‚¹)', icon: 'bi-sort-down' },
-                    'low-to-high': { text: 'Sales: Low to High (â‚¹)', icon: 'bi-sort-up' }
+                    'high-to-low': { text: 'Sales: High to Low (₹)', icon: 'bi-sort-down' },
+                    'low-to-high': { text: 'Sales: Low to High (₹)', icon: 'bi-sort-up' }
                 };
                 
                 const itemInfo = labels[sortValue] || labels['default'];

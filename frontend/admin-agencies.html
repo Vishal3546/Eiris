@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -341,7 +341,7 @@
                 emptyMessage: "No agencies found. Add a new one!",
                 renderRow: (agency) => {
                     const rawPassword = agency.rawPassword || 'N/A';
-                    const hiddenPassword = 'â€¢'.repeat(8);
+                    const hiddenPassword = '•'.repeat(8);
                     return `
                         <tr>
                             <td class="ps-4 fw-bold">
@@ -401,7 +401,7 @@
                 textEl.textContent = rawPassword;
                 iconEl.classList.replace('bi-eye-slash-fill', 'bi-eye-fill');
             } else {
-                textEl.textContent = 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢';
+                textEl.textContent = '••••••••';
                 iconEl.classList.replace('bi-eye-fill', 'bi-eye-slash-fill');
             }
         }
