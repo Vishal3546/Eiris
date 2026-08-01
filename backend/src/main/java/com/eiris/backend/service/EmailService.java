@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class EmailService {
@@ -31,6 +32,16 @@ public class EmailService {
                 "If you did not request this, please ignore this email.\n\n" +
                 "Thanks,\nEiris Support Team");
 
-        mailSender.send(message);
+        CompletableFuture.runAsync(() -> {
+            try {
+                mailSender.send(message);
+                System.out.println("Password reset email sent successfully to " + to);
+            } catch (Exception e) {
+                System.err.println("Failed to send password reset email to " + to + ": " + e.getMessage());
+                System.out.println("===== FALLBACK: PASSWORD RESET LINK =====");
+                System.out.println("Reset URL for " + to + ": " + resetUrl);
+                System.out.println("=========================================");
+            }
+        });
     }
 }
