@@ -527,6 +527,7 @@
                 // Filter to show low/out of stock items
                 const lowStockItems = currentAgencyInventory.filter(item => (item.quantity || 0) < 10);
                 renderInventory(lowStockItems, 'LOW_STOCK');
+            });
         }
 
 
