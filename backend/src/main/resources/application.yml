@@ -75,3 +75,11 @@ aws:
     region: ap-northeast-1
     bucket: Eiris
 
+email:
+  resend:
+    api-key: ${RESEND_API_KEY:}
+    from: "Eiris Support <onboarding@resend.dev>"
+  brevo:
+    api-key: ${BREVO_API_KEY:}
+    from: "anil9824530099@gmail.com"
+
