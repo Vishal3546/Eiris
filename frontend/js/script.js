@@ -1,14 +1,14 @@
 // 0. Global Auth Check and Fetch Interceptor
 (function() {
-    const currentPath = window.location.pathname.split('/').pop();
+    const currentPath = (window.location.pathname.split('/').pop() || '').replace(/\.html$/, '');
     
     // Auth Check
-    if (currentPath && currentPath.startsWith('agency-') && currentPath !== 'agency-login.html') {
+    if (currentPath && currentPath.startsWith('agency-') && currentPath !== 'agency-login') {
         if (!localStorage.getItem('agency_accessToken')) {
             window.location.replace('agency-login.html');
             return;
         }
-    } else if (currentPath && currentPath.startsWith('admin-') && currentPath !== 'admin-login.html' && currentPath !== 'admin-reset-password.html') {
+    } else if (currentPath && currentPath.startsWith('admin-') && currentPath !== 'admin-login' && currentPath !== 'admin-reset-password') {
         if (!localStorage.getItem('admin_accessToken')) {
             window.location.replace('admin-login.html');
             return;
@@ -17,11 +17,11 @@
 
     // Prevent mobile back-button BFCache from showing protected page after logout
     window.addEventListener('pageshow', function(event) {
-        if (currentPath && currentPath.startsWith('agency-') && currentPath !== 'agency-login.html') {
+        if (currentPath && currentPath.startsWith('agency-') && currentPath !== 'agency-login') {
             if (!localStorage.getItem('agency_accessToken')) {
                 window.location.replace('agency-login.html');
             }
-        } else if (currentPath && currentPath.startsWith('admin-') && currentPath !== 'admin-login.html' && currentPath !== 'admin-reset-password.html') {
+        } else if (currentPath && currentPath.startsWith('admin-') && currentPath !== 'admin-login' && currentPath !== 'admin-reset-password') {
             if (!localStorage.getItem('admin_accessToken')) {
                 window.location.replace('admin-login.html');
             }
@@ -34,7 +34,7 @@
         const response = await originalFetch.apply(this, args);
         if (response.status === 401 || response.status === 403) {
             if (currentPath && (currentPath.startsWith('agency-') || currentPath.startsWith('admin-')) 
-                && currentPath !== 'agency-login.html' && currentPath !== 'admin-login.html') {
+                && currentPath !== 'agency-login' && currentPath !== 'admin-login') {
                 console.error("Authentication failed. Redirecting to login...");
                 if (currentPath.startsWith('agency-')) {
                     localStorage.removeItem('agency_accessToken');
@@ -82,13 +82,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 2. Active Link Handling for Sidebars
     // This highlights the current page in the sidebar based on the URL
-    const currentPath = window.location.pathname.split('/').pop();
+    const rawPath = window.location.pathname.split('/').pop();
+    const currentPath = (rawPath || '').replace(/\.html$/, '');
     
     if (currentPath) {
         const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
-            const linkHref = link.getAttribute('href');
-            if (linkHref === currentPath) {
+            const linkHref = (link.getAttribute('href') || '').replace(/\.html$/, '');
+            if (linkHref && linkHref === currentPath) {
                 // Add active styles (Bootstrap primary/custom colors)
                 link.classList.remove('opacity-75', 'custom-hover');
                 
@@ -202,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Global function to update Admin Purchase Requests Badge in sidebar
 window.updateAdminPurchaseRequestBadge = function() {
-    if (window.location.pathname.includes('admin-') && !window.location.pathname.includes('admin-login.html')) {
+    if (window.location.pathname.includes('admin-') && !window.location.pathname.includes('admin-login')) {
         const adminToken = localStorage.getItem('admin_accessToken');
         if (adminToken) {
             fetch('https://eiris.onrender.com/api/admin/orders', {
@@ -212,7 +213,7 @@ window.updateAdminPurchaseRequestBadge = function() {
             .then(orders => {
                 if (Array.isArray(orders)) {
                     const pendingCount = orders.filter(o => o.status === 'PENDING').length;
-                    const purchaseLinks = document.querySelectorAll('a[href="admin-purchase.html"]');
+                    const purchaseLinks = document.querySelectorAll('a[href*="admin-purchase"]');
                     purchaseLinks.forEach(purchaseLink => {
                         purchaseLink.classList.add('d-flex', 'align-items-center');
                         let badge = purchaseLink.querySelector('#sidebarPurchaseRequestBadge');

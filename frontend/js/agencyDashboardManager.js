@@ -13,7 +13,8 @@ window.agencyDashboardManager = {
         try {
             let data;
             if (typeof apiService !== 'undefined') {
-                data = await apiService.get('/agency/dashboard');
+                const res = await apiService.get('/agency/dashboard');
+                data = res.data || res;
             } else {
                 const token = localStorage.getItem('agency_accessToken');
                 if (!token) return;

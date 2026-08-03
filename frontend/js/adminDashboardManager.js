@@ -13,7 +13,8 @@ window.adminDashboardManager = {
         try {
             let data;
             if (typeof apiService !== 'undefined') {
-                data = await apiService.get('/admin/dashboard');
+                const res = await apiService.get('/admin/dashboard');
+                data = res.data || res;
             } else {
                 const token = localStorage.getItem('admin_accessToken');
                 if (!token) return;
