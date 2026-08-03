@@ -372,17 +372,11 @@
                                 actionBtn = '<span class="text-muted small fw-semibold">Waiting...</span>';
                                 break;
                             case 'APPROVED':
-                                statusBadge = '<span class="badge bg-info-subtle text-info-emphasis border border-info border-opacity-25 px-3 py-2 rounded-pill fw-semibold">Approved</span>';
-                                actionBtn = '<span class="text-muted small fw-semibold">Processing...</span>';
-                                break;
                             case 'SHIPPED':
-                                statusBadge = '<span class="badge bg-primary-subtle text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-semibold">Shipped</span>';
-                                actionBtn = `<button class="btn btn-sm btn-outline-success rounded-pill px-3 fw-semibold receive-order-btn shadow-sm" data-id="${order.id}"><i class="bi bi-box-seam me-1"></i>Mark Received</button>`;
-                                break;
                             case 'DELIVERED':
                             case 'COMPLETED':
-                                statusBadge = '<span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-3 py-2 rounded-pill fw-semibold">Delivered</span>';
-                                actionBtn = '<span class="text-success small fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> Received</span>';
+                                statusBadge = '<span class="badge bg-success-subtle text-success border border-success border-opacity-25 px-3 py-2 rounded-pill fw-semibold">Approved</span>';
+                                actionBtn = '<span class="text-success small fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> Added to Stock</span>';
                                 break;
                             case 'CANCELLED':
                                 statusBadge = '<span class="badge bg-danger-subtle text-danger border border-danger border-opacity-25 px-3 py-2 rounded-pill fw-semibold">Cancelled</span>';

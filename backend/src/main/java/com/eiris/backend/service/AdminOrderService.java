@@ -8,6 +8,9 @@ import com.eiris.backend.repository.AgencyRepository;
 import com.eiris.backend.repository.ProductRepository;
 import com.eiris.backend.entity.Product;
 import com.eiris.backend.entity.Agency;
+import com.eiris.backend.entity.AgencyInventory;
+import com.eiris.backend.repository.AgencyInventoryRepository;
+import com.eiris.backend.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +24,13 @@ public class AdminOrderService {
     private final AgencyOrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final AgencyRepository agencyRepository;
+    private final AgencyInventoryRepository inventoryRepository;
 
-    public AdminOrderService(AgencyOrderRepository orderRepository, ProductRepository productRepository, AgencyRepository agencyRepository) {
+    public AdminOrderService(AgencyOrderRepository orderRepository, ProductRepository productRepository, AgencyRepository agencyRepository, AgencyInventoryRepository inventoryRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.agencyRepository = agencyRepository;
+        this.inventoryRepository = inventoryRepository;
     }
 
     @Transactional(readOnly = true)
@@ -64,6 +69,24 @@ public class AdminOrderService {
             Product product = order.getProduct();
             product.setStock(product.getStock() + order.getQuantity());
             productRepository.save(product);
+        } else if ((newStatus == OrderStatus.APPROVED || newStatus == OrderStatus.DELIVERED || newStatus == OrderStatus.COMPLETED)
+                && order.getStatus() == OrderStatus.PENDING) {
+            User agencyUser = order.getAgencyUser();
+            Product product = order.getProduct();
+            if (agencyUser != null && product != null) {
+                AgencyInventory inventory = inventoryRepository.findByAgencyUserAndProduct(agencyUser, product)
+                        .orElseGet(() -> {
+                            AgencyInventory newInv = new AgencyInventory();
+                            newInv.setAgencyUser(agencyUser);
+                            newInv.setProduct(product);
+                            newInv.setAvailableQuantity(0);
+                            return newInv;
+                        });
+
+                inventory.setAvailableQuantity(inventory.getAvailableQuantity() + order.getQuantity());
+                inventoryRepository.save(inventory);
+            }
+            newStatus = OrderStatus.APPROVED;
         }
 
         order.setStatus(newStatus);

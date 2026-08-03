@@ -151,8 +151,7 @@ window.adminDashboardManager = {
             renderRow: (order, index) => {
                 let badgeClass = 'bg-secondary';
                 if (order.status === 'PENDING') badgeClass = 'bg-warning text-dark';
-                else if (order.status === 'APPROVED' || order.status === 'SHIPPED') badgeClass = 'bg-info text-dark';
-                else if (order.status === 'COMPLETED' || order.status === 'DELIVERED') badgeClass = 'bg-success';
+                else if (order.status === 'APPROVED' || order.status === 'SHIPPED' || order.status === 'COMPLETED' || order.status === 'DELIVERED') badgeClass = 'bg-success';
                 else if (order.status === 'CANCELLED') badgeClass = 'bg-danger';
 
                 const dateStr = order.date ? new Date(order.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute:'2-digit' }) : 'Unknown';
