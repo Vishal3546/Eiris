@@ -334,13 +334,24 @@
                         <div class="card shadow-sm rounded-4 mb-4" style="border: 1px solid rgba(45, 84, 94, 0.2); background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
                             <div class="card-body p-3 d-flex flex-wrap justify-content-between align-items-center gap-3">
                                 <div class="d-flex align-items-center flex-wrap gap-2 w-100 w-md-auto">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <i class="bi bi-funnel-fill text-primary"></i>
-                                        <span class="fw-bold text-night-blue-shadow text-nowrap">Filter by Client:</span>
+                                    <div class="dropdown">
+                                        <input type="hidden" id="salesClientFilter" value="ALL">
+                                        <button class="btn btn-modern-sort rounded-pill px-3 py-2 d-flex align-items-center justify-content-between shadow-sm" type="button" id="clientDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" style="min-width: 230px;">
+                                            <span class="d-flex align-items-center">
+                                                <span class="badge bg-light text-night-blue rounded-circle p-1 me-2 shadow-sm border"><i id="currentClientIcon" class="bi bi-people"></i></span>
+                                                <span id="currentClientLabel" class="fw-bold text-night-blue">Client: All</span>
+                                            </span>
+                                            <i class="bi bi-chevron-down ms-3 text-muted small"></i>
+                                        </button>
+                                        <ul class="dropdown-menu custom-modern-dropdown shadow-lg p-2 border-0" aria-labelledby="clientDropdownBtn" id="clientDropdownList" style="max-height: 280px; overflow-y: auto;">
+                                            <li>
+                                                <a class="dropdown-item active" href="#" data-client="ALL" data-label="All">
+                                                    <span class="d-flex align-items-center"><i class="bi bi-people me-2 text-primary"></i>All Clients / Walk-in</span>
+                                                    <i class="bi bi-check-circle-fill fs-6"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <select id="salesClientFilter" class="form-select form-select-sm text-night-blue" style="max-width: 100%; width: 260px;">
-                                        <option value="ALL">All Clients / Walk-in</option>
-                                    </select>
                                 </div>
                                 <div class="text-muted small" id="salesTotalSummary">
                                     Showing 0 transactions
@@ -516,13 +527,8 @@
                 // Filter to show low/out of stock items
                 const lowStockItems = currentAgencyInventory.filter(item => (item.quantity || 0) < 10);
                 renderInventory(lowStockItems, 'LOW_STOCK');
-            });
-
-            document.getElementById('salesClientFilter')?.addEventListener('change', (e) => {
-                activeClientFilter = e.target.value;
-                renderSales(currentAgencySales, activeClientFilter);
-            });
         }
+
 
         function renderClients(clients) {
             const tbody = document.getElementById('clientsTableBody');
@@ -566,12 +572,7 @@
                     const salesTab = document.querySelector('#sales-tab');
                     if (salesTab) bootstrap.Tab.getOrCreateInstance(salesTab).show();
                     
-                    const filterSelect = document.getElementById('salesClientFilter');
-                    if (filterSelect) {
-                        filterSelect.value = clientName;
-                        activeClientFilter = clientName;
-                    }
-                    renderSales(currentAgencySales, clientName);
+                    setClientFilterOption(clientName, clientName);
                 });
             });
         }
@@ -660,19 +661,9 @@
         function renderSales(sales, filterClient) {
             const tbody = document.getElementById('salesTableBody');
             const summaryText = document.getElementById('salesTotalSummary');
-            const selectEl = document.getElementById('salesClientFilter');
             tbody.innerHTML = '';
 
-            // Populate filter select with unique client names once
-            if (selectEl && selectEl.options.length <= 1) {
-                const uniqueClients = [...new Set(sales.map(s => s.customerName).filter(Boolean))];
-                uniqueClients.forEach(cName => {
-                    const opt = document.createElement('option');
-                    opt.value = cName;
-                    opt.textContent = cName;
-                    selectEl.appendChild(opt);
-                });
-            }
+            populateClientFilterDropdown(sales);
             
             let filtered = sales;
             if (filterClient && filterClient !== 'ALL') {
@@ -708,6 +699,69 @@
                 `;
                 tbody.insertAdjacentHTML('beforeend', row);
             });
+        }
+
+        function populateClientFilterDropdown(sales) {
+            const listEl = document.getElementById('clientDropdownList');
+            if (!listEl) return;
+            if (listEl.children.length > 1 && listEl.getAttribute('data-loaded') === 'true') return;
+            listEl.setAttribute('data-loaded', 'true');
+
+            const uniqueClients = [...new Set(sales.map(s => s.customerName || 'Walk-in Customer'))];
+            const currentVal = document.getElementById('salesClientFilter')?.value || 'ALL';
+            
+            let html = `
+                <li>
+                    <a class="dropdown-item ${currentVal === 'ALL' ? 'active' : ''}" href="#" data-client="ALL" data-label="All">
+                        <span class="d-flex align-items-center"><i class="bi bi-people me-2 text-primary"></i>All Clients / Walk-in</span>
+                        <i class="bi bi-check-circle-fill fs-6 ${currentVal === 'ALL' ? '' : 'd-none'}"></i>
+                    </a>
+                </li>
+            `;
+            uniqueClients.forEach(cName => {
+                const isActive = currentVal === cName;
+                html += `
+                    <li>
+                        <a class="dropdown-item ${isActive ? 'active' : ''}" href="#" data-client="${cName}" data-label="${cName}">
+                            <span class="d-flex align-items-center"><i class="bi bi-person-fill me-2 text-info"></i>${cName}</span>
+                            <i class="bi bi-check-circle-fill fs-6 ${isActive ? '' : 'd-none'}"></i>
+                        </a>
+                    </li>
+                `;
+            });
+            listEl.innerHTML = html;
+            listEl.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    setClientFilterOption(this.getAttribute('data-client'), this.getAttribute('data-label'));
+                });
+            });
+        }
+
+        function setClientFilterOption(val, label) {
+            const inputEl = document.getElementById('salesClientFilter');
+            if (inputEl) inputEl.value = val;
+            
+            const labelEl = document.getElementById('currentClientLabel');
+            if (labelEl) labelEl.textContent = val === 'ALL' ? 'Client: All' : `Client: ${label}`;
+
+            const iconEl = document.getElementById('currentClientIcon');
+            if (iconEl) {
+                iconEl.className = val === 'ALL' ? 'bi bi-people' : 'bi bi-person-fill';
+            }
+
+            document.querySelectorAll('#clientDropdownList .dropdown-item').forEach(el => {
+                el.classList.remove('active');
+                el.querySelector('.bi-check-circle-fill')?.classList.add('d-none');
+            });
+            const sel = document.querySelector(`#clientDropdownList .dropdown-item[data-client="${val}"]`);
+            if (sel) {
+                sel.classList.add('active');
+                sel.querySelector('.bi-check-circle-fill')?.classList.remove('d-none');
+            }
+
+            activeClientFilter = val;
+            renderSales(currentAgencySales, val);
         }
     </script>
 </body>
