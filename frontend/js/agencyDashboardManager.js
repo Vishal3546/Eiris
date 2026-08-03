@@ -11,23 +11,31 @@ window.agencyDashboardManager = {
 
     loadDashboardData: async function() {
         try {
-            const token = localStorage.getItem('agency_accessToken');
-            if (!token) return;
+            let data;
+            if (typeof apiService !== 'undefined') {
+                data = await apiService.get('/agency/dashboard');
+            } else {
+                const token = localStorage.getItem('agency_accessToken');
+                if (!token) return;
 
-            const response = await fetch(AGENCY_DASHBOARD_API, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+                const response = await fetch(AGENCY_DASHBOARD_API, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    data = await response.json();
+                } else {
+                    console.error("Failed to fetch agency dashboard data");
                 }
-            });
+            }
 
-            if (response.ok) {
-                const data = await response.json();
+            if (data) {
                 this.updateMetrics(data);
                 this.renderChart(data.monthlySales);
                 this.recentSalesData = data.recentSales || [];
                 this.renderRecentSales();
-            } else {
-                console.error("Failed to fetch agency dashboard data");
             }
         } catch (error) {
             console.error("Error loading agency dashboard data:", error);
@@ -159,7 +167,7 @@ window.agencyDashboardManager = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    if(window.location.pathname.includes('agency-dashboard.html')) {
+    if(window.location.pathname.includes('agency-dashboard') || document.getElementById('totalClients')) {
         window.agencyDashboardManager.init();
     }
 });

@@ -11,23 +11,31 @@ window.adminDashboardManager = {
 
     loadDashboardData: async function() {
         try {
-            const token = localStorage.getItem('admin_accessToken');
-            if (!token) return;
+            let data;
+            if (typeof apiService !== 'undefined') {
+                data = await apiService.get('/admin/dashboard');
+            } else {
+                const token = localStorage.getItem('admin_accessToken');
+                if (!token) return;
 
-            const response = await fetch(ADMIN_DASHBOARD_API, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+                const response = await fetch(ADMIN_DASHBOARD_API, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    data = await response.json();
+                } else {
+                    console.error("Failed to fetch dashboard data");
                 }
-            });
+            }
 
-            if (response.ok) {
-                const data = await response.json();
+            if (data) {
                 this.updateMetrics(data);
                 this.renderChart(data.monthlyRevenue);
                 this.recentOrdersData = data.recentOrders || [];
                 this.renderRecentOrders();
-            } else {
-                console.error("Failed to fetch dashboard data");
             }
         } catch (error) {
             console.error("Error loading dashboard data:", error);
@@ -172,7 +180,7 @@ window.adminDashboardManager = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    if(window.location.pathname.includes('admin-dashboard.html')) {
+    if(window.location.pathname.includes('admin-dashboard') || document.getElementById('totalAgencies')) {
         window.adminDashboardManager.init();
     }
 });
