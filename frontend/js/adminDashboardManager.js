@@ -182,5 +182,10 @@ window.adminDashboardManager = {
 document.addEventListener('DOMContentLoaded', () => {
     if(window.location.pathname.includes('admin-dashboard') || document.getElementById('totalAgencies')) {
         window.adminDashboardManager.init();
+        // Silent background sync (modern SWR auto-polling pattern without full page refresh)
+        setInterval(() => {
+            if (document.querySelector('.modal.show, .offcanvas.show')) return;
+            window.adminDashboardManager.loadDashboardData();
+        }, 15000);
     }
 });

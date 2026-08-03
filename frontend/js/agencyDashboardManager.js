@@ -170,5 +170,10 @@ window.agencyDashboardManager = {
 document.addEventListener('DOMContentLoaded', () => {
     if(window.location.pathname.includes('agency-dashboard') || document.getElementById('totalClients')) {
         window.agencyDashboardManager.init();
+        // Silent background sync (modern SWR auto-polling pattern without full page refresh)
+        setInterval(() => {
+            if (document.querySelector('.modal.show, .offcanvas.show')) return;
+            window.agencyDashboardManager.loadDashboardData();
+        }, 15000);
     }
 });

@@ -657,6 +657,12 @@
 
             // Initial Load
             updateDashboard();
+
+            // Silent background sync (modern SWR auto-polling pattern without full page refresh)
+            setInterval(() => {
+                if (document.querySelector('.modal.show, .offcanvas.show')) return;
+                updateDashboard();
+            }, 12000);
         });
 
         function performLogout() {

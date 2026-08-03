@@ -425,4 +425,9 @@ window.AdminDesktopProductsManager = AdminDesktopProductsManager;
 
 document.addEventListener('DOMContentLoaded', () => {
     AdminDesktopProductsManager.init();
+    // Silent background sync (modern SWR auto-polling pattern without full page refresh)
+    setInterval(() => {
+        if (document.querySelector('.modal.show, .offcanvas.show')) return;
+        AdminDesktopProductsManager.loadProducts();
+    }, 15000);
 });

@@ -326,6 +326,12 @@
 
             renderProducts();
 
+            // Silent background sync (modern SWR auto-polling pattern without full page refresh)
+            setInterval(() => {
+                if (document.querySelector('.modal.show, .offcanvas.show')) return;
+                renderProducts();
+            }, 12000);
+
             function setProductSortOption(sortVal, sortLabel, sortIcon) {
                 document.getElementById('productSortSelect').value = sortVal;
                 document.querySelectorAll('#productSortDropdownList .dropdown-item').forEach(el => {
